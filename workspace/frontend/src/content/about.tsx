@@ -61,8 +61,8 @@ export const ABOUT_TABS: { id: string; label: string; body: ReactNode }[] = [
         </li>
         <li>
           <strong>Collect.</strong> Completed years come from NASA’s yearly archives of MODIS and VIIRS stored
-          on our server; only the latest months are requested from the FIRMS API. An analysis usually takes
-          less than a minute.
+          on our server; only the latest months are requested from the FIRMS API. An analysis can take up to
+          ten minutes.
         </li>
         <li>
           <strong>Harmonize.</strong> The continuity chain puts Aqua MODIS, Suomi NPP VIIRS and NOAA-20 VIIRS

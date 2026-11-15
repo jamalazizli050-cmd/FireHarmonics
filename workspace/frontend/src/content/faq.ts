@@ -60,7 +60,7 @@ export const FAQ: { q: string; a: string[] }[] = [
   {
     q: 'How long does an analysis take?',
     a: [
-      'Usually less than a minute. Completed years come from NASA’s yearly archives stored on our server, and only the most recent months are requested from the FIRMS API. Close to NASA’s request limit the backend waits until the limit frees up, usually a minute or two; the panel shows each step live.',
+      'Up to ten minutes. Completed years come from NASA’s yearly archives stored on our server, and only the most recent months are requested from the FIRMS API. Close to NASA’s request limit the backend waits until the limit frees up, usually a minute or two; the panel shows each step live.',
       'Near-real-time products start only a few months back, so a long period chosen with them is shortened to the dates NASA has; the 2002–now calendar and the history are not affected. In a country whose archives are not on the server yet, the calendar is prepared in the background and appears when you analyse the place again a few minutes later.',
     ],
   },

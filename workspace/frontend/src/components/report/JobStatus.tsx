@@ -199,7 +199,7 @@ function RunTrack({ state }: { state: AnalysisJobState }) {
       {apiError && phase === 'running' && (
         <p className="run__note run__note--warn">Connection lost: {apiError.message} Retrying.</p>
       )}
-      {job && !job.cache_hit && current < 2 && <p className="run__hint">Usually takes less than a minute.</p>}
+      {job && !job.cache_hit && current < 2 && <p className="run__hint">Can take up to ten minutes.</p>}
     </div>
   );
 }
