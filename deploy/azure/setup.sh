@@ -4,7 +4,7 @@
 #   sudo FH_DOMAIN=<fqdn> NASA_FIRMS_MAP_KEY=<key> bash deploy/azure/setup.sh
 # The clone is copied to /srv/fireharmonics/app, which the service user owns; the clone itself is left untouched.
 set -euo pipefail
-: "${FH_DOMAIN:?set FH_DOMAIN to the VM's DNS name, e.g. fireharmonics.westeurope.cloudapp.azure.com}"
+: "${FH_DOMAIN:?set FH_DOMAIN to the DNS name of the VM, e.g. fireharmonics.westeurope.cloudapp.azure.com}"
 REPO="$(cd "$(dirname "$0")/../.." && pwd)"
 APP=/srv/fireharmonics/app
 VENV=/srv/fireharmonics/venv
@@ -20,7 +20,7 @@ if ! command -v caddy >/dev/null; then
   curl -1sLf https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt > /etc/apt/sources.list.d/caddy-stable.list
   apt-get update -y && apt-get install -y caddy
 fi
-if ! command -v node >/dev/null || [ "$(node -p 'process.versions.node.split(".")[0]')" -lt 24 ]; then
+if ! command -v node >/dev/null || ! node -e 'process.exit(Number(process.versions.node.split(".")[0]) >= 24 ? 0 : 1)'; then
   curl -fsSL https://deb.nodesource.com/setup_24.x | bash -
   apt-get install -y nodejs
 fi
