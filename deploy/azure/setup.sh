@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # One-time (and repeatable) setup of FireHarmonics on an Ubuntu 24.04 Azure VM.
-# Usage on the VM, from the cloned repo:  sudo FH_DOMAIN=<fqdn> NASA_FIRMS_MAP_KEY=<key> bash deploy/azure/setup.sh
+# Usage on the VM, from a clone in the admin user's home (e.g. ~/FireHarmonics):
+#   sudo FH_DOMAIN=<fqdn> NASA_FIRMS_MAP_KEY=<key> bash deploy/azure/setup.sh
+# The clone is copied to /srv/fireharmonics/app, which the service user owns; the clone itself is left untouched.
 set -euo pipefail
 : "${FH_DOMAIN:?set FH_DOMAIN to the VM's DNS name, e.g. fireharmonics.westeurope.cloudapp.azure.com}"
 REPO="$(cd "$(dirname "$0")/../.." && pwd)"
@@ -44,6 +46,10 @@ echo "== frontend build"
 cd "$APP/workspace/frontend"
 sudo -u fireharmonics env HOME=/srv/fireharmonics npm ci --no-fund --no-audit
 sudo -u fireharmonics env HOME=/srv/fireharmonics npm run build
+
+# Caddy (user "caddy") must be able to read the built site
+chmod o+x /srv/fireharmonics "$APP" "$APP/workspace" "$APP/workspace/frontend"
+chmod -R o+rX "$APP/workspace/frontend/dist"
 
 echo "== configuration"
 if [ -n "${NASA_FIRMS_MAP_KEY:-}" ] || [ ! -f "$ENVFILE" ]; then
