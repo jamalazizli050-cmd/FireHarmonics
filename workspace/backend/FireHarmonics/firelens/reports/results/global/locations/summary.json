@@ -1,0 +1,293 @@
+{
+ "california_sierra_nevada": {
+  "job_id": "921fc94e3f864b349588fd450debf4fc",
+  "why": "known training region",
+  "status": "ok",
+  "started_at": "2026-11-14T12:02:01+00:00",
+  "finished_at": "2026-11-14T12:05:16+00:00",
+  "chunks_downloaded": 281,
+  "chunks_failed": 0,
+  "chunks_reused_from_concurrent_job": 0,
+  "months_observed": 115,
+  "months_unobserved": 6,
+  "last_observed_month": "2026-10",
+  "total_detections": 13581,
+  "mean_annual_detections": 1579.86,
+  "peak_month": "Aug",
+  "core_season": [
+   "Jul",
+   "Aug",
+   "Sep",
+   "Oct"
+  ],
+  "trend": {
+   "status": "ok",
+   "theil_sen_pct_per_year": -45.99,
+   "p_value": 0.2389
+  },
+  "n_anomalies": 8,
+  "n_hotspot_cells": 7,
+  "prediction": {
+   "status": "ok",
+   "target_month": "2026-12",
+   "lead_months": 2,
+   "probability": 0.4203,
+   "method": "seasonal_baseline",
+   "reason": null
+  },
+  "seasonal_norm": {
+   "calendar_month": "December",
+   "years_observed": 10,
+   "years_with_detections": 4,
+   "frequency": 0.4,
+   "median_detections": 0.0,
+   "mean_detections": 0.6
+  },
+  "relative_activity": "near_normal",
+  "xgboost_pooled_probability_not_used": 0.4813,
+  "warnings": []
+ },
+ "zambia": {
+  "job_id": "492b8e9616d24b53aa2dfce2847ac8ee",
+  "why": "different climate (training region zambia_angola)",
+  "status": "ok",
+  "started_at": "2026-11-14T12:02:01+00:00",
+  "finished_at": "2026-11-14T12:19:00+00:00",
+  "chunks_downloaded": 281,
+  "chunks_failed": 0,
+  "chunks_reused_from_concurrent_job": 0,
+  "months_observed": 115,
+  "months_unobserved": 6,
+  "last_observed_month": "2026-10",
+  "total_detections": 22448,
+  "mean_annual_detections": 2270.29,
+  "peak_month": "Sep",
+  "core_season": [
+   "Jul",
+   "Aug",
+   "Sep",
+   "Oct"
+  ],
+  "trend": {
+   "status": "ok",
+   "theil_sen_pct_per_year": 1.57,
+   "p_value": 0.1361
+  },
+  "n_anomalies": 2,
+  "n_hotspot_cells": 3,
+  "prediction": {
+   "status": "ok",
+   "target_month": "2026-12",
+   "lead_months": 2,
+   "probability": 0.41,
+   "method": "seasonal_baseline",
+   "reason": null
+  },
+  "seasonal_norm": {
+   "calendar_month": "December",
+   "years_observed": 10,
+   "years_with_detections": 4,
+   "frequency": 0.4,
+   "median_detections": 0.0,
+   "mean_detections": 0.8
+  },
+  "relative_activity": "near_normal",
+  "xgboost_pooled_probability_not_used": 0.4813,
+  "warnings": [
+   "Waiting 600s for the FIRMS transaction budget / retry back-off"
+  ]
+ },
+ "siberia_yakutia": {
+  "job_id": "bfefdba422424144af34350ee6bb7aea",
+  "why": "challenging boreal region (training region yakutia)",
+  "status": "ok",
+  "started_at": "2026-11-14T12:05:16+00:00",
+  "finished_at": "2026-11-14T12:32:37+00:00",
+  "chunks_downloaded": 281,
+  "chunks_failed": 0,
+  "chunks_reused_from_concurrent_job": 0,
+  "months_observed": 115,
+  "months_unobserved": 6,
+  "last_observed_month": "2026-10",
+  "total_detections": 11951,
+  "mean_annual_detections": 1706.43,
+  "peak_month": "Jul",
+  "core_season": [
+   "Jul",
+   "Aug",
+   "Sep"
+  ],
+  "trend": {
+   "status": "ok",
+   "theil_sen_pct_per_year": -55.04,
+   "p_value": 0.1287
+  },
+  "n_anomalies": 6,
+  "n_hotspot_cells": 21,
+  "prediction": {
+   "status": "ok",
+   "target_month": "2026-12",
+   "lead_months": 2,
+   "probability": 0.0232,
+   "method": "seasonal_baseline",
+   "reason": null
+  },
+  "seasonal_norm": {
+   "calendar_month": "December",
+   "years_observed": 10,
+   "years_with_detections": 0,
+   "frequency": 0.0,
+   "median_detections": 0.0,
+   "mean_detections": 0.0
+  },
+  "relative_activity": null,
+  "xgboost_pooled_probability_not_used": 0.001,
+  "warnings": [
+   "Waiting 600s for the FIRMS transaction budget / retry back-off"
+  ]
+ },
+ "northern_australia": {
+  "job_id": "181f3be05a8d45dea4a76e8f8d2ee15d",
+  "why": "outside the five regions",
+  "status": "ok",
+  "started_at": "2026-11-14T12:19:00+00:00",
+  "finished_at": "2026-11-14T12:52:52+00:00",
+  "chunks_downloaded": 733,
+  "chunks_failed": 0,
+  "chunks_reused_from_concurrent_job": 0,
+  "months_observed": 115,
+  "months_unobserved": 6,
+  "last_observed_month": "2026-10",
+  "total_detections": 8951,
+  "mean_annual_detections": 975.86,
+  "peak_month": "Jun",
+  "core_season": [
+   "Apr",
+   "May",
+   "Jun",
+   "Jul",
+   "Aug",
+   "Nov"
+  ],
+  "trend": {
+   "status": "ok",
+   "theil_sen_pct_per_year": -5.17,
+   "p_value": 0.3813
+  },
+  "n_anomalies": 11,
+  "n_hotspot_cells": 8,
+  "prediction": {
+   "status": "ok",
+   "target_month": "2026-12",
+   "lead_months": 2,
+   "probability": 0.9855,
+   "method": "seasonal_baseline",
+   "reason": null
+  },
+  "seasonal_norm": {
+   "calendar_month": "December",
+   "years_observed": 10,
+   "years_with_detections": 10,
+   "frequency": 1.0,
+   "median_detections": 35.0,
+   "mean_detections": 40.9
+  },
+  "relative_activity": "near_normal",
+  "xgboost_pooled_probability_not_used": 0.9761,
+  "warnings": [
+   "Waiting 600s for the FIRMS transaction budget / retry back-off"
+  ]
+ },
+ "central_england": {
+  "job_id": "17fbffbcf5e541558db1bfe0b90e06a5",
+  "why": "low fire activity",
+  "status": "ok",
+  "started_at": "2026-11-14T12:32:37+00:00",
+  "finished_at": "2026-11-14T13:22:39+00:00",
+  "chunks_downloaded": 733,
+  "chunks_failed": 0,
+  "chunks_reused_from_concurrent_job": 0,
+  "months_observed": 115,
+  "months_unobserved": 6,
+  "last_observed_month": "2026-10",
+  "total_detections": 152,
+  "mean_annual_detections": 13.0,
+  "peak_month": "Nov",
+  "core_season": [
+   "Apr",
+   "May",
+   "Jul",
+   "Aug",
+   "Sep",
+   "Nov"
+  ],
+  "trend": {
+   "status": "ok",
+   "theil_sen_pct_per_year": 0.0,
+   "p_value": 1.0
+  },
+  "n_anomalies": 8,
+  "n_hotspot_cells": 2,
+  "prediction": {
+   "status": "ok",
+   "target_month": "2026-12",
+   "lead_months": 2,
+   "probability": 0.2493,
+   "method": "seasonal_baseline",
+   "reason": null
+  },
+  "seasonal_norm": {
+   "calendar_month": "December",
+   "years_observed": 10,
+   "years_with_detections": 2,
+   "frequency": 0.2,
+   "median_detections": 0.0,
+   "mean_detections": 0.2
+  },
+  "relative_activity": "near_normal",
+  "xgboost_pooled_probability_not_used": 0.2256,
+  "warnings": [
+   "Waiting 600s for the FIRMS transaction budget / retry back-off",
+   "Waiting 600s for the FIRMS transaction budget / retry back-off"
+  ]
+ },
+ "south_pacific_ocean": {
+  "job_id": "7ec3b921e18f4a02a70ead19d88dd825",
+  "why": "open ocean",
+  "status": "insufficient_data",
+  "started_at": "2026-11-14T12:52:52+00:00",
+  "finished_at": "2026-11-14T13:52:18+00:00",
+  "chunks_downloaded": 733,
+  "chunks_failed": 0,
+  "chunks_reused_from_concurrent_job": 0,
+  "months_observed": 115,
+  "months_unobserved": 6,
+  "last_observed_month": "2026-10",
+  "total_detections": 0,
+  "mean_annual_detections": 0.0,
+  "peak_month": null,
+  "core_season": null,
+  "trend": {
+   "status": "no_detections",
+   "theil_sen_pct_per_year": null,
+   "p_value": null
+  },
+  "n_anomalies": 0,
+  "n_hotspot_cells": null,
+  "prediction": {
+   "status": "insufficient_data",
+   "target_month": "2026-12",
+   "lead_months": 2,
+   "probability": null,
+   "method": null,
+   "reason": "no_fire_detections_within_100km"
+  },
+  "seasonal_norm": null,
+  "relative_activity": null,
+  "xgboost_pooled_probability_not_used": null,
+  "warnings": [
+   "Waiting 600s for the FIRMS transaction budget / retry back-off",
+   "Waiting 600s for the FIRMS transaction budget / retry back-off"
+  ]
+ }
+}

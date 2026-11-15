@@ -1,0 +1,7 @@
+max_dt,target,n_comparable_clusters,median_err_full,median_err_const,median_err_raw,auc_full,verdicts
+10.0,count,14324,0.06488617043383407,0.0792544403230522,0.917527870890184,0.8702154990375702,improved; not better than best baseline (constant); marginal (<10% better than best baseline); not better than best baseline (constant)
+10.0,frp,14324,0.08968939412052633,0.17156744426052373,0.15752865845181394,0.8702154990375702,improved; improved; improved; marginal (<10% better than best baseline)
+20.0,count,29024,0.05975945879185428,0.1324521227531584,0.8054931038691913,0.8798574521257898,improved; improved; improved; improved
+20.0,frp,29024,0.09865118665638017,0.14565796573434603,0.11994622959308823,0.8798574521257898,improved; improved; marginal (<10% better than best baseline); improved
+30.0,count,39405,0.07931444694494577,0.09324521083222578,0.7571095703777575,0.8748596918840128,improved; improved; improved; improved
+30.0,frp,39405,0.08225436324096877,0.18137270451214438,0.13854469600040598,0.8748596918840128,improved; improved; marginal (<10% better than best baseline); improved

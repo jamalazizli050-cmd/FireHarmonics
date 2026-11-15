@@ -1,0 +1,205 @@
+{
+ "created": "2026-11-14T02:27:07.844956+00:00",
+ "period": [
+  "2018-01-01",
+  "2021-12-31"
+ ],
+ "match_config": {
+  "max_dt_min": 20.0,
+  "search_dt_min": 100.0,
+  "same_pass_min": 3.0,
+  "cluster_tol_km": 0.1,
+  "match_tol_km": 0.5,
+  "vegetation_only": true
+ },
+ "detector_features": [
+  "lfrp (spline)",
+  "aqua_ax (spline)",
+  "lfrp_max",
+  "lnpix",
+  "night",
+  "viirs_ax",
+  "abs_dt",
+  "saturated",
+  "night_x_lfrp",
+  "ax_x_lfrp"
+ ],
+ "glm_features": [
+  "lfrp",
+  "lfrp_max",
+  "lnpix",
+  "night",
+  "aqua_ax",
+  "viirs_ax"
+ ],
+ "frp_calibration_features": [
+  "lfrp",
+  "aqua_ax",
+  "night",
+  "viirs_ax",
+  "saturated",
+  "lnpix"
+ ],
+ "versions": {
+  "python": "3.15.2",
+  "sklearn": "1.9.1",
+  "pandas": "3.1.1",
+  "numpy": "2.5.4"
+ },
+ "models": {
+  "california": {
+   "file": "california.joblib",
+   "n_train_clusters": 29024,
+   "n_train_modis_pixels": 25041,
+   "k_n": 1.1093833067517278,
+   "k_f": 1.0786953052688149,
+   "heldout_year_verdicts": {
+    "count": [
+     "improved",
+     "improved",
+     "improved",
+     "improved"
+    ],
+    "frp": [
+     "improved",
+     "improved",
+     "marginal (<10% better than best baseline)",
+     "improved"
+    ]
+   },
+   "heldout_region_verdicts": {
+    "count": [
+     "improved"
+    ],
+    "frp": [
+     "improved"
+    ]
+   }
+  },
+  "zambia_angola": {
+   "file": "zambia_angola.joblib",
+   "n_train_clusters": 146682,
+   "n_train_modis_pixels": 62381,
+   "k_n": 1.1162986292545005,
+   "k_f": 1.0926682196181268,
+   "heldout_year_verdicts": {
+    "count": [
+     "marginal (<10% better than best baseline)",
+     "improved",
+     "not better than best baseline (constant)",
+     "not better than best baseline (constant)"
+    ],
+    "frp": [
+     "not better than best baseline (constant)",
+     "marginal (<10% better than best baseline)",
+     "improved",
+     "improved"
+    ]
+   },
+   "heldout_region_verdicts": {
+    "count": [
+     "lower error but total biased (ratio outside 0.8-1.25)"
+    ],
+    "frp": [
+     "improved"
+    ]
+   }
+  },
+  "rondonia": {
+   "file": "rondonia.joblib",
+   "n_train_clusters": 28600,
+   "n_train_modis_pixels": 15486,
+   "k_n": 1.1709640831758035,
+   "k_f": 1.1334824482241426,
+   "heldout_year_verdicts": {
+    "count": [
+     "not better than best baseline (constant)",
+     "not better than best baseline (constant)",
+     "improved",
+     "not better than best baseline (constant)"
+    ],
+    "frp": [
+     "lower error but total biased (ratio outside 0.8-1.25)",
+     "not better than best baseline (raw)",
+     "improved",
+     "not better than best baseline (raw)"
+    ]
+   },
+   "heldout_region_verdicts": {
+    "count": [
+     "improved"
+    ],
+    "frp": [
+     "improved"
+    ]
+   }
+  },
+  "yakutia": {
+   "file": "yakutia.joblib",
+   "n_train_clusters": 38190,
+   "n_train_modis_pixels": 31832,
+   "k_n": 1.1076623286241214,
+   "k_f": 1.0618503609893153,
+   "heldout_year_verdicts": {
+    "count": [
+     "improved",
+     "not better than best baseline (constant)",
+     "improved",
+     "improved"
+    ],
+    "frp": [
+     "not better than best baseline (constant)",
+     "not better than best baseline (constant)",
+     "improved",
+     "marginal (<10% better than best baseline)"
+    ]
+   },
+   "heldout_region_verdicts": {
+    "count": [
+     "marginal (<10% better than best baseline)"
+    ],
+    "frp": [
+     "improved"
+    ]
+   }
+  },
+  "punjab": {
+   "file": "punjab.joblib",
+   "n_train_clusters": 93570,
+   "n_train_modis_pixels": 27856,
+   "k_n": 1.3678369752025534,
+   "k_f": 1.2562124603708087,
+   "heldout_year_verdicts": {
+    "count": [
+     "improved",
+     "not better than best baseline (constant)",
+     "improved",
+     "improved"
+    ],
+    "frp": [
+     "not better than best baseline (constant)",
+     "not better than best baseline (constant)",
+     "not better than best baseline (constant)",
+     "improved"
+    ]
+   },
+   "heldout_region_verdicts": {
+    "count": [
+     "marginal (<10% better than best baseline)"
+    ],
+    "frp": [
+     "improved"
+    ]
+   }
+  },
+  "pooled": {
+   "file": "pooled.joblib",
+   "n_train_clusters": 336066,
+   "n_train_modis_pixels": 162596,
+   "k_n": 1.1549487860664005,
+   "k_f": 1.0883748506200415,
+   "heldout_year_verdicts": {},
+   "heldout_region_verdicts": {}
+  }
+ }
+}

@@ -1,0 +1,22 @@
+# FireHarmonics production site (Caddy 2). Serves the built frontend and forwards API calls to FastAPI,
+# so the backend needs no CORS. Replace the domain; Caddy obtains HTTPS certificates automatically.
+fireharmonics.example.org {
+	encode zstd gzip
+
+	# FastAPI backend (uvicorn on the same host). SSE needs flushing, so disable buffering for /events.
+	handle /api/* {
+		reverse_proxy 127.0.0.1:8000 {
+			flush_interval -1
+		}
+	}
+	handle /health {
+		reverse_proxy 127.0.0.1:8000
+	}
+
+	# Single-page app: every other path falls back to index.html
+	handle {
+		root * /srv/fireharmonics/dist
+		try_files {path} /index.html
+		file_server
+	}
+}

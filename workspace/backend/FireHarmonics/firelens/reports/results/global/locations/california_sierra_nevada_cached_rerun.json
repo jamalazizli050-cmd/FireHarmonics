@@ -1,0 +1,1653 @@
+{
+ "schema_version": "1.0",
+ "engine_version": "0.1.0",
+ "generated_at": "2026-11-14T13:54:37+00:00",
+ "status": "ok",
+ "location": {
+  "latitude": 37.7,
+  "longitude": -119.5,
+  "radius_km": 25.0,
+  "cache_tiles": [
+   "-121,36,-118,39"
+  ]
+ },
+ "request": {
+  "latitude": 37.7,
+  "longitude": -119.5,
+  "radius_km": 25.0,
+  "target_month": "2026-12",
+  "history_years": 10,
+  "request_date_utc": "2026-11-14"
+ },
+ "historical_activity": {
+  "series": "S-NPP VIIRS 375 m vegetation-fire detections (FIRMS type 0) within the radius",
+  "unit": "detections (hotspot pixels), not fires",
+  "n_months_observed": 115,
+  "n_months_unobserved": 6,
+  "total_detections_observed_months": 13581,
+  "months_with_detections": 60,
+  "share_of_observed_months_with_detections": 0.5217,
+  "complete_years": [
+   2017,
+   2018,
+   2019,
+   2020,
+   2021,
+   2023,
+   2025
+  ],
+  "annual_totals_complete_years": {
+   "2017": 3196,
+   "2018": 2265,
+   "2019": 6,
+   "2020": 5036,
+   "2021": 271,
+   "2023": 266,
+   "2025": 19
+  },
+  "mean_annual_detections": 1579.86,
+  "median_annual_detections": 271.0,
+  "detections_per_1000km2_per_year": 804.616,
+  "disc_area_km2": 1963.5,
+  "max_month": {
+   "month": "2020-09",
+   "detections": 2707
+  },
+  "mean_frp_per_detection_mw": 10.53,
+  "night_share": 0.679,
+  "monthly": [
+   {
+    "month": "2016-11",
+    "detections": 1,
+    "frp_sum_mw": 0.4,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2016-12",
+    "detections": 1,
+    "frp_sum_mw": 2.6,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2017-01",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2017-02",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2017-03",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2017-04",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2017-05",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2017-06",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2017-07",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2017-08",
+    "detections": 1830,
+    "frp_sum_mw": 16342.9,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2017-09",
+    "detections": 863,
+    "frp_sum_mw": 4964.8,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2017-10",
+    "detections": 495,
+    "frp_sum_mw": 6761.6,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2017-11",
+    "detections": 8,
+    "frp_sum_mw": 72.4,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2017-12",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2018-01",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2018-02",
+    "detections": 1,
+    "frp_sum_mw": 0.4,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2018-03",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2018-04",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2018-05",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2018-06",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2018-07",
+    "detections": 358,
+    "frp_sum_mw": 3510.7,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2018-08",
+    "detections": 1744,
+    "frp_sum_mw": 27762.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2018-09",
+    "detections": 86,
+    "frp_sum_mw": 505.5,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2018-10",
+    "detections": 15,
+    "frp_sum_mw": 77.8,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2018-11",
+    "detections": 60,
+    "frp_sum_mw": 222.1,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2018-12",
+    "detections": 1,
+    "frp_sum_mw": 0.6,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2019-01",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2019-02",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2019-03",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2019-04",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2019-05",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2019-06",
+    "detections": 1,
+    "frp_sum_mw": 3.4,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2019-07",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2019-08",
+    "detections": 5,
+    "frp_sum_mw": 13.6,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2019-09",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2019-10",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2019-11",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2019-12",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2020-01",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2020-02",
+    "detections": 1,
+    "frp_sum_mw": 1.8,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2020-03",
+    "detections": 2,
+    "frp_sum_mw": 4.2,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2020-04",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2020-05",
+    "detections": 1,
+    "frp_sum_mw": 3.6,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2020-06",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2020-07",
+    "detections": 2,
+    "frp_sum_mw": 8.2,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2020-08",
+    "detections": 261,
+    "frp_sum_mw": 1369.8,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2020-09",
+    "detections": 2707,
+    "frp_sum_mw": 27180.9,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2020-10",
+    "detections": 1950,
+    "frp_sum_mw": 12334.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2020-11",
+    "detections": 112,
+    "frp_sum_mw": 261.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2020-12",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2021-01",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2021-02",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2021-03",
+    "detections": 1,
+    "frp_sum_mw": 1.4,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2021-04",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2021-05",
+    "detections": 23,
+    "frp_sum_mw": 176.7,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2021-06",
+    "detections": 1,
+    "frp_sum_mw": 11.4,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2021-07",
+    "detections": 184,
+    "frp_sum_mw": 3003.1,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2021-08",
+    "detections": 44,
+    "frp_sum_mw": 69.6,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2021-09",
+    "detections": 15,
+    "frp_sum_mw": 30.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2021-10",
+    "detections": 3,
+    "frp_sum_mw": 5.4,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2021-11",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2021-12",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2022-01",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2022-02",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2022-03",
+    "detections": 7,
+    "frp_sum_mw": 180.1,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2022-04",
+    "detections": 1,
+    "frp_sum_mw": 2.1,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2022-05",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2022-06",
+    "detections": 3,
+    "frp_sum_mw": 6.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2022-07",
+    "detections": null,
+    "frp_sum_mw": null,
+    "observed": false,
+    "coverage_fraction": 0.839,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2022-08",
+    "detections": null,
+    "frp_sum_mw": null,
+    "observed": false,
+    "coverage_fraction": 0.677,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2022-09",
+    "detections": 771,
+    "frp_sum_mw": 8288.4,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2022-10",
+    "detections": 20,
+    "frp_sum_mw": 33.9,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2022-11",
+    "detections": 9,
+    "frp_sum_mw": 27.2,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2022-12",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2023-01",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2023-02",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2023-03",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2023-04",
+    "detections": 10,
+    "frp_sum_mw": 73.6,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2023-05",
+    "detections": 24,
+    "frp_sum_mw": 219.8,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2023-06",
+    "detections": 30,
+    "frp_sum_mw": 187.8,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2023-07",
+    "detections": 180,
+    "frp_sum_mw": 1532.5,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2023-08",
+    "detections": 2,
+    "frp_sum_mw": 1.3,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2023-09",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2023-10",
+    "detections": 16,
+    "frp_sum_mw": 120.6,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2023-11",
+    "detections": 2,
+    "frp_sum_mw": 6.6,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2023-12",
+    "detections": 2,
+    "frp_sum_mw": 5.5,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2024-01",
+    "detections": 4,
+    "frp_sum_mw": 18.3,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2024-02",
+    "detections": 1,
+    "frp_sum_mw": 1.3,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2024-03",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2024-04",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2024-05",
+    "detections": 1,
+    "frp_sum_mw": 0.9,
+    "observed": true,
+    "coverage_fraction": 0.935,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2024-06",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 0.9,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2024-07",
+    "detections": null,
+    "frp_sum_mw": null,
+    "observed": false,
+    "coverage_fraction": 0.677,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2024-08",
+    "detections": 24,
+    "frp_sum_mw": 145.2,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2024-09",
+    "detections": 3,
+    "frp_sum_mw": 6.1,
+    "observed": true,
+    "coverage_fraction": 0.967,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2024-10",
+    "detections": 4,
+    "frp_sum_mw": 17.3,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2024-11",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 0.9,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2024-12",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2025-01",
+    "detections": 2,
+    "frp_sum_mw": 2.5,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2025-02",
+    "detections": 1,
+    "frp_sum_mw": 1.8,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2025-03",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2025-04",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2025-05",
+    "detections": 1,
+    "frp_sum_mw": 5.9,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2025-06",
+    "detections": 1,
+    "frp_sum_mw": 0.2,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2025-07",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2025-08",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2025-09",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2025-10",
+    "detections": 11,
+    "frp_sum_mw": 42.7,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2025-11",
+    "detections": 1,
+    "frp_sum_mw": 5.4,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2025-12",
+    "detections": 2,
+    "frp_sum_mw": 3.8,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2026-01",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2026-02",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2026-03",
+    "detections": 1,
+    "frp_sum_mw": 2.1,
+    "observed": true,
+    "coverage_fraction": 0.903,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2026-04",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 0.9,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2026-05",
+    "detections": null,
+    "frp_sum_mw": null,
+    "observed": false,
+    "coverage_fraction": 0.0,
+    "products": null
+   },
+   {
+    "month": "2026-06",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 0.933,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2026-07",
+    "detections": null,
+    "frp_sum_mw": null,
+    "observed": false,
+    "coverage_fraction": 0.806,
+    "products": "VIIRS_SNPP_SP"
+   },
+   {
+    "month": "2026-08",
+    "detections": 0,
+    "frp_sum_mw": 0.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_NRT"
+   },
+   {
+    "month": "2026-09",
+    "detections": 1285,
+    "frp_sum_mw": 20777.0,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_NRT"
+   },
+   {
+    "month": "2026-10",
+    "detections": 386,
+    "frp_sum_mw": 6593.3,
+    "observed": true,
+    "coverage_fraction": 1.0,
+    "products": "VIIRS_SNPP_NRT"
+   },
+   {
+    "month": "2026-11",
+    "detections": null,
+    "frp_sum_mw": null,
+    "observed": false,
+    "coverage_fraction": 0.067,
+    "products": "VIIRS_SNPP_NRT"
+   }
+  ]
+ },
+ "seasonal_patterns": {
+  "by_calendar_month": [
+   {
+    "month": "Jan",
+    "years_observed": 10,
+    "years_with_detections": 2,
+    "fraction_of_years_with_detections": 0.2,
+    "median_detections": 0.0,
+    "mean_detections": 0.6
+   },
+   {
+    "month": "Feb",
+    "years_observed": 10,
+    "years_with_detections": 4,
+    "fraction_of_years_with_detections": 0.4,
+    "median_detections": 0.0,
+    "mean_detections": 0.4
+   },
+   {
+    "month": "Mar",
+    "years_observed": 10,
+    "years_with_detections": 4,
+    "fraction_of_years_with_detections": 0.4,
+    "median_detections": 0.0,
+    "mean_detections": 1.1
+   },
+   {
+    "month": "Apr",
+    "years_observed": 10,
+    "years_with_detections": 2,
+    "fraction_of_years_with_detections": 0.2,
+    "median_detections": 0.0,
+    "mean_detections": 1.1
+   },
+   {
+    "month": "May",
+    "years_observed": 9,
+    "years_with_detections": 5,
+    "fraction_of_years_with_detections": 0.5556,
+    "median_detections": 1.0,
+    "mean_detections": 5.56
+   },
+   {
+    "month": "Jun",
+    "years_observed": 10,
+    "years_with_detections": 5,
+    "fraction_of_years_with_detections": 0.5,
+    "median_detections": 0.5,
+    "mean_detections": 3.6
+   },
+   {
+    "month": "Jul",
+    "years_observed": 7,
+    "years_with_detections": 4,
+    "fraction_of_years_with_detections": 0.5714,
+    "median_detections": 2.0,
+    "mean_detections": 103.43
+   },
+   {
+    "month": "Aug",
+    "years_observed": 9,
+    "years_with_detections": 7,
+    "fraction_of_years_with_detections": 0.7778,
+    "median_detections": 24.0,
+    "mean_detections": 434.44
+   },
+   {
+    "month": "Sep",
+    "years_observed": 10,
+    "years_with_detections": 7,
+    "fraction_of_years_with_detections": 0.7,
+    "median_detections": 50.5,
+    "mean_detections": 573.0
+   },
+   {
+    "month": "Oct",
+    "years_observed": 10,
+    "years_with_detections": 9,
+    "fraction_of_years_with_detections": 0.9,
+    "median_detections": 15.5,
+    "mean_detections": 290.0
+   },
+   {
+    "month": "Nov",
+    "years_observed": 10,
+    "years_with_detections": 7,
+    "fraction_of_years_with_detections": 0.7,
+    "median_detections": 1.5,
+    "mean_detections": 19.3
+   },
+   {
+    "month": "Dec",
+    "years_observed": 10,
+    "years_with_detections": 4,
+    "fraction_of_years_with_detections": 0.4,
+    "median_detections": 0.0,
+    "mean_detections": 0.6
+   }
+  ],
+  "complete_years_used": [
+   2017,
+   2018,
+   2019,
+   2020,
+   2021,
+   2023,
+   2025
+  ],
+  "status": "ok",
+  "monthly_share_of_annual_detections": {
+   "Jan": 0.015,
+   "Feb": 0.0076,
+   "Mar": 0.0006,
+   "Apr": 0.0054,
+   "May": 0.0326,
+   "Jun": 0.048,
+   "Jul": 0.2163,
+   "Aug": 0.3425,
+   "Sep": 0.1287,
+   "Oct": 0.1713,
+   "Nov": 0.0159,
+   "Dec": 0.0162
+  },
+  "peak_month": "Aug",
+  "core_season_months_80pct": [
+   "Jul",
+   "Aug",
+   "Sep",
+   "Oct"
+  ],
+  "lowest_activity_months": [
+   "Mar",
+   "Apr",
+   "Feb"
+  ],
+  "months_below_1pct_share": [
+   "Feb",
+   "Mar",
+   "Apr"
+  ]
+ },
+ "long_term_trends": {
+  "status": "ok",
+  "method": "Theil-Sen slope of log10(annual detections + 1); Mann-Kendall test",
+  "n_complete_years": 7,
+  "years": [
+   2017,
+   2025
+  ],
+  "theil_sen_pct_per_year": -45.99,
+  "ci95_pct_per_year": [
+   -72.63,
+   49.09
+  ],
+  "mann_kendall_tau": -0.429,
+  "p_value": 0.2389,
+  "significant_at_0.05": false,
+  "interannual_cv": 1.249,
+  "direction": "decreasing"
+ },
+ "anomalies": [
+  {
+   "month": "2023-06",
+   "detections": 30,
+   "same_month_median_other_years": 0.0,
+   "robust_z": 13.74,
+   "direction": "high",
+   "method": "robust z of log1p(detections) vs the same calendar month in other observed years; |z| >= 3 and departure >= 1% of mean annual detections"
+  },
+  {
+   "month": "2018-07",
+   "detections": 358,
+   "same_month_median_other_years": 0.7,
+   "robust_z": 6.55,
+   "direction": "high",
+   "method": "robust z of log1p(detections) vs the same calendar month in other observed years; |z| >= 3 and departure >= 1% of mean annual detections"
+  },
+  {
+   "month": "2021-07",
+   "detections": 184,
+   "same_month_median_other_years": 0.7,
+   "robust_z": 5.74,
+   "direction": "high",
+   "method": "robust z of log1p(detections) vs the same calendar month in other observed years; |z| >= 3 and departure >= 1% of mean annual detections"
+  },
+  {
+   "month": "2023-07",
+   "detections": 180,
+   "same_month_median_other_years": 0.7,
+   "robust_z": 5.71,
+   "direction": "high",
+   "method": "robust z of log1p(detections) vs the same calendar month in other observed years; |z| >= 3 and departure >= 1% of mean annual detections"
+  },
+  {
+   "month": "2023-05",
+   "detections": 24,
+   "same_month_median_other_years": 0.4,
+   "robust_z": 5.59,
+   "direction": "high",
+   "method": "robust z of log1p(detections) vs the same calendar month in other observed years; |z| >= 3 and departure >= 1% of mean annual detections"
+  },
+  {
+   "month": "2021-05",
+   "detections": 23,
+   "same_month_median_other_years": 0.4,
+   "robust_z": 5.51,
+   "direction": "high",
+   "method": "robust z of log1p(detections) vs the same calendar month in other observed years; |z| >= 3 and departure >= 1% of mean annual detections"
+  },
+  {
+   "month": "2020-11",
+   "detections": 112,
+   "same_month_median_other_years": 1.0,
+   "robust_z": 3.93,
+   "direction": "high",
+   "method": "robust z of log1p(detections) vs the same calendar month in other observed years; |z| >= 3 and departure >= 1% of mean annual detections"
+  },
+  {
+   "month": "2018-11",
+   "detections": 60,
+   "same_month_median_other_years": 1.0,
+   "robust_z": 3.33,
+   "direction": "high",
+   "method": "robust z of log1p(detections) vs the same calendar month in other observed years; |z| >= 3 and departure >= 1% of mean annual detections"
+  }
+ ],
+ "anomaly_detection": {
+  "status": "ok",
+  "n_months_tested": 115,
+  "z_threshold": 3.0,
+  "min_other_years": 4,
+  "cell_month_outliers": [
+   {
+    "month": "2021-07",
+    "lat": 37.859,
+    "lon": -119.652,
+    "detections": 5,
+    "frp_sum_mw": 439.0,
+    "departure_log_vs_same_month": 1.79,
+    "isolation_score": 0.649
+   },
+   {
+    "month": "2018-08",
+    "lat": 37.597,
+    "lon": -119.751,
+    "detections": 3,
+    "frp_sum_mw": 240.9,
+    "departure_log_vs_same_month": 1.39,
+    "isolation_score": 0.613
+   }
+  ],
+  "cell_month_outliers_method": {
+   "status": "ok",
+   "n_cell_months": 198,
+   "n_flagged": 2,
+   "method": "Isolation Forest (contamination 1%) on 0.05-degree cell-months; flags are hypotheses for inspection, not confirmed events"
+  }
+ },
+ "hotspots": [
+  {
+   "cell_lat": 37.625,
+   "cell_lon": -119.625,
+   "cell_size_deg": 0.05,
+   "total_detections": 1429,
+   "mean_annual_detections": 129.91,
+   "share_of_disc_detections": 0.1086,
+   "years_active": 2,
+   "years_observed": 11,
+   "recurring": false,
+   "gi_star_z": 3.91,
+   "gi_star_hotspot_99": true
+  },
+  {
+   "cell_lat": 37.875,
+   "cell_lon": -119.625,
+   "cell_size_deg": 0.05,
+   "total_detections": 882,
+   "mean_annual_detections": 80.18,
+   "share_of_disc_detections": 0.067,
+   "years_active": 3,
+   "years_observed": 11,
+   "recurring": false,
+   "gi_star_z": 2.16,
+   "gi_star_hotspot_99": false
+  },
+  {
+   "cell_lat": 37.825,
+   "cell_lon": -119.625,
+   "cell_size_deg": 0.05,
+   "total_detections": 870,
+   "mean_annual_detections": 79.09,
+   "share_of_disc_detections": 0.0661,
+   "years_active": 2,
+   "years_observed": 11,
+   "recurring": false,
+   "gi_star_z": 1.4,
+   "gi_star_hotspot_99": false
+  },
+  {
+   "cell_lat": 37.625,
+   "cell_lon": -119.575,
+   "cell_size_deg": 0.05,
+   "total_detections": 858,
+   "mean_annual_detections": 78.0,
+   "share_of_disc_detections": 0.0652,
+   "years_active": 2,
+   "years_observed": 11,
+   "recurring": false,
+   "gi_star_z": 4.07,
+   "gi_star_hotspot_99": true
+  },
+  {
+   "cell_lat": 37.575,
+   "cell_lon": -119.575,
+   "cell_size_deg": 0.05,
+   "total_detections": 830,
+   "mean_annual_detections": 75.45,
+   "share_of_disc_detections": 0.0631,
+   "years_active": 2,
+   "years_observed": 11,
+   "recurring": false,
+   "gi_star_z": 3.37,
+   "gi_star_hotspot_99": true
+  },
+  {
+   "cell_lat": 37.575,
+   "cell_lon": -119.275,
+   "cell_size_deg": 0.05,
+   "total_detections": 712,
+   "mean_annual_detections": 64.73,
+   "share_of_disc_detections": 0.0541,
+   "years_active": 1,
+   "years_observed": 11,
+   "recurring": false,
+   "gi_star_z": 2.46,
+   "gi_star_hotspot_99": false
+  },
+  {
+   "cell_lat": 37.525,
+   "cell_lon": -119.325,
+   "cell_size_deg": 0.05,
+   "total_detections": 711,
+   "mean_annual_detections": 64.64,
+   "share_of_disc_detections": 0.054,
+   "years_active": 1,
+   "years_observed": 11,
+   "recurring": false,
+   "gi_star_z": 2.6,
+   "gi_star_hotspot_99": true
+  },
+  {
+   "cell_lat": 37.575,
+   "cell_lon": -119.325,
+   "cell_size_deg": 0.05,
+   "total_detections": 711,
+   "mean_annual_detections": 64.64,
+   "share_of_disc_detections": 0.054,
+   "years_active": 1,
+   "years_observed": 11,
+   "recurring": false,
+   "gi_star_z": 1.67,
+   "gi_star_hotspot_99": false
+  },
+  {
+   "cell_lat": 37.675,
+   "cell_lon": -119.575,
+   "cell_size_deg": 0.05,
+   "total_detections": 628,
+   "mean_annual_detections": 57.09,
+   "share_of_disc_detections": 0.0477,
+   "years_active": 2,
+   "years_observed": 11,
+   "recurring": false,
+   "gi_star_z": 2.59,
+   "gi_star_hotspot_99": true
+  },
+  {
+   "cell_lat": 37.675,
+   "cell_lon": -119.725,
+   "cell_size_deg": 0.05,
+   "total_detections": 495,
+   "mean_annual_detections": 45.0,
+   "share_of_disc_detections": 0.0376,
+   "years_active": 4,
+   "years_observed": 11,
+   "recurring": false,
+   "gi_star_z": 0.07,
+   "gi_star_hotspot_99": false
+  }
+ ],
+ "hotspot_analysis": {
+  "status": "ok",
+  "grid_res_deg": 0.05,
+  "n_cells_in_disc": 80,
+  "n_cells_with_detections": 48,
+  "n_gi_star_hotspot_cells_99": 7,
+  "share_of_detections_in_gi_star_hotspots": 0.3685,
+  "n_recurring_cells": 2,
+  "method": "0.05-degree cells inside the disc; Gi* (3x3 queen+self) on mean annual detections; z > 2.58 descriptive, not corrected for multiple testing; recurring = active in >= half of observed years"
+ },
+ "prediction": {
+  "target_month": "2026-12",
+  "status": "ok",
+  "probability": 0.4203,
+  "method": "seasonal_baseline",
+  "target_definition": "Probability of at least one usable S-NPP VIIRS vegetation-fire detection within 25 km of the point during 2026-12 (satellite detection, not an individual wildfire ignition).",
+  "relative_activity": {
+   "ratio_to_seasonal_norm": 1.051,
+   "category": "near_normal",
+   "definition": "forecast probability / observed share of past years with >= 1 detection in the same calendar month; below_normal < 0.67, above_normal > 1.5 (both < 0.02: near_normal). no_past_activity_this_month: no past year had a detection in this calendar month, so the ratio is undefined; the probability then comes only from the disc's overall fire frequency (shrinkage prior).",
+   "recent_observed_months": [
+    {
+     "month": "2026-08",
+     "detections": 0,
+     "same_month_median_other_years": 34.0
+    },
+    {
+     "month": "2026-09",
+     "detections": 1285,
+     "same_month_median_other_years": 15.0
+    },
+    {
+     "month": "2026-10",
+     "detections": 386,
+     "same_month_median_other_years": 15.0
+    }
+   ]
+  },
+  "last_observed_month": "2026-10",
+  "lead_months": 2,
+  "method_reason": "pooled XGBoost did not pass the held-out validation rule for locations inside training region california at lead 2 (Brier skill vs seasonal baseline not significantly > 0); seasonal baseline used",
+  "baseline_variant": "seasonal_raw",
+  "seasonal_norm": {
+   "calendar_month": "December",
+   "years_observed": 10,
+   "years_with_detections": 4,
+   "frequency": 0.4,
+   "median_detections": 0.0,
+   "mean_detections": 0.6
+  },
+  "validation_evidence": {
+   "setting": "temporal hold-out (2020-2022) in california",
+   "lead_evaluated": 2,
+   "method_metrics_heldout": {
+    "n": 29376,
+    "base_rate": 0.4142497276688453,
+    "brier": 0.08406467146971314,
+    "roc_auc": 0.9548815295378333,
+    "pr_auc": 0.9430631584533768
+   },
+   "xgboost_vs_best_baseline_brier_skill": {
+    "bss": -0.0020909322325457502,
+    "ci95": [
+     -0.01635349117804344,
+     0.012688766370677982
+    ],
+    "n_months": 34
+   }
+  },
+  "uncertainty": {
+   "empirical_reliability": {
+    "forecast_bin": [
+     0.3,
+     0.5
+    ],
+    "n_heldout_forecasts": 3419,
+    "observed_frequency_heldout": 0.4387,
+    "mean_forecast_heldout": 0.3972
+   },
+   "note": "Held-out frequency of detection among past forecasts in the same probability bin, from the validation setting above. No interval is given for this location: it is not supported empirically."
+  },
+  "model_comparison": {
+   "xgboost_pooled": {
+    "probability": 0.4813,
+    "used": false,
+    "validated_for_this_location_and_lead": false,
+    "note": "reported for transparency; only the 'probability' field above is the engine's forecast"
+   },
+   "seasonal_baseline": {
+    "probability": 0.4203,
+    "variant": "seasonal_raw",
+    "used": true
+   }
+  },
+  "model": {
+   "name": "global_disc_forecaster",
+   "design": "without_lon+baseline_margin",
+   "trained_regions": [
+    "california",
+    "zambia_angola",
+    "rondonia",
+    "yakutia",
+    "punjab"
+   ],
+   "training_period": [
+    "2012-01-01",
+    "2022-12-31"
+   ]
+  }
+ },
+ "data_coverage": {
+  "sensor_series": "S-NPP VIIRS 375 m (VIIRS_SNPP_SP, then VIIRS_SNPP_NRT after the SP record ends)",
+  "window": {
+   "start": "2016-11-01",
+   "end": "2026-11-14",
+   "months": 121
+  },
+  "products": [
+   {
+    "product": "VIIRS_SNPP_SP",
+    "first_day": "2016-11-01",
+    "last_day": "2026-07-31"
+   },
+   {
+    "product": "VIIRS_SNPP_NRT",
+    "first_day": "2026-08-01",
+    "last_day": "2026-11-02"
+   }
+  ],
+  "product_availability": {
+   "VIIRS_SNPP_SP": [
+    "2012-01-20",
+    "2026-07-31"
+   ],
+   "VIIRS_SNPP_NRT": [
+    "2026-08-01",
+    "2026-11-02"
+   ]
+  },
+  "min_month_coverage_for_observed": 0.9,
+  "months_observed": 115,
+  "months_unobserved": 6,
+  "unobserved_months": [
+   {
+    "month": "2022-07",
+    "coverage_fraction": 0.839
+   },
+   {
+    "month": "2022-08",
+    "coverage_fraction": 0.677
+   },
+   {
+    "month": "2024-07",
+    "coverage_fraction": 0.677
+   },
+   {
+    "month": "2026-05",
+    "coverage_fraction": 0.0
+   },
+   {
+    "month": "2026-07",
+    "coverage_fraction": 0.806
+   },
+   {
+    "month": "2026-11",
+    "coverage_fraction": 0.067
+   }
+  ],
+  "last_observed_month": "2026-10",
+  "zero_vs_missing": "months with coverage >= 0.9 and no detections are observed zeros; months below 0.9 are unobserved and reported as null",
+  "retrieval": {
+   "availability_table": "cached",
+   "chunks_downloaded_this_call": 0,
+   "chunks_failed_this_call": 0,
+   "rows_downloaded_this_call": 0,
+   "chunks_reused_from_concurrent_job": 0,
+   "downloads_skipped": false,
+   "chunks_still_missing": 0
+  },
+  "cache_sources": [
+   {
+    "product": "VIIRS_SNPP_NRT",
+    "cache_region": "tile_-121_36_-118_39",
+    "first_day": "2026-08-01",
+    "last_day": "2026-11-02",
+    "n_days": 94,
+    "usable_rows_in_disc": 1898
+   },
+   {
+    "product": "VIIRS_SNPP_SP",
+    "cache_region": "california",
+    "first_day": "2016-11-01",
+    "last_day": "2023-01-04",
+    "n_days": 2256,
+    "usable_rows_in_disc": 77907
+   },
+   {
+    "product": "VIIRS_SNPP_SP",
+    "cache_region": "tile_-121_36_-118_39",
+    "first_day": "2023-01-05",
+    "last_day": "2026-07-31",
+    "n_days": 1304,
+    "usable_rows_in_disc": 12578
+   }
+  ],
+  "exclusions": {
+   "excluded_non_vegetation_sp_detections": 138,
+   "excluded_nrt_detections_at_known_static_sources": 18
+  },
+  "firms_missing_dates_table": "used",
+  "complete": true,
+  "attribution": "NASA FIRMS (Fire Information for Resource Management System), VIIRS 375 m active fire product from Suomi NPP: VIIRS_SNPP_SP (standard processing) and VIIRS_SNPP_NRT (near real-time). https://firms.modaps.eosdis.nasa.gov"
+ },
+ "harmonization": {
+  "series_used": "consistent_sensor: S-NPP VIIRS only (no MODIS-VIIRS mixing)",
+  "modis_viirs_mixed": false,
+  "project_region": "california",
+  "regional_harmonization_status": {
+   "overall": "validated_count_only",
+   "count": "validated",
+   "frp": "partial"
+  },
+  "note": "MODIS-equivalent harmonisation was validated only for detection counts in California and Zambia/Angola, at regional scale and over the jointly observed domain; it is not validated at location (disc) scale, so location statistics use the consistent S-NPP VIIRS record instead."
+ },
+ "warnings": [],
+ "limitations": [
+  "Counts are satellite hotspot detections (375 m pixels at ~01:30 and ~13:30 local overpass), not fires, burned area or ignitions; one fire produces many detections and short fires between overpasses are missed.",
+  "Clouds, smoke and thick canopy hide fires; detections are not corrected for cloud cover.",
+  "Near-real-time (NRT) detections lack the FIRMS 'type' flag; static industrial/volcanic sources are removed only where the standard product flagged them in the analysis window.",
+  "No weather, fuel or land-cover data are used.",
+  "The pooled XGBoost model is validated only in five regions (California, Zambia/Angola, Rondonia, Yakutia, Punjab); it is not claimed to be globally validated.",
+  "Lead time is 2 months: the last fully observed month is 2026-10, because the current month is incomplete and near-real-time data lag.",
+  "The long-term trend is not statistically significant at 0.05."
+ ]
+}

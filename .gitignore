@@ -1,0 +1,28 @@
+# --- dependencies and build output
+node_modules/
+dist/
+test-results/
+playwright-report/
+.playwright-mcp/
+*.tsbuildinfo
+
+# --- python
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv*/
+
+# --- runtime data (never commit; large or machine-specific)
+workspace/backend/.runtime-data/
+workspace/backend/FireHarmonics.upstream-git/
+workspace/backend/FireHarmonics/FireDetectionAPP/.data/
+workspace/backend/FireHarmonics/firelens/data/raw/
+workspace/backend/FireHarmonics/firelens/data/processed/
+workspace/backend/FireHarmonics/firelens/data/cache/
+
+# --- secrets and local tool settings
+.env
+.env.local
+*.pem
+.claude/settings.local.json
+.mcp.json

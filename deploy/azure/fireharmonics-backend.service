@@ -1,0 +1,17 @@
+[Unit]
+Description=FireHarmonics FastAPI backend (uvicorn)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=fireharmonics
+Group=fireharmonics
+WorkingDirectory=/srv/fireharmonics/app/workspace/backend/FireHarmonics
+EnvironmentFile=/etc/fireharmonics/backend.env
+ExecStart=/srv/fireharmonics/venv/bin/python -m uvicorn FireDetectionAPP.main:app --host 127.0.0.1 --port 8000
+Restart=on-failure
+RestartSec=5
+# The job queue, cancellation and SSE live in this single process: run exactly one instance.
+
+[Install]
+WantedBy=multi-user.target

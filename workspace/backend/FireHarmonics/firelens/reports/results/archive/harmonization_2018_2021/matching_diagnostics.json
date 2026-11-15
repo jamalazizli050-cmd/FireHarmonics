@@ -1,0 +1,619 @@
+{
+ "california": {
+  "region": "california",
+  "start": "2018-01-01",
+  "end": "2021-12-31",
+  "config": {
+   "max_dt_min": 20.0,
+   "search_dt_min": 100.0,
+   "same_pass_min": 3.0,
+   "cluster_tol_km": 0.1,
+   "match_tol_km": 0.5,
+   "vegetation_only": true
+  },
+  "aqua_granules": 7639,
+  "viirs_granules": 8426,
+  "aqua_orientation": {
+   "successor": 2724,
+   "predecessor": 2724,
+   "day_night_direction": 2186,
+   "longest_edges": 5
+  },
+  "viirs_orientation": {
+   "day_night_direction": 3134,
+   "successor": 2625,
+   "predecessor": 2625,
+   "longest_edges": 42
+  },
+  "aqua_direction_rule_agreement": [
+   5441,
+   5441
+  ],
+  "viirs_direction_rule_agreement": [
+   5156,
+   5156
+  ],
+  "modis_located_share": 1.0,
+  "viirs_located_share": 1.0,
+  "duplicates": [
+   {
+    "sensor": "MODIS",
+    "n": 62028,
+    "near_duplicate_pairs": 4151,
+    "pixels_involved": 8302,
+    "share_pixels_involved": 0.13384278067969305,
+    "share_involved_with_abs_xtrack_gt_0_6": 0.5857624668754517
+   },
+   {
+    "sensor": "VIIRS",
+    "n": 555357,
+    "near_duplicate_pairs": 64549,
+    "pixels_involved": 113580,
+    "share_pixels_involved": 0.20451709440954197,
+    "share_involved_with_abs_xtrack_gt_0_6": 0.5702236309209368
+   }
+  ],
+  "clusters": {
+   "n": 83619,
+   "share_aqua_observed_within_search": 0.9513866465755391,
+   "share_comparable": 0.3470981475501979,
+   "comparable_n": 29024,
+   "abs_dt_quantiles_covered": {
+    "0.1": 6.1,
+    "0.25": 14.3,
+    "0.5": 30.1,
+    "0.75": 47.4,
+    "0.9": 67.6
+   }
+  },
+  "modis_pixels": {
+   "n": 62028,
+   "share_viirs_observed_within_search": 0.995743857612691,
+   "share_comparable": 0.4037047784871348,
+   "share_comparable_matched": 0.9659757996885109
+  },
+  "detection_rate_by_abs_dt": [
+   {
+    "abs_dt_bin": "(-0.001, 5.0]",
+    "n_clusters": 5133,
+    "p_detected": 0.3553477498538866,
+    "p_detected_frp_ge_20MW": 0.7123205741626795
+   },
+   {
+    "abs_dt_bin": "(5.0, 10.0]",
+    "n_clusters": 9191,
+    "p_detected": 0.2296812098792297,
+    "p_detected_frp_ge_20MW": 0.6235404016814573
+   },
+   {
+    "abs_dt_bin": "(10.0, 15.0]",
+    "n_clusters": 6754,
+    "p_detected": 0.5130293159609121,
+    "p_detected_frp_ge_20MW": 0.7785964912280702
+   },
+   {
+    "abs_dt_bin": "(15.0, 20.0]",
+    "n_clusters": 7946,
+    "p_detected": 0.24515479486534106,
+    "p_detected_frp_ge_20MW": 0.7266325224071702
+   },
+   {
+    "abs_dt_bin": "(20.0, 30.0]",
+    "n_clusters": 10381,
+    "p_detected": 0.4028513630671419,
+    "p_detected_frp_ge_20MW": 0.7107894736842105
+   },
+   {
+    "abs_dt_bin": "(30.0, 45.0]",
+    "n_clusters": 18341,
+    "p_detected": 0.31165149119459135,
+    "p_detected_frp_ge_20MW": 0.6685976827806632
+   },
+   {
+    "abs_dt_bin": "(45.0, 60.0]",
+    "n_clusters": 10503,
+    "p_detected": 0.3734171189184043,
+    "p_detected_frp_ge_20MW": 0.6712286158631415
+   },
+   {
+    "abs_dt_bin": "(60.0, 100.0]",
+    "n_clusters": 11305,
+    "p_detected": 0.3940734188412207,
+    "p_detected_frp_ge_20MW": 0.6933227764581684
+   }
+  ]
+ },
+ "zambia_angola": {
+  "region": "zambia_angola",
+  "start": "2018-01-01",
+  "end": "2021-12-31",
+  "config": {
+   "max_dt_min": 20.0,
+   "search_dt_min": 100.0,
+   "same_pass_min": 3.0,
+   "cluster_tol_km": 0.1,
+   "match_tol_km": 0.5,
+   "vegetation_only": true
+  },
+  "aqua_granules": 3940,
+  "viirs_granules": 4761,
+  "aqua_orientation": {
+   "day_night_direction": 2349,
+   "successor": 795,
+   "predecessor": 795,
+   "longest_edges": 1
+  },
+  "viirs_orientation": {
+   "day_night_direction": 3086,
+   "predecessor": 838,
+   "successor": 837
+  },
+  "aqua_direction_rule_agreement": [
+   1590,
+   1590
+  ],
+  "viirs_direction_rule_agreement": [
+   1675,
+   1675
+  ],
+  "modis_located_share": 1.0,
+  "viirs_located_share": 0.9999967969797654,
+  "duplicates": [
+   {
+    "sensor": "MODIS",
+    "n": 170393,
+    "near_duplicate_pairs": 5585,
+    "pixels_involved": 11170,
+    "share_pixels_involved": 0.06555433615230673,
+    "share_involved_with_abs_xtrack_gt_0_6": 0.7214861235452104
+   },
+   {
+    "sensor": "VIIRS",
+    "n": 936616,
+    "near_duplicate_pairs": 69578,
+    "pixels_involved": 134130,
+    "share_pixels_involved": 0.14320703468657378,
+    "share_involved_with_abs_xtrack_gt_0_6": 0.5469246253634533
+   }
+  ],
+  "clusters": {
+   "n": 450908,
+   "share_aqua_observed_within_search": 0.8604682108101874,
+   "share_comparable": 0.3253036096055071,
+   "comparable_n": 146682,
+   "abs_dt_quantiles_covered": {
+    "0.1": 4.0,
+    "0.25": 9.8,
+    "0.5": 27.9,
+    "0.75": 44.6,
+    "0.9": 64.7
+   }
+  },
+  "modis_pixels": {
+   "n": 170393,
+   "share_viirs_observed_within_search": 0.9951230390919815,
+   "share_comparable": 0.3661007201000041,
+   "share_comparable_matched": 0.9071672464372165
+  },
+  "detection_rate_by_abs_dt": [
+   {
+    "abs_dt_bin": "(-0.001, 5.0]",
+    "n_clusters": 51100,
+    "p_detected": 0.30661448140900194,
+    "p_detected_frp_ge_20MW": 0.6675124426661462
+   },
+   {
+    "abs_dt_bin": "(5.0, 10.0]",
+    "n_clusters": 47895,
+    "p_detected": 0.2444722831193235,
+    "p_detected_frp_ge_20MW": 0.5405641174760105
+   },
+   {
+    "abs_dt_bin": "(10.0, 15.0]",
+    "n_clusters": 4107,
+    "p_detected": 0.03871439006574142,
+    "p_detected_frp_ge_20MW": 0.4125874125874126
+   },
+   {
+    "abs_dt_bin": "(15.0, 20.0]",
+    "n_clusters": 43580,
+    "p_detected": 0.33368517668655345,
+    "p_detected_frp_ge_20MW": 0.6272797612468222
+   },
+   {
+    "abs_dt_bin": "(20.0, 30.0]",
+    "n_clusters": 78228,
+    "p_detected": 0.2733420258730889,
+    "p_detected_frp_ge_20MW": 0.5339764332376824
+   },
+   {
+    "abs_dt_bin": "(30.0, 45.0]",
+    "n_clusters": 70214,
+    "p_detected": 0.26983222719115846,
+    "p_detected_frp_ge_20MW": 0.4912225309421571
+   },
+   {
+    "abs_dt_bin": "(45.0, 60.0]",
+    "n_clusters": 50460,
+    "p_detected": 0.23444312326595323,
+    "p_detected_frp_ge_20MW": 0.45915712799167535
+   },
+   {
+    "abs_dt_bin": "(60.0, 100.0]",
+    "n_clusters": 42408,
+    "p_detected": 0.15374457649500095,
+    "p_detected_frp_ge_20MW": 0.30789237668161434
+   }
+  ]
+ },
+ "rondonia": {
+  "region": "rondonia",
+  "start": "2018-01-01",
+  "end": "2021-12-31",
+  "config": {
+   "max_dt_min": 20.0,
+   "search_dt_min": 100.0,
+   "same_pass_min": 3.0,
+   "cluster_tol_km": 0.1,
+   "match_tol_km": 0.5,
+   "vegetation_only": true
+  },
+  "aqua_granules": 3990,
+  "viirs_granules": 4798,
+  "aqua_orientation": {
+   "day_night_direction": 2370,
+   "successor": 810,
+   "predecessor": 810
+  },
+  "viirs_orientation": {
+   "day_night_direction": 3018,
+   "successor": 890,
+   "predecessor": 890
+  },
+  "aqua_direction_rule_agreement": [
+   1620,
+   1620
+  ],
+  "viirs_direction_rule_agreement": [
+   1780,
+   1780
+  ],
+  "modis_located_share": 0.996765809991337,
+  "viirs_located_share": 0.9999955754953233,
+  "duplicates": [
+   {
+    "sensor": "MODIS",
+    "n": 34630,
+    "near_duplicate_pairs": 1256,
+    "pixels_involved": 2512,
+    "share_pixels_involved": 0.07253826162287035,
+    "share_involved_with_abs_xtrack_gt_0_6": 0.7906050955414012
+   },
+   {
+    "sensor": "VIIRS",
+    "n": 226014,
+    "near_duplicate_pairs": 18010,
+    "pixels_involved": 34124,
+    "share_pixels_involved": 0.15098179758776006,
+    "share_involved_with_abs_xtrack_gt_0_6": 0.6231391396084867
+   }
+  ],
+  "clusters": {
+   "n": 75442,
+   "share_aqua_observed_within_search": 0.8797354258900878,
+   "share_comparable": 0.3790991755255693,
+   "comparable_n": 28600,
+   "abs_dt_quantiles_covered": {
+    "0.1": 5.9,
+    "0.25": 13.3,
+    "0.5": 26.2,
+    "0.75": 43.7,
+    "0.9": 56.2
+   }
+  },
+  "modis_pixels": {
+   "n": 34630,
+   "share_viirs_observed_within_search": 0.9974299740109731,
+   "share_comparable": 0.44718452209067283,
+   "share_comparable_matched": 0.9025571483920961
+  },
+  "detection_rate_by_abs_dt": [
+   {
+    "abs_dt_bin": "(-0.001, 5.0]",
+    "n_clusters": 3292,
+    "p_detected": 0.20018226002430134,
+    "p_detected_frp_ge_20MW": 0.7427937915742794
+   },
+   {
+    "abs_dt_bin": "(5.0, 10.0]",
+    "n_clusters": 10655,
+    "p_detected": 0.3611450023463163,
+    "p_detected_frp_ge_20MW": 0.6792834440913031
+   },
+   {
+    "abs_dt_bin": "(10.0, 15.0]",
+    "n_clusters": 4142,
+    "p_detected": 0.1533075808788025,
+    "p_detected_frp_ge_20MW": 0.7493606138107417
+   },
+   {
+    "abs_dt_bin": "(15.0, 20.0]",
+    "n_clusters": 10511,
+    "p_detected": 0.27932641994101415,
+    "p_detected_frp_ge_20MW": 0.5432378792174652
+   },
+   {
+    "abs_dt_bin": "(20.0, 30.0]",
+    "n_clusters": 6757,
+    "p_detected": 0.2052686103300281,
+    "p_detected_frp_ge_20MW": 0.6457311089303238
+   },
+   {
+    "abs_dt_bin": "(30.0, 45.0]",
+    "n_clusters": 16272,
+    "p_detected": 0.2910521140609636,
+    "p_detected_frp_ge_20MW": 0.5761545293072824
+   },
+   {
+    "abs_dt_bin": "(45.0, 60.0]",
+    "n_clusters": 9052,
+    "p_detected": 0.18912947414935927,
+    "p_detected_frp_ge_20MW": 0.388420245398773
+   },
+   {
+    "abs_dt_bin": "(60.0, 100.0]",
+    "n_clusters": 5688,
+    "p_detected": 0.2689873417721519,
+    "p_detected_frp_ge_20MW": 0.53
+   }
+  ]
+ },
+ "yakutia": {
+  "region": "yakutia",
+  "start": "2018-01-01",
+  "end": "2021-12-31",
+  "config": {
+   "max_dt_min": 20.0,
+   "search_dt_min": 100.0,
+   "same_pass_min": 3.0,
+   "cluster_tol_km": 0.1,
+   "match_tol_km": 0.5,
+   "vegetation_only": true
+  },
+  "aqua_granules": 10440,
+  "viirs_granules": 12880,
+  "aqua_orientation": {
+   "day_night_direction": 6856,
+   "longest_edges": 3580,
+   "successor": 2,
+   "predecessor": 2
+  },
+  "viirs_orientation": {
+   "day_night_direction": 5819,
+   "successor": 2481,
+   "predecessor": 2481,
+   "longest_edges": 2099
+  },
+  "aqua_direction_rule_agreement": [
+   4,
+   4
+  ],
+  "viirs_direction_rule_agreement": [
+   3563,
+   3852
+  ],
+  "modis_located_share": 0.9566714777712677,
+  "viirs_located_share": 0.9908352346631981,
+  "duplicates": [
+   {
+    "sensor": "MODIS",
+    "n": 69977,
+    "near_duplicate_pairs": 5457,
+    "pixels_involved": 10914,
+    "share_pixels_involved": 0.15596553153178902,
+    "share_involved_with_abs_xtrack_gt_0_6": 0.39912039582188014
+   },
+   {
+    "sensor": "VIIRS",
+    "n": 703455,
+    "near_duplicate_pairs": 56797,
+    "pixels_involved": 107001,
+    "share_pixels_involved": 0.1521078107341621,
+    "share_involved_with_abs_xtrack_gt_0_6": 0.48224782945953776
+   }
+  ],
+  "clusters": {
+   "n": 96754,
+   "share_aqua_observed_within_search": 0.9652830890712528,
+   "share_comparable": 0.3947123633131447,
+   "comparable_n": 38190,
+   "abs_dt_quantiles_covered": {
+    "0.1": 5.1,
+    "0.25": 14.1,
+    "0.5": 27.9,
+    "0.75": 41.4,
+    "0.9": 55.4
+   }
+  },
+  "modis_pixels": {
+   "n": 69977,
+   "share_viirs_observed_within_search": 0.9733912571273419,
+   "share_comparable": 0.4548923217628649,
+   "share_comparable_matched": 0.9617994470972606
+  },
+  "detection_rate_by_abs_dt": [
+   {
+    "abs_dt_bin": "(-0.001, 5.0]",
+    "n_clusters": 8783,
+    "p_detected": 0.3769782534441535,
+    "p_detected_frp_ge_20MW": 0.722397476340694
+   },
+   {
+    "abs_dt_bin": "(5.0, 10.0]",
+    "n_clusters": 11856,
+    "p_detected": 0.2883771929824561,
+    "p_detected_frp_ge_20MW": 0.6111268003388873
+   },
+   {
+    "abs_dt_bin": "(10.0, 15.0]",
+    "n_clusters": 4296,
+    "p_detected": 0.3738361266294227,
+    "p_detected_frp_ge_20MW": 0.5574136008918618
+   },
+   {
+    "abs_dt_bin": "(15.0, 20.0]",
+    "n_clusters": 13255,
+    "p_detected": 0.3077329309694455,
+    "p_detected_frp_ge_20MW": 0.65625
+   },
+   {
+    "abs_dt_bin": "(20.0, 30.0]",
+    "n_clusters": 11946,
+    "p_detected": 0.41746191193705007,
+    "p_detected_frp_ge_20MW": 0.6388059701492538
+   },
+   {
+    "abs_dt_bin": "(30.0, 45.0]",
+    "n_clusters": 26552,
+    "p_detected": 0.3031033443808376,
+    "p_detected_frp_ge_20MW": 0.6027463847369061
+   },
+   {
+    "abs_dt_bin": "(45.0, 60.0]",
+    "n_clusters": 9137,
+    "p_detected": 0.369486702418737,
+    "p_detected_frp_ge_20MW": 0.6505465385889367
+   },
+   {
+    "abs_dt_bin": "(60.0, 100.0]",
+    "n_clusters": 7570,
+    "p_detected": 0.5850726552179657,
+    "p_detected_frp_ge_20MW": 0.8218470020675396
+   }
+  ]
+ },
+ "punjab": {
+  "region": "punjab",
+  "start": "2018-01-01",
+  "end": "2021-12-31",
+  "config": {
+   "max_dt_min": 20.0,
+   "search_dt_min": 100.0,
+   "same_pass_min": 3.0,
+   "cluster_tol_km": 0.1,
+   "match_tol_km": 0.5,
+   "vegetation_only": true
+  },
+  "aqua_granules": 4167,
+  "viirs_granules": 5210,
+  "aqua_orientation": {
+   "day_night_direction": 2908,
+   "successor": 628,
+   "predecessor": 628,
+   "longest_edges": 3
+  },
+  "viirs_orientation": {
+   "day_night_direction": 3539,
+   "successor": 835,
+   "predecessor": 835,
+   "longest_edges": 1
+  },
+  "aqua_direction_rule_agreement": [
+   1256,
+   1256
+  ],
+  "viirs_direction_rule_agreement": [
+   1668,
+   1670
+  ],
+  "modis_located_share": 1.0,
+  "viirs_located_share": 0.9999864294535141,
+  "duplicates": [
+   {
+    "sensor": "MODIS",
+    "n": 74563,
+    "near_duplicate_pairs": 1588,
+    "pixels_involved": 3176,
+    "share_pixels_involved": 0.04259485267491919,
+    "share_involved_with_abs_xtrack_gt_0_6": 0.4404911838790932
+   },
+   {
+    "sensor": "VIIRS",
+    "n": 442134,
+    "near_duplicate_pairs": 25729,
+    "pixels_involved": 50310,
+    "share_pixels_involved": 0.11378903228433009,
+    "share_involved_with_abs_xtrack_gt_0_6": 0.5164977141721327
+   }
+  ],
+  "clusters": {
+   "n": 303489,
+   "share_aqua_observed_within_search": 0.9930969491480746,
+   "share_comparable": 0.3083143046370709,
+   "comparable_n": 93570,
+   "abs_dt_quantiles_covered": {
+    "0.1": 4.4,
+    "0.25": 15.1,
+    "0.5": 33.1,
+    "0.75": 46.7,
+    "0.9": 70.3
+   }
+  },
+  "modis_pixels": {
+   "n": 74563,
+   "share_viirs_observed_within_search": 0.9893244638761852,
+   "share_comparable": 0.3735901184233467,
+   "share_comparable_matched": 0.7319428489373923
+  },
+  "detection_rate_by_abs_dt": [
+   {
+    "abs_dt_bin": "(-0.001, 5.0]",
+    "n_clusters": 32177,
+    "p_detected": 0.22808217049445256,
+    "p_detected_frp_ge_20MW": 0.5206332727744615
+   },
+   {
+    "abs_dt_bin": "(5.0, 10.0]",
+    "n_clusters": 23895,
+    "p_detected": 0.19853525842226408,
+    "p_detected_frp_ge_20MW": 0.3710923133504965
+   },
+   {
+    "abs_dt_bin": "(10.0, 15.0]",
+    "n_clusters": 18579,
+    "p_detected": 0.14171914527154314,
+    "p_detected_frp_ge_20MW": 0.37006663249615585
+   },
+   {
+    "abs_dt_bin": "(15.0, 20.0]",
+    "n_clusters": 18919,
+    "p_detected": 0.3394471166552143,
+    "p_detected_frp_ge_20MW": 0.5272952853598015
+   },
+   {
+    "abs_dt_bin": "(20.0, 30.0]",
+    "n_clusters": 50220,
+    "p_detected": 0.18458781362007168,
+    "p_detected_frp_ge_20MW": 0.3047448878300576
+   },
+   {
+    "abs_dt_bin": "(30.0, 45.0]",
+    "n_clusters": 60250,
+    "p_detected": 0.11970124481327801,
+    "p_detected_frp_ge_20MW": 0.23332232496697491
+   },
+   {
+    "abs_dt_bin": "(45.0, 60.0]",
+    "n_clusters": 52917,
+    "p_detected": 0.14218493111854413,
+    "p_detected_frp_ge_20MW": 0.2519729425028185
+   },
+   {
+    "abs_dt_bin": "(60.0, 100.0]",
+    "n_clusters": 44437,
+    "p_detected": 0.08078853207912326,
+    "p_detected_frp_ge_20MW": 0.16170892393691355
+   }
+  ]
+ }
+}

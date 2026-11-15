@@ -1,0 +1,214 @@
+{
+  "inventory": {
+    "MODIS": {
+      "records": "130239",
+      "usable": "130239",
+      "first": "2018-01-01",
+      "last": "2021-12-29",
+      "platforms": "Aqua, Terra",
+      "product versions": "6.03",
+      "qc_parse_error": "0",
+      "qc_time_invalid": "0",
+      "qc_confidence_invalid": "0",
+      "qc_coord_invalid": "0",
+      "qc_outside_bbox": "0",
+      "qc_outside_window": "0",
+      "qc_platform_unknown": "0",
+      "qc_frp_missing": "0",
+      "qc_frp_negative": "0",
+      "qc_pixel_size_suspect": "0",
+      "qc_non_vegetation_type": "1415",
+      "qc_duplicate": "0"
+    },
+    "VIIRS": {
+      "records": "585222",
+      "usable": "585222",
+      "first": "2018-01-01",
+      "last": "2021-12-31",
+      "platforms": "Suomi NPP",
+      "product versions": "2",
+      "qc_parse_error": "0",
+      "qc_time_invalid": "0",
+      "qc_confidence_invalid": "0",
+      "qc_coord_invalid": "0",
+      "qc_outside_bbox": "0",
+      "qc_outside_window": "0",
+      "qc_platform_unknown": "0",
+      "qc_frp_missing": "0",
+      "qc_frp_negative": "0",
+      "qc_pixel_size_suspect": "0",
+      "qc_non_vegetation_type": "29865",
+      "qc_duplicate": "0"
+    }
+  },
+  "modis_terra_share": 0.5187616612535416,
+  "peak_day": {
+    "MODIS": "2020-09-09",
+    "VIIRS": "2020-09-09"
+  },
+  "active_cells": {
+    "active_cells": {
+      "MODIS": 784,
+      "VIIRS": 896
+    },
+    "detections": {
+      "MODIS": 130239,
+      "VIIRS": 585222
+    },
+    "detections_per_active_cell": {
+      "MODIS": 166.12,
+      "VIIRS": 653.15
+    }
+  },
+  "cells_both": 754,
+  "annual": {
+    "MODIS|detections": {
+      "2018": 25417.0,
+      "2019": 6439.0,
+      "2020": 51866.0,
+      "2021": 46517.0
+    },
+    "MODIS|vegetation (type 0)": {
+      "2018": 24999.0,
+      "2019": 6127.0,
+      "2020": 51507.0,
+      "2021": 46191.0
+    },
+    "MODIS|FRP total (GW)": {
+      "2018": 3222.9005,
+      "2019": 541.319,
+      "2020": 7346.8375,
+      "2021": 6894.7396
+    },
+    "MODIS|days with detections": {
+      "2018": 349.0,
+      "2019": 319.0,
+      "2020": 352.0,
+      "2021": 351.0
+    },
+    "VIIRS|detections": {
+      "2018": 103464.0,
+      "2019": 28845.0,
+      "2020": 246837.0,
+      "2021": 206076.0
+    },
+    "VIIRS|vegetation (type 0)": {
+      "2018": 95635.0,
+      "2019": 21902.0,
+      "2020": 239054.0,
+      "2021": 198766.0
+    },
+    "VIIRS|FRP total (GW)": {
+      "2018": 1814.7888699999999,
+      "2019": 351.74481,
+      "2020": 4540.758989999999,
+      "2021": 4076.78002
+    },
+    "VIIRS|days with detections": {
+      "2018": 364.0,
+      "2019": 361.0,
+      "2020": 365.0,
+      "2021": 364.0
+    }
+  },
+  "monthly_ratio": {
+    "count VIIRS/Terra+Aqua": {
+      "count": 48.0,
+      "mean": 4.47,
+      "std": 0.87,
+      "min": 2.82,
+      "25%": 3.9,
+      "50%": 4.42,
+      "75%": 5.08,
+      "max": 6.67
+    },
+    "count VIIRS/Aqua": {
+      "count": 48.0,
+      "mean": 9.59,
+      "std": 3.18,
+      "min": 4.59,
+      "25%": 7.25,
+      "50%": 9.26,
+      "75%": 10.83,
+      "max": 21.96
+    },
+    "FRP VIIRS/Terra+Aqua": {
+      "count": 48.0,
+      "mean": 0.79,
+      "std": 0.21,
+      "min": 0.44,
+      "25%": 0.64,
+      "50%": 0.79,
+      "75%": 0.86,
+      "max": 1.6
+    },
+    "FRP VIIRS/Aqua": {
+      "count": 48.0,
+      "mean": 1.52,
+      "std": 0.5,
+      "min": 0.83,
+      "25%": 1.1,
+      "50%": 1.5,
+      "75%": 1.8,
+      "max": 3.41
+    }
+  },
+  "aqua_share_of_modis": 0.48123833874645844,
+  "cellmonth_share": {
+    "both detected": 0.3313,
+    "VIIRS only": 0.6409,
+    "MODIS only": 0.0278
+  },
+  "sensor_stats": {
+    "MODIS": {
+      "FRP median (MW)": 40.6,
+      "FRP mean (MW)": 138.252,
+      "FRP p95 (MW)": 548.71,
+      "FRP == 0 (count)": 146.0,
+      "pixel area median (km2)": 1.43,
+      "pixel area max (km2)": 9.6,
+      "night share": 0.461,
+      "brightness max (K)": 508.8,
+      "brightness < 300 K (count)": 0.0
+    },
+    "VIIRS": {
+      "FRP median (MW)": 4.77,
+      "FRP mean (MW)": 18.427,
+      "FRP p95 (MW)": 79.56,
+      "FRP == 0 (count)": 1273.0,
+      "pixel area median (km2)": 0.202,
+      "pixel area max (km2)": 0.624,
+      "night share": 0.634,
+      "brightness max (K)": 367.0,
+      "brightness < 300 K (count)": 46325.0
+    }
+  },
+  "confidence_shares": {
+    "MODIS": {
+      "low": 0.0643,
+      "nominal": 0.3841,
+      "high": 0.5516
+    },
+    "VIIRS": {
+      "low": 0.0447,
+      "nominal": 0.8761,
+      "high": 0.0792
+    }
+  },
+  "firms_missing_in_window": {},
+  "zero_detection_days": {
+    "MODIS": 90,
+    "VIIRS": 7
+  },
+  "coverage_mean": {
+    "MODIS_SP": 1.0,
+    "VIIRS_SNPP_SP": 1.0
+  },
+  "global_2020_09_01": {
+    "MODIS": 6723,
+    "VIIRS": 69286,
+    "ratio": 10.31,
+    "MODIS_usable": 6723,
+    "VIIRS_usable": 69286
+  }
+}

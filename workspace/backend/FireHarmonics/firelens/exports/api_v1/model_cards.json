@@ -1,0 +1,377 @@
+{
+ "schema": "firelens.api.v1",
+ "harmonization": {
+  "california": {
+   "count": {
+    "status": "validated",
+    "heldout_region_verdict": "improved",
+    "heldout_years_ok": "8/10",
+    "median_monthly_error_factor_model_heldout_region": 1.116525,
+    "median_monthly_error_factor_raw_viirs": 6.246377,
+    "full_domain_total_ratio_heldout_region": 1.25461
+   },
+   "frp": {
+    "status": "partial",
+    "heldout_region_verdict": "lower error but total biased (ratio outside 0.8-1.25)",
+    "heldout_years_ok": "8/10",
+    "median_monthly_error_factor_model_heldout_region": 1.231488,
+    "median_monthly_error_factor_raw_viirs": 1.299796,
+    "full_domain_total_ratio_heldout_region": 0.978018
+   },
+   "status": "validated_count_only"
+  },
+  "punjab": {
+   "count": {
+    "status": "partial",
+    "heldout_region_verdict": "improved",
+    "heldout_years_ok": "7/10",
+    "median_monthly_error_factor_model_heldout_region": 1.341865,
+    "median_monthly_error_factor_raw_viirs": 6.333333,
+    "full_domain_total_ratio_heldout_region": 1.04472
+   },
+   "frp": {
+    "status": "partial",
+    "heldout_region_verdict": "improved",
+    "heldout_years_ok": "3/10",
+    "median_monthly_error_factor_model_heldout_region": 1.307228,
+    "median_monthly_error_factor_raw_viirs": 2.555105,
+    "full_domain_total_ratio_heldout_region": 1.280215
+   },
+   "status": "partial"
+  },
+  "rondonia": {
+   "count": {
+    "status": "not_validated",
+    "heldout_region_verdict": "not better than best baseline (constant)",
+    "heldout_years_ok": "4/10",
+    "median_monthly_error_factor_model_heldout_region": 1.254844,
+    "median_monthly_error_factor_raw_viirs": 5.766136,
+    "full_domain_total_ratio_heldout_region": 1.141919
+   },
+   "frp": {
+    "status": "partial",
+    "heldout_region_verdict": "improved",
+    "heldout_years_ok": "6/10",
+    "median_monthly_error_factor_model_heldout_region": 1.362811,
+    "median_monthly_error_factor_raw_viirs": 1.521292,
+    "full_domain_total_ratio_heldout_region": 1.169936
+   },
+   "status": "partial"
+  },
+  "yakutia": {
+   "count": {
+    "status": "not_validated",
+    "heldout_region_verdict": "lower error but total biased (ratio outside 0.8-1.25)",
+    "heldout_years_ok": "7/10",
+    "median_monthly_error_factor_model_heldout_region": 1.317631,
+    "median_monthly_error_factor_raw_viirs": 7.636759,
+    "full_domain_total_ratio_heldout_region": 1.462651
+   },
+   "frp": {
+    "status": "not_validated",
+    "heldout_region_verdict": "marginal (<10% better than best baseline)",
+    "heldout_years_ok": "5/10",
+    "median_monthly_error_factor_model_heldout_region": 1.285707,
+    "median_monthly_error_factor_raw_viirs": 1.394771,
+    "full_domain_total_ratio_heldout_region": 1.366201
+   },
+   "status": "not_validated"
+  },
+  "zambia_angola": {
+   "count": {
+    "status": "validated",
+    "heldout_region_verdict": "improved",
+    "heldout_years_ok": "8/10",
+    "median_monthly_error_factor_model_heldout_region": 1.401704,
+    "median_monthly_error_factor_raw_viirs": 5.10683,
+    "full_domain_total_ratio_heldout_region": 0.933998
+   },
+   "frp": {
+    "status": "not_validated",
+    "heldout_region_verdict": "not better than best baseline (constant)",
+    "heldout_years_ok": "7/10",
+    "median_monthly_error_factor_model_heldout_region": 1.286271,
+    "median_monthly_error_factor_raw_viirs": 1.404209,
+    "full_domain_total_ratio_heldout_region": 1.072187
+   },
+   "status": "validated_count_only"
+  }
+ },
+ "forecast": {
+  "regions": [
+   "california"
+  ],
+  "limitations": [
+   "Target is satellite detection (S-NPP VIIRS, vegetation fires), not fire occurrence on the ground; clouds and smoke can hide fires.",
+   "Model uses only past detection history, location and season. No weather, fuel or vegetation inputs, so it cannot anticipate anomalous weather-driven fire months.",
+   "Validated only for California (held-out years 2020-2022 and held-out 2-degree spatial blocks). Applied to other regions it was worse than a local seasonal climatology in 3 of 4 regions, so no forecasts are provided there.",
+   "Skill gain over a seasonal-climatology baseline is small (about +0.01 ROC-AUC, about 5% lower Brier score); most predictability comes from where and when fires usually occur.",
+   "The deployed model is refitted on 2013-2021 and calibrated (isotonic) on 2022 with the same settings as the validated model (trained 2013-2018, calibrated 2019, tested 2020-2022). Calibration may drift if fire regimes change."
+  ]
+ },
+ "harmonization_manifest": {
+  "created": "2026-11-14T06:02:38.040984+00:00",
+  "period": [
+   "2012-01-01",
+   "2021-12-31"
+  ],
+  "match_config": {
+   "max_dt_min": 20.0,
+   "search_dt_min": 100.0,
+   "same_pass_min": 3.0,
+   "cluster_tol_km": 0.1,
+   "match_tol_km": 0.5,
+   "vegetation_only": true
+  },
+  "detector_features": [
+   "lfrp (spline)",
+   "aqua_ax (spline)",
+   "lfrp_max",
+   "lnpix",
+   "night",
+   "viirs_ax",
+   "abs_dt",
+   "saturated",
+   "night_x_lfrp",
+   "ax_x_lfrp"
+  ],
+  "glm_features": [
+   "lfrp",
+   "lfrp_max",
+   "lnpix",
+   "night",
+   "aqua_ax",
+   "viirs_ax"
+  ],
+  "frp_calibration_features": [
+   "lfrp",
+   "aqua_ax",
+   "night",
+   "viirs_ax",
+   "saturated",
+   "lnpix"
+  ],
+  "versions": {
+   "python": "3.15.2",
+   "sklearn": "1.9.1",
+   "pandas": "3.1.1",
+   "numpy": "2.5.4"
+  },
+  "models": {
+   "california": {
+    "file": "california.joblib",
+    "n_train_clusters": 51053,
+    "n_train_modis_pixels": 40266,
+    "k_n": 1.11568,
+    "k_f": 1.080174,
+    "heldout_year_verdicts": {
+     "count": [
+      "improved",
+      "improved",
+      "improved",
+      "improved",
+      "not better than best baseline (constant)",
+      "not better than best baseline (constant)",
+      "improved",
+      "improved",
+      "improved",
+      "improved"
+     ],
+     "frp": [
+      "improved",
+      "improved",
+      "improved",
+      "improved",
+      "not better than best baseline (constant)",
+      "improved",
+      "improved",
+      "improved",
+      "not better than best baseline (raw)",
+      "improved"
+     ]
+    },
+    "heldout_region_verdicts": {
+     "count": [
+      "improved"
+     ],
+     "frp": [
+      "lower error but total biased (ratio outside 0.8-1.25)"
+     ]
+    }
+   },
+   "zambia_angola": {
+    "file": "zambia_angola.joblib",
+    "n_train_clusters": 391882,
+    "n_train_modis_pixels": 171468,
+    "k_n": 1.121241,
+    "k_f": 1.092663,
+    "heldout_year_verdicts": {
+     "count": [
+      "not better than best baseline (constant)",
+      "improved",
+      "marginal (<10% better than best baseline)",
+      "improved",
+      "marginal (<10% better than best baseline)",
+      "improved",
+      "improved",
+      "improved",
+      "not better than best baseline (constant)",
+      "marginal (<10% better than best baseline)"
+     ],
+     "frp": [
+      "marginal (<10% better than best baseline)",
+      "not better than best baseline (constant)",
+      "marginal (<10% better than best baseline)",
+      "improved",
+      "marginal (<10% better than best baseline)",
+      "not better than best baseline (constant)",
+      "not better than best baseline (constant)",
+      "marginal (<10% better than best baseline)",
+      "marginal (<10% better than best baseline)",
+      "improved"
+     ]
+    },
+    "heldout_region_verdicts": {
+     "count": [
+      "improved"
+     ],
+     "frp": [
+      "not better than best baseline (constant)"
+     ]
+    }
+   },
+   "rondonia": {
+    "file": "rondonia.joblib",
+    "n_train_clusters": 64945,
+    "n_train_modis_pixels": 31086,
+    "k_n": 1.172924,
+    "k_f": 1.131848,
+    "heldout_year_verdicts": {
+     "count": [
+      "not better than best baseline (constant)",
+      "not better than best baseline (constant)",
+      "improved",
+      "marginal (<10% better than best baseline)",
+      "not better than best baseline (constant)",
+      "marginal (<10% better than best baseline)",
+      "not better than best baseline (constant)",
+      "not better than best baseline (constant)",
+      "improved",
+      "not better than best baseline (constant)"
+     ],
+     "frp": [
+      "marginal (<10% better than best baseline)",
+      "lower error but total biased (ratio outside 0.8-1.25)",
+      "improved",
+      "improved",
+      "marginal (<10% better than best baseline)",
+      "improved",
+      "not better than best baseline (constant)",
+      "not better than best baseline (raw)",
+      "improved",
+      "not better than best baseline (raw)"
+     ]
+    },
+    "heldout_region_verdicts": {
+     "count": [
+      "not better than best baseline (constant)"
+     ],
+     "frp": [
+      "improved"
+     ]
+    }
+   },
+   "yakutia": {
+    "file": "yakutia.joblib",
+    "n_train_clusters": 64559,
+    "n_train_modis_pixels": 49327,
+    "k_n": 1.100582,
+    "k_f": 1.060617,
+    "heldout_year_verdicts": {
+     "count": [
+      "improved",
+      "improved",
+      "improved",
+      "not better than best baseline (constant)",
+      "improved",
+      "not better than best baseline (constant)",
+      "improved",
+      "not better than best baseline (constant)",
+      "improved",
+      "improved"
+     ],
+     "frp": [
+      "improved",
+      "lower error but total biased (ratio outside 0.8-1.25)",
+      "not better than best baseline (raw)",
+      "improved",
+      "not better than best baseline (constant)",
+      "improved",
+      "not better than best baseline (constant)",
+      "not better than best baseline (constant)",
+      "improved",
+      "improved"
+     ]
+    },
+    "heldout_region_verdicts": {
+     "count": [
+      "lower error but total biased (ratio outside 0.8-1.25)"
+     ],
+     "frp": [
+      "marginal (<10% better than best baseline)"
+     ]
+    }
+   },
+   "punjab": {
+    "file": "punjab.joblib",
+    "n_train_clusters": 247335,
+    "n_train_modis_pixels": 71569,
+    "k_n": 1.410783,
+    "k_f": 1.283456,
+    "heldout_year_verdicts": {
+     "count": [
+      "marginal (<10% better than best baseline)",
+      "not better than best baseline (constant)",
+      "not better than best baseline (constant)",
+      "improved",
+      "improved",
+      "improved",
+      "improved",
+      "not better than best baseline (constant)",
+      "improved",
+      "improved"
+     ],
+     "frp": [
+      "not better than best baseline (constant)",
+      "improved",
+      "not better than best baseline (constant)",
+      "not better than best baseline (constant)",
+      "not better than best baseline (constant)",
+      "improved",
+      "not better than best baseline (constant)",
+      "not better than best baseline (constant)",
+      "not better than best baseline (constant)",
+      "improved"
+     ]
+    },
+    "heldout_region_verdicts": {
+     "count": [
+      "improved"
+     ],
+     "frp": [
+      "improved"
+     ]
+    }
+   },
+   "pooled": {
+    "file": "pooled.joblib",
+    "n_train_clusters": 819774,
+    "n_train_modis_pixels": 363716,
+    "k_n": 1.169242,
+    "k_f": 1.094441,
+    "heldout_year_verdicts": {},
+    "heldout_region_verdicts": {}
+   }
+  }
+ }
+}

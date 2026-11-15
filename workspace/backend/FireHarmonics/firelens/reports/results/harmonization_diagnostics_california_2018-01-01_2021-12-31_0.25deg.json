@@ -1,0 +1,348 @@
+{
+  "region": "california",
+  "start": "2018-01-01",
+  "end": "2021-12-31",
+  "grid_res_deg": 0.25,
+  "status": "diagnostics only - no harmonised product",
+  "cellmonth_terra_aqua_n_detections": {
+    "metric": "n_detections",
+    "n_cell_months_active": 11053,
+    "n_months": 48,
+    "share_both_detected": 0.4322808287342803,
+    "share_viirs_only": 0.5017642269067222,
+    "share_modis_only": 0.06595494435899756,
+    "total_modis": 130239.0,
+    "total_viirs": 585222.0,
+    "ratio_of_totals_viirs_to_modis": 4.493446663441826,
+    "spearman_rho": 0.40229006005112883,
+    "spearman_p": 0.0,
+    "median_cell_ratio_viirs_to_modis": 2.6,
+    "loglog_slope": 1.0013180311335705,
+    "loglog_intercept": 0.4099788206380438,
+    "n_cell_months_both": 4778,
+    "ratio_of_totals_ci95": [
+      4.235350274761488,
+      4.724485430050394
+    ],
+    "loglog_slope_ci95": [
+      0.9373278855453053,
+      1.0357737813439554
+    ]
+  },
+  "cellmonth_terra_aqua_n_conf_nominal_high": {
+    "metric": "n_conf_nominal_high",
+    "n_cell_months_active": 10806,
+    "n_months": 48,
+    "share_both_detected": 0.42883583194521563,
+    "share_viirs_only": 0.5049046825837498,
+    "share_modis_only": 0.06625948547103461,
+    "total_modis": 121865.0,
+    "total_viirs": 559039.0,
+    "ratio_of_totals_viirs_to_modis": 4.587363065687441,
+    "spearman_rho": 0.3890050144033977,
+    "spearman_p": 0.0,
+    "median_cell_ratio_viirs_to_modis": 2.5,
+    "loglog_slope": 1.0080445309262422,
+    "loglog_intercept": 0.3917200932330264,
+    "n_cell_months_both": 4634,
+    "ratio_of_totals_ci95": [
+      4.295766552118497,
+      4.836933339679864
+    ],
+    "loglog_slope_ci95": [
+      0.9370256428715665,
+      1.0459818959800495
+    ]
+  },
+  "cellmonth_terra_aqua_frp_sum_mw": {
+    "metric": "frp_sum_mw",
+    "n_cell_months_active": 11053,
+    "n_months": 48,
+    "share_both_detected": 0.4322808287342803,
+    "share_viirs_only": 0.5017642269067222,
+    "share_modis_only": 0.06595494435899756,
+    "total_modis": 18005796.6,
+    "total_viirs": 10784072.690000001,
+    "ratio_of_totals_viirs_to_modis": 0.5989222765073332,
+    "spearman_rho": 0.5225669685506111,
+    "spearman_p": 0.0,
+    "median_cell_ratio_viirs_to_modis": 0.7947499671872948,
+    "loglog_slope": 0.8520092120476566,
+    "loglog_intercept": 0.17352913878928192,
+    "n_cell_months_both": 4778,
+    "ratio_of_totals_ci95": [
+      0.5534253888096712,
+      0.7012264446984465
+    ],
+    "loglog_slope_ci95": [
+      0.8103859304920729,
+      0.8799538526115965
+    ]
+  },
+  "cellmonth_aqua_only_n_detections": {
+    "metric": "n_detections",
+    "n_cell_months_active": 10619,
+    "n_months": 48,
+    "share_both_detected": 0.3312929654393069,
+    "share_viirs_only": 0.640926640926641,
+    "share_modis_only": 0.027780393634052172,
+    "total_modis": 62676.0,
+    "total_viirs": 585222.0,
+    "ratio_of_totals_viirs_to_modis": 9.337258280681601,
+    "spearman_rho": 0.4170984005934809,
+    "spearman_p": 0.0,
+    "median_cell_ratio_viirs_to_modis": 4.142857142857143,
+    "loglog_slope": 1.1160386194604848,
+    "loglog_intercept": 0.5634431676846754,
+    "n_cell_months_both": 3518,
+    "ratio_of_totals_ci95": [
+      8.66726025035705,
+      10.234180683878257
+    ],
+    "loglog_slope_ci95": [
+      1.0501743027442376,
+      1.154484579204182
+    ]
+  },
+  "cellmonth_aqua_only_n_conf_nominal_high": {
+    "metric": "n_conf_nominal_high",
+    "n_cell_months_active": 10394,
+    "n_months": 48,
+    "share_both_detected": 0.32836251683663653,
+    "share_viirs_only": 0.6423898402924765,
+    "share_modis_only": 0.02924764287088705,
+    "total_modis": 58825.0,
+    "total_viirs": 559039.0,
+    "ratio_of_totals_viirs_to_modis": 9.50342541436464,
+    "spearman_rho": 0.4036150076909053,
+    "spearman_p": 0.0,
+    "median_cell_ratio_viirs_to_modis": 4.0,
+    "loglog_slope": 1.1265122601795015,
+    "loglog_intercept": 0.5445930814128302,
+    "n_cell_months_both": 3413,
+    "ratio_of_totals_ci95": [
+      8.793818220902248,
+      10.36709914218029
+    ],
+    "loglog_slope_ci95": [
+      1.0595738735285016,
+      1.1646991903219195
+    ]
+  },
+  "cellmonth_aqua_only_frp_sum_mw": {
+    "metric": "frp_sum_mw",
+    "n_cell_months_active": 10619,
+    "n_months": 48,
+    "share_both_detected": 0.33119879461342877,
+    "share_viirs_only": 0.641020811752519,
+    "share_modis_only": 0.027780393634052172,
+    "total_modis": 9492288.6,
+    "total_viirs": 10784072.690000001,
+    "ratio_of_totals_viirs_to_modis": 1.1360877386302817,
+    "spearman_rho": 0.5453511908948415,
+    "spearman_p": 0.0,
+    "median_cell_ratio_viirs_to_modis": 1.414310645724258,
+    "loglog_slope": 0.8890294358043244,
+    "loglog_intercept": 0.33859839511986173,
+    "n_cell_months_both": 3517,
+    "ratio_of_totals_ci95": [
+      1.0302428763629046,
+      1.3494312968430515
+    ],
+    "loglog_slope_ci95": [
+      0.8489690804150655,
+      0.9162550787606292
+    ]
+  },
+  "coincident": {
+    "max_dt_10min": {
+      "n_clusters_total": 106154,
+      "n_clusters_eligible": 8008,
+      "both": 2524,
+      "modis_only": 154,
+      "viirs_only": 5330,
+      "p_viirs_given_modis": 0.9424943988050785,
+      "p_modis_given_viirs": 0.3213649096002037,
+      "median_pixel_ratio_viirs_to_modis": 3.3551912568306013,
+      "median_frp_ratio_viirs_to_modis": 1.1069444444444443,
+      "frp_spearman_rho": 0.9145662222086228,
+      "median_abs_dt_min": 6.0,
+      "modis_detection_curve": [
+        {
+          "frp_bin": "[0.0, 2.0)",
+          "n_viirs_clusters": 1444.0,
+          "n_with_modis": 6.0,
+          "p_modis_detects": 0.004155124653739612
+        },
+        {
+          "frp_bin": "[2.0, 5.0)",
+          "n_viirs_clusters": 1437.0,
+          "n_with_modis": 66.0,
+          "p_modis_detects": 0.04592901878914405
+        },
+        {
+          "frp_bin": "[5.0, 10.0)",
+          "n_viirs_clusters": 1194.0,
+          "n_with_modis": 199.0,
+          "p_modis_detects": 0.16666666666666666
+        },
+        {
+          "frp_bin": "[10.0, 20.0)",
+          "n_viirs_clusters": 990.0,
+          "n_with_modis": 314.0,
+          "p_modis_detects": 0.31717171717171716
+        },
+        {
+          "frp_bin": "[20.0, 50.0)",
+          "n_viirs_clusters": 980.0,
+          "n_with_modis": 487.0,
+          "p_modis_detects": 0.4969387755102041
+        },
+        {
+          "frp_bin": "[50.0, 100.0)",
+          "n_viirs_clusters": 547.0,
+          "n_with_modis": 361.0,
+          "p_modis_detects": 0.659963436928702
+        },
+        {
+          "frp_bin": "[100.0, 250.0)",
+          "n_viirs_clusters": 528.0,
+          "n_with_modis": 426.0,
+          "p_modis_detects": 0.8068181818181818
+        },
+        {
+          "frp_bin": "[250.0, 1000000000.0)",
+          "n_viirs_clusters": 734.0,
+          "n_with_modis": 665.0,
+          "p_modis_detects": 0.9059945504087193
+        }
+      ]
+    },
+    "max_dt_20min": {
+      "n_clusters_total": 102058,
+      "n_clusters_eligible": 15550,
+      "both": 5311,
+      "modis_only": 380,
+      "viirs_only": 9859,
+      "p_viirs_given_modis": 0.9332279037076086,
+      "p_modis_given_viirs": 0.35009887936717204,
+      "median_pixel_ratio_viirs_to_modis": 3.0,
+      "median_frp_ratio_viirs_to_modis": 1.079574426989441,
+      "frp_spearman_rho": 0.906290290429367,
+      "median_abs_dt_min": 11.0,
+      "modis_detection_curve": [
+        {
+          "frp_bin": "[0.0, 2.0)",
+          "n_viirs_clusters": 2779.0,
+          "n_with_modis": 18.0,
+          "p_modis_detects": 0.006477150053976251
+        },
+        {
+          "frp_bin": "[2.0, 5.0)",
+          "n_viirs_clusters": 2733.0,
+          "n_with_modis": 146.0,
+          "p_modis_detects": 0.05342114892060007
+        },
+        {
+          "frp_bin": "[5.0, 10.0)",
+          "n_viirs_clusters": 2206.0,
+          "n_with_modis": 395.0,
+          "p_modis_detects": 0.17905711695376247
+        },
+        {
+          "frp_bin": "[10.0, 20.0)",
+          "n_viirs_clusters": 1899.0,
+          "n_with_modis": 649.0,
+          "p_modis_detects": 0.3417588204318062
+        },
+        {
+          "frp_bin": "[20.0, 50.0)",
+          "n_viirs_clusters": 1922.0,
+          "n_with_modis": 1044.0,
+          "p_modis_detects": 0.5431841831425598
+        },
+        {
+          "frp_bin": "[50.0, 100.0)",
+          "n_viirs_clusters": 1059.0,
+          "n_with_modis": 756.0,
+          "p_modis_detects": 0.7138810198300283
+        },
+        {
+          "frp_bin": "[100.0, 250.0)",
+          "n_viirs_clusters": 1079.0,
+          "n_with_modis": 910.0,
+          "p_modis_detects": 0.8433734939759037
+        },
+        {
+          "frp_bin": "[250.0, 1000000000.0)",
+          "n_viirs_clusters": 1493.0,
+          "n_with_modis": 1393.0,
+          "p_modis_detects": 0.9330207635632953
+        }
+      ]
+    },
+    "max_dt_30min": {
+      "n_clusters_total": 98429,
+      "n_clusters_eligible": 22076,
+      "both": 7778,
+      "modis_only": 789,
+      "viirs_only": 13509,
+      "p_viirs_given_modis": 0.907902416248395,
+      "p_modis_given_viirs": 0.3653873255977827,
+      "median_pixel_ratio_viirs_to_modis": 3.0,
+      "median_frp_ratio_viirs_to_modis": 1.0453702809693928,
+      "frp_spearman_rho": 0.897742005953028,
+      "median_abs_dt_min": 15.0,
+      "modis_detection_curve": [
+        {
+          "frp_bin": "[0.0, 2.0)",
+          "n_viirs_clusters": 3376.0,
+          "n_with_modis": 28.0,
+          "p_modis_detects": 0.008293838862559242
+        },
+        {
+          "frp_bin": "[2.0, 5.0)",
+          "n_viirs_clusters": 3897.0,
+          "n_with_modis": 247.0,
+          "p_modis_detects": 0.06338208878624584
+        },
+        {
+          "frp_bin": "[5.0, 10.0)",
+          "n_viirs_clusters": 3193.0,
+          "n_with_modis": 619.0,
+          "p_modis_detects": 0.1938615721891638
+        },
+        {
+          "frp_bin": "[10.0, 20.0)",
+          "n_viirs_clusters": 2752.0,
+          "n_with_modis": 964.0,
+          "p_modis_detects": 0.3502906976744186
+        },
+        {
+          "frp_bin": "[20.0, 50.0)",
+          "n_viirs_clusters": 2771.0,
+          "n_with_modis": 1482.0,
+          "p_modis_detects": 0.5348249729339588
+        },
+        {
+          "frp_bin": "[50.0, 100.0)",
+          "n_viirs_clusters": 1535.0,
+          "n_with_modis": 1091.0,
+          "p_modis_detects": 0.7107491856677525
+        },
+        {
+          "frp_bin": "[100.0, 250.0)",
+          "n_viirs_clusters": 1523.0,
+          "n_with_modis": 1275.0,
+          "p_modis_detects": 0.8371634931057124
+        },
+        {
+          "frp_bin": "[250.0, 1000000000.0)",
+          "n_viirs_clusters": 2240.0,
+          "n_with_modis": 2072.0,
+          "p_modis_detects": 0.925
+        }
+      ]
+    }
+  }
+}

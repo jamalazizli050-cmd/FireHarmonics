@@ -1,0 +1,456 @@
+{
+ "schema": "firelens.api.v1",
+ "region_id": "yakutia",
+ "series_available": {
+  "viirs_snpp": [
+   "2012-02",
+   "2021-12"
+  ],
+  "modis_aqua": [
+   "2012-05",
+   "2021-10"
+  ]
+ },
+ "window": [
+  "2012-01",
+  "2021-12"
+ ],
+ "notes": [
+  "VIIRS S-NPP record starts 2012-01-20; January 2012 is partial for VIIRS."
+ ],
+ "viirs_snpp": {
+  "seasonality": {
+   "monthly_share": {
+    "Jan": 0.0002,
+    "Feb": 0.0002,
+    "Mar": 0.0002,
+    "Apr": 0.0028,
+    "May": 0.0358,
+    "Jun": 0.0651,
+    "Jul": 0.3737,
+    "Aug": 0.2639,
+    "Sep": 0.2468,
+    "Oct": 0.0111,
+    "Nov": 0.0001,
+    "Dec": 0.0001
+   },
+   "peak_month": "Jul",
+   "core_season_months_80pct": [
+    "Jul",
+    "Aug",
+    "Sep"
+   ],
+   "n_core_months": 3,
+   "n_full_years": 10
+  },
+  "seasonality_frp": {
+   "monthly_share": {
+    "Jan": 0.0001,
+    "Feb": 0.0001,
+    "Mar": 0.0001,
+    "Apr": 0.0018,
+    "May": 0.0284,
+    "Jun": 0.0776,
+    "Jul": 0.3915,
+    "Aug": 0.2525,
+    "Sep": 0.2363,
+    "Oct": 0.0116,
+    "Nov": 0.0,
+    "Dec": 0.0
+   },
+   "peak_month": "Jul",
+   "core_season_months_80pct": [
+    "Jul",
+    "Aug",
+    "Sep"
+   ],
+   "n_core_months": 3,
+   "n_full_years": 10
+  },
+  "trend_count": {
+   "n_years": 10,
+   "years": [
+    2012,
+    2021
+   ],
+   "theil_sen_pct_per_year": 11.974635,
+   "ci95_pct_per_year": [
+    -23.915967,
+    102.508627
+   ],
+   "mann_kendall_tau": 0.155556,
+   "p_value": 0.600654,
+   "significant_at_0.05": false,
+   "annual_totals": {
+    "2012": 54749.0,
+    "2013": 54282.0,
+    "2014": 193758.0,
+    "2015": 2763.0,
+    "2016": 12725.0,
+    "2017": 85337.0,
+    "2018": 52188.0,
+    "2019": 29587.0,
+    "2020": 82488.0,
+    "2021": 539192.0
+   },
+   "interannual_cv": 1.442461
+  },
+  "trend_frp": {
+   "n_years": 10,
+   "years": [
+    2012,
+    2021
+   ],
+   "theil_sen_pct_per_year": 15.897894,
+   "ci95_pct_per_year": [
+    -19.948857,
+    110.134917
+   ],
+   "mann_kendall_tau": 0.244444,
+   "p_value": 0.38072,
+   "significant_at_0.05": false,
+   "annual_totals": {
+    "2012": 542984.78,
+    "2013": 725145.77,
+    "2014": 2213417.68,
+    "2015": 21618.98,
+    "2016": 100170.83,
+    "2017": 1135444.19,
+    "2018": 696097.83,
+    "2019": 325622.4,
+    "2020": 814838.1,
+    "2021": 6459003.28
+   },
+   "interannual_cv": 1.469161
+  }
+ },
+ "modis_aqua": {
+  "seasonality": {
+   "monthly_share": {
+    "Jan": 0.0,
+    "Feb": 0.0,
+    "Mar": 0.0,
+    "Apr": 0.004,
+    "May": 0.0377,
+    "Jun": 0.0783,
+    "Jul": 0.3739,
+    "Aug": 0.2262,
+    "Sep": 0.268,
+    "Oct": 0.012,
+    "Nov": 0.0,
+    "Dec": 0.0
+   },
+   "peak_month": "Jul",
+   "core_season_months_80pct": [
+    "Jul",
+    "Aug",
+    "Sep"
+   ],
+   "n_core_months": 3,
+   "n_full_years": 10
+  },
+  "seasonality_frp": {
+   "monthly_share": {
+    "Jan": 0.0,
+    "Feb": 0.0,
+    "Mar": 0.0,
+    "Apr": 0.0013,
+    "May": 0.022,
+    "Jun": 0.0865,
+    "Jul": 0.3965,
+    "Aug": 0.2394,
+    "Sep": 0.2375,
+    "Oct": 0.0169,
+    "Nov": 0.0,
+    "Dec": 0.0
+   },
+   "peak_month": "Jul",
+   "core_season_months_80pct": [
+    "Jul",
+    "Aug",
+    "Sep"
+   ],
+   "n_core_months": 3,
+   "n_full_years": 10
+  },
+  "trend_count": {
+   "n_years": 10,
+   "years": [
+    2012,
+    2021
+   ],
+   "theil_sen_pct_per_year": 8.429467,
+   "ci95_pct_per_year": [
+    -22.534996,
+    100.863189
+   ],
+   "mann_kendall_tau": 0.155556,
+   "p_value": 0.600654,
+   "significant_at_0.05": false,
+   "annual_totals": {
+    "2012": 6427.0,
+    "2013": 6233.0,
+    "2014": 18536.0,
+    "2015": 495.0,
+    "2016": 1444.0,
+    "2017": 8616.0,
+    "2018": 5829.0,
+    "2019": 2980.0,
+    "2020": 7077.0,
+    "2021": 54091.0
+   },
+   "interannual_cv": 1.421684
+  },
+  "trend_frp": {
+   "n_years": 10,
+   "years": [
+    2012,
+    2021
+   ],
+   "theil_sen_pct_per_year": 16.578712,
+   "ci95_pct_per_year": [
+    -18.348405,
+    112.609424
+   ],
+   "mann_kendall_tau": 0.2,
+   "p_value": 0.484313,
+   "significant_at_0.05": false,
+   "annual_totals": {
+    "2012": 396071.0,
+    "2013": 491289.3,
+    "2014": 1566664.9,
+    "2015": 13538.8,
+    "2016": 64617.4,
+    "2017": 852844.6,
+    "2018": 562953.1,
+    "2019": 216105.4,
+    "2020": 488322.9,
+    "2021": 5410288.7
+   },
+   "interannual_cv": 1.600072
+  }
+ },
+ "regional_anomalies": [
+  {
+   "month": "2013-05",
+   "series": [
+    "modis_aqua",
+    "viirs_snpp"
+   ],
+   "robust": true,
+   "z": {
+    "viirs_snpp": 9.4,
+    "modis_aqua": 6.58
+   }
+  },
+  {
+   "month": "2015-07",
+   "series": [
+    "modis_aqua",
+    "viirs_snpp"
+   ],
+   "robust": true,
+   "z": {
+    "viirs_snpp": -5.33,
+    "modis_aqua": -4.02
+   }
+  },
+  {
+   "month": "2015-08",
+   "series": [
+    "modis_aqua",
+    "viirs_snpp"
+   ],
+   "robust": true,
+   "z": {
+    "viirs_snpp": -3.62,
+    "modis_aqua": -3.67
+   }
+  },
+  {
+   "month": "2016-07",
+   "series": [
+    "viirs_snpp"
+   ],
+   "robust": false,
+   "z": {
+    "viirs_snpp": -3.31,
+    "modis_aqua": -2.79
+   }
+  },
+  {
+   "month": "2016-08",
+   "series": [
+    "modis_aqua",
+    "viirs_snpp"
+   ],
+   "robust": true,
+   "z": {
+    "viirs_snpp": -3.79,
+    "modis_aqua": -3.67
+   }
+  },
+  {
+   "month": "2021-07",
+   "series": [
+    "viirs_snpp"
+   ],
+   "robust": false,
+   "z": {
+    "viirs_snpp": 3.05,
+    "modis_aqua": 2.46
+   }
+  }
+ ],
+ "trend_agreement": {
+  "signs": {
+   "viirs_snpp": 1,
+   "modis_aqua": 1
+  },
+  "same_sign": true,
+  "any_significant": false
+ },
+ "hotspots": {
+  "n_cells": 800,
+  "n_hotspot_cells_gi99": 90,
+  "share_activity_in_hotspots": 0.327263,
+  "top_cells": [
+   {
+    "cell_id": 883952,
+    "lat": 63.375,
+    "lon": 128.125,
+    "mean_annual_detections": 928.5,
+    "gi_star_z": 5.612
+   },
+   {
+    "cell_id": 885390,
+    "lat": 63.625,
+    "lon": 127.625,
+    "mean_annual_detections": 815.1,
+    "gi_star_z": 6.871
+   },
+   {
+    "cell_id": 879632,
+    "lat": 62.625,
+    "lon": 128.125,
+    "mean_annual_detections": 738.6,
+    "gi_star_z": 4.339
+   },
+   {
+    "cell_id": 879628,
+    "lat": 62.625,
+    "lon": 127.125,
+    "mean_annual_detections": 693.2,
+    "gi_star_z": 6.003
+   },
+   {
+    "cell_id": 883951,
+    "lat": 63.375,
+    "lon": 127.875,
+    "mean_annual_detections": 664.5,
+    "gi_star_z": 7.673
+   }
+  ]
+ },
+ "isolation_forest": {
+  "n_cell_months": 4986,
+  "n_flagged": 50,
+  "flagged_by_year": {
+   "2014": 8,
+   "2015": 1,
+   "2017": 3,
+   "2018": 1,
+   "2020": 2,
+   "2021": 35
+  },
+  "share_flagged_in_regional_anomaly_months": 0.44,
+  "top": [
+   {
+    "cell_id": 876750,
+    "month": "2021-07",
+    "lat": 62.12,
+    "lon": 127.617,
+    "count": 5857,
+    "frp": 73391.48,
+    "departure": 8.676,
+    "iso_score": 0.677
+   },
+   {
+    "cell_id": 876722,
+    "month": "2021-07",
+    "lat": 62.108,
+    "lon": 120.613,
+    "count": 3289,
+    "frp": 55879.09,
+    "departure": 8.099,
+    "iso_score": 0.672
+   },
+   {
+    "cell_id": 883950,
+    "month": "2021-07",
+    "lat": 63.384,
+    "lon": 127.622,
+    "count": 5138,
+    "frp": 58882.22,
+    "departure": 8.545,
+    "iso_score": 0.67
+   },
+   {
+    "cell_id": 878176,
+    "month": "2021-07",
+    "lat": 62.338,
+    "lon": 124.124,
+    "count": 3897,
+    "frp": 47223.27,
+    "departure": 8.268,
+    "iso_score": 0.669
+   },
+   {
+    "cell_id": 878162,
+    "month": "2014-07",
+    "lat": 62.387,
+    "lon": 120.629,
+    "count": 4088,
+    "frp": 71693.35,
+    "departure": 8.316,
+    "iso_score": 0.668
+   },
+   {
+    "cell_id": 873840,
+    "month": "2021-07",
+    "lat": 61.607,
+    "lon": 120.116,
+    "count": 4057,
+    "frp": 51984.29,
+    "departure": 8.308,
+    "iso_score": 0.667
+   },
+   {
+    "cell_id": 883948,
+    "month": "2021-08",
+    "lat": 63.385,
+    "lon": 127.135,
+    "count": 3662,
+    "frp": 126388.2,
+    "departure": 8.206,
+    "iso_score": 0.667
+   },
+   {
+    "cell_id": 883953,
+    "month": "2021-07",
+    "lat": 63.362,
+    "lon": 128.344,
+    "count": 2980,
+    "frp": 54176.85,
+    "departure": 8.0,
+    "iso_score": 0.663
+   }
+  ]
+ },
+ "region_summary": {
+  "bbox_area_km2": 285370,
+  "viirs_detections_per_1000km2_per_year": 387.941066,
+  "viirs_mean_frp_per_detection_MW": 11.773741,
+  "night_share_viirs": 0.446855
+ }
+}

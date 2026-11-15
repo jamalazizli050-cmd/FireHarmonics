@@ -1,0 +1,19 @@
+# Secrets
+.env
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+.ipynb_checkpoints/
+
+# Data (regenerable from the pipeline)
+data/raw/
+data/cache/
+data/processed/
+logs/
+
+# Job records (local runtime state)
+data/jobs/

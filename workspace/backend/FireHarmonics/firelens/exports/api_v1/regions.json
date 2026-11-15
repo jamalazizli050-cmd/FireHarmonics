@@ -1,0 +1,70 @@
+{
+ "schema": "firelens.api.v1",
+ "regions": [
+  {
+   "region_id": "california",
+   "description": "Bounding box enclosing California (not the state boundary)",
+   "bbox": {
+    "west": -124.5,
+    "south": 32.5,
+    "east": -114.0,
+    "north": 42.1
+   },
+   "harmonization_status": "validated_count_only",
+   "harmonization_notes": "count: validated (held-out region: improved; held-out years ok: 8/10); frp: partial (held-out region: lower error but total biased (ratio outside 0.8-1.25); held-out years ok: 8/10). Applies to the jointly observed domain; the full-domain series is not validated.",
+   "forecast_available": true
+  },
+  {
+   "region_id": "zambia_angola",
+   "description": "Miombo woodland / savanna, frequent dry-season (May-Oct) burning",
+   "bbox": {
+    "west": 22.0,
+    "south": -15.0,
+    "east": 26.0,
+    "north": -11.0
+   },
+   "harmonization_status": "validated_count_only",
+   "harmonization_notes": "count: validated (held-out region: improved; held-out years ok: 8/10); frp: not_validated (held-out region: not better than best baseline (constant); held-out years ok: 7/10). Applies to the jointly observed domain; the full-domain series is not validated.",
+   "forecast_available": false
+  },
+  {
+   "region_id": "rondonia",
+   "description": "Southern Amazon deforestation and pasture fires (Jul-Oct)",
+   "bbox": {
+    "west": -64.0,
+    "south": -12.0,
+    "east": -60.0,
+    "north": -8.0
+   },
+   "harmonization_status": "partial",
+   "harmonization_notes": "count: not_validated (held-out region: not better than best baseline (constant); held-out years ok: 4/10); frp: partial (held-out region: improved; held-out years ok: 6/10). Applies to the jointly observed domain; the full-domain series is not validated.",
+   "forecast_available": false
+  },
+  {
+   "region_id": "yakutia",
+   "description": "Boreal forest (Sakha Republic), large summer fires; overlapping polar-orbit swaths",
+   "bbox": {
+    "west": 120.0,
+    "south": 60.0,
+    "east": 130.0,
+    "north": 65.0
+   },
+   "harmonization_status": "not_validated",
+   "harmonization_notes": "count: not_validated (held-out region: lower error but total biased (ratio outside 0.8-1.25); held-out years ok: 7/10); frp: not_validated (held-out region: marginal (<10% better than best baseline); held-out years ok: 5/10). Applies to the jointly observed domain; the full-domain series is not validated.",
+   "forecast_available": false
+  },
+  {
+   "region_id": "punjab",
+   "description": "Agricultural residue burning (Apr-May, Oct-Nov): many small, short-lived fires",
+   "bbox": {
+    "west": 73.5,
+    "south": 29.5,
+    "east": 77.0,
+    "north": 32.5
+   },
+   "harmonization_status": "partial",
+   "harmonization_notes": "count: partial (held-out region: improved; held-out years ok: 7/10); frp: partial (held-out region: improved; held-out years ok: 3/10). Applies to the jointly observed domain; the full-domain series is not validated.",
+   "forecast_available": false
+  }
+ ]
+}

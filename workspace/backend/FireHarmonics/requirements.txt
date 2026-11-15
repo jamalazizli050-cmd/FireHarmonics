@@ -1,0 +1,22 @@
+# Verified on Python 3.13.17 (Windows 11 with Smart App Control enforced). See docs/SETUP.md.
+# requirements-lock.txt pins every package of that verified environment.
+
+# Backend
+fastapi>=0.115,<1
+uvicorn>=0.30,<1
+httpx
+python-dotenv>=1.0
+python-multipart>=0.0.18,<1
+pyshp>=2.3,<4
+
+# FireLens ML engine (source in ./firelens, imported via FIRELENS_ROOT; no install step needed).
+# scikit-learn and xgboost are pinned to the versions the shipped model was serialized with:
+# loading it with other versions is untested and may fail or change predictions.
+numpy>=2.0,<3
+pandas>=2.1,<4
+scipy>=1.11
+scikit-learn==1.9.1
+xgboost==3.4.1
+joblib>=1.3
+pyarrow>=14
+requests>=2.31

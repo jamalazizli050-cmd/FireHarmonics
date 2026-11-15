@@ -1,0 +1,2792 @@
+{
+ "schema": "firelens.api.v1",
+ "region_id": "zambia_angola",
+ "domain": "jointly observed: VIIRS fire clusters that Aqua-MODIS also observed within 20 min, vegetation fires only",
+ "prediction_type": "held-out: each year predicted by a model trained on the other years",
+ "validation": {
+  "count": {
+   "status": "validated",
+   "heldout_region_verdict": "improved",
+   "heldout_years_ok": "8/10",
+   "median_monthly_error_factor_model_heldout_region": 1.401704,
+   "median_monthly_error_factor_raw_viirs": 5.10683,
+   "full_domain_total_ratio_heldout_region": 0.933998
+  },
+  "frp": {
+   "status": "not_validated",
+   "heldout_region_verdict": "not better than best baseline (constant)",
+   "heldout_years_ok": "7/10",
+   "median_monthly_error_factor_model_heldout_region": 1.286271,
+   "median_monthly_error_factor_raw_viirs": 1.404209,
+   "full_domain_total_ratio_heldout_region": 1.072187
+  },
+  "overall": "validated_count_only"
+ },
+ "interval_method": "split-conformal (nominal 90%)",
+ "interval_empirical_coverage_heldout_years": {
+  "count": 0.886706,
+  "frp": 0.872817
+ },
+ "data": [
+  {
+   "month": "2012-01",
+   "viirs_raw": {
+    "count": 4.0,
+    "frp_mw": 26.78
+   },
+   "modis_equivalent": {
+    "count": 0.242512,
+    "count_interval_90": [
+     0.062695,
+     0.28924
+    ],
+    "frp_mw": 9.796992,
+    "frp_interval_90": [
+     3.307264,
+     11.218831
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 0.0,
+    "frp_mw": 0.0
+   }
+  },
+  {
+   "month": "2012-02",
+   "viirs_raw": {
+    "count": 13.0,
+    "frp_mw": 806.5
+   },
+   "modis_equivalent": {
+    "count": 7.817051,
+    "count_interval_90": [
+     2.020899,
+     9.32327
+    ],
+    "frp_mw": 375.355615,
+    "frp_interval_90": [
+     126.712379,
+     429.831048
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 0.0,
+    "frp_mw": 0.0
+   }
+  },
+  {
+   "month": "2012-03",
+   "viirs_raw": {
+    "count": 9.0,
+    "frp_mw": 52.91
+   },
+   "modis_equivalent": {
+    "count": 2.552034,
+    "count_interval_90": [
+     0.659763,
+     3.04377
+    ],
+    "frp_mw": 35.970865,
+    "frp_interval_90": [
+     12.143028,
+     41.191324
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 1.0,
+    "frp_mw": 5.5
+   }
+  },
+  {
+   "month": "2012-04",
+   "viirs_raw": {
+    "count": 374.0,
+    "frp_mw": 2319.18
+   },
+   "modis_equivalent": {
+    "count": 78.632621,
+    "count_interval_90": [
+     20.328459,
+     93.783853
+    ],
+    "frp_mw": 1572.767617,
+    "frp_interval_90": [
+     530.934182,
+     1801.023686
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 79.0,
+    "frp_mw": 1086.2
+   }
+  },
+  {
+   "month": "2012-05",
+   "viirs_raw": {
+    "count": 5528.0,
+    "frp_mw": 39446.19
+   },
+   "modis_equivalent": {
+    "count": 1104.582826,
+    "count_interval_90": [
+     285.561714,
+     1317.418031
+    ],
+    "frp_mw": 30173.749362,
+    "frp_interval_90": [
+     10186.040688,
+     34552.871438
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 1270.0,
+    "frp_mw": 28873.0
+   }
+  },
+  {
+   "month": "2012-06",
+   "viirs_raw": {
+    "count": 18832.0,
+    "frp_mw": 178800.82
+   },
+   "modis_equivalent": {
+    "count": 4105.856062,
+    "count_interval_90": [
+     1061.464353,
+     4896.987965
+    ],
+    "frp_mw": 138705.703449,
+    "frp_interval_90": [
+     46824.208755,
+     158836.088996
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 4853.0,
+    "frp_mw": 157553.0
+   }
+  },
+  {
+   "month": "2012-07",
+   "viirs_raw": {
+    "count": 23487.0,
+    "frp_mw": 215895.83
+   },
+   "modis_equivalent": {
+    "count": 5731.525715,
+    "count_interval_90": [
+     1481.739775,
+     6835.897807
+    ],
+    "frp_mw": 172743.024894,
+    "frp_interval_90": [
+     58314.512363,
+     197813.25348
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 6798.0,
+    "frp_mw": 187071.7
+   }
+  },
+  {
+   "month": "2012-08",
+   "viirs_raw": {
+    "count": 22028.0,
+    "frp_mw": 210692.94
+   },
+   "modis_equivalent": {
+    "count": 5055.651973,
+    "count_interval_90": [
+     1307.009859,
+     6029.794151
+    ],
+    "frp_mw": 166482.910557,
+    "frp_interval_90": [
+     56201.225791,
+     190644.607539
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 5031.0,
+    "frp_mw": 166083.5
+   }
+  },
+  {
+   "month": "2012-09",
+   "viirs_raw": {
+    "count": 16605.0,
+    "frp_mw": 167047.57
+   },
+   "modis_equivalent": {
+    "count": 3771.597496,
+    "count_interval_90": [
+     975.050327,
+     4498.323192
+    ],
+    "frp_mw": 127287.933194,
+    "frp_interval_90": [
+     42969.803027,
+     145761.255538
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 3535.0,
+    "frp_mw": 126323.4
+   }
+  },
+  {
+   "month": "2012-10",
+   "viirs_raw": {
+    "count": 2767.0,
+    "frp_mw": 26060.89
+   },
+   "modis_equivalent": {
+    "count": 641.781481,
+    "count_interval_90": [
+     165.916231,
+     765.442368
+    ],
+    "frp_mw": 18893.332873,
+    "frp_interval_90": [
+     6378.002782,
+     21635.325924
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 279.0,
+    "frp_mw": 12201.1
+   }
+  },
+  {
+   "month": "2012-11",
+   "viirs_raw": {
+    "count": 316.0,
+    "frp_mw": 2625.83
+   },
+   "modis_equivalent": {
+    "count": 94.566157,
+    "count_interval_90": [
+     24.447668,
+     112.787522
+    ],
+    "frp_mw": 1943.922162,
+    "frp_interval_90": [
+     656.228366,
+     2226.04396
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 29.0,
+    "frp_mw": 761.7
+   }
+  },
+  {
+   "month": "2012-12",
+   "viirs_raw": {
+    "count": 12.0,
+    "frp_mw": 158.07
+   },
+   "modis_equivalent": {
+    "count": 1.354775,
+    "count_interval_90": [
+     0.350243,
+     1.615819
+    ],
+    "frp_mw": 86.757512,
+    "frp_interval_90": [
+     29.287562,
+     99.348647
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 0.0,
+    "frp_mw": 0.0
+   }
+  },
+  {
+   "month": "2013-01",
+   "viirs_raw": {
+    "count": 5.0,
+    "frp_mw": 25.15
+   },
+   "modis_equivalent": {
+    "count": 1.311649,
+    "count_interval_90": [
+     0.350027,
+     1.556952
+    ],
+    "frp_mw": 20.255765,
+    "frp_interval_90": [
+     6.82112,
+     22.993465
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 1.0,
+    "frp_mw": 6.6
+   }
+  },
+  {
+   "month": "2013-02",
+   "viirs_raw": {
+    "count": 2.0,
+    "frp_mw": 5.74
+   },
+   "modis_equivalent": {
+    "count": 0.143846,
+    "count_interval_90": [
+     0.038387,
+     0.170748
+    ],
+    "frp_mw": 1.613101,
+    "frp_interval_90": [
+     0.543211,
+     1.831123
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 0.0,
+    "frp_mw": 0.0
+   }
+  },
+  {
+   "month": "2013-03",
+   "viirs_raw": {
+    "count": 10.0,
+    "frp_mw": 54.06
+   },
+   "modis_equivalent": {
+    "count": 1.284251,
+    "count_interval_90": [
+     0.342715,
+     1.52443
+    ],
+    "frp_mw": 21.593511,
+    "frp_interval_90": [
+     7.271605,
+     24.512016
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 0.0,
+    "frp_mw": 0.0
+   }
+  },
+  {
+   "month": "2013-04",
+   "viirs_raw": {
+    "count": 720.0,
+    "frp_mw": 5906.98
+   },
+   "modis_equivalent": {
+    "count": 104.229276,
+    "count_interval_90": [
+     27.814626,
+     123.722111
+    ],
+    "frp_mw": 4056.339196,
+    "frp_interval_90": [
+     1365.970381,
+     4604.580123
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 116.0,
+    "frp_mw": 4988.2
+   }
+  },
+  {
+   "month": "2013-05",
+   "viirs_raw": {
+    "count": 6763.0,
+    "frp_mw": 56820.31
+   },
+   "modis_equivalent": {
+    "count": 1561.02074,
+    "count_interval_90": [
+     416.574015,
+     1852.960977
+    ],
+    "frp_mw": 45331.423542,
+    "frp_interval_90": [
+     15265.336283,
+     51458.263647
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 1539.0,
+    "frp_mw": 38675.6
+   }
+  },
+  {
+   "month": "2013-06",
+   "viirs_raw": {
+    "count": 19705.0,
+    "frp_mw": 183913.08
+   },
+   "modis_equivalent": {
+    "count": 4275.692275,
+    "count_interval_90": [
+     1141.011295,
+     5075.327146
+    ],
+    "frp_mw": 143836.010049,
+    "frp_interval_90": [
+     48436.711039,
+     163276.393035
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 4943.0,
+    "frp_mw": 154230.1
+   }
+  },
+  {
+   "month": "2013-07",
+   "viirs_raw": {
+    "count": 20119.0,
+    "frp_mw": 182344.0
+   },
+   "modis_equivalent": {
+    "count": 4670.91163,
+    "count_interval_90": [
+     1246.479537,
+     5544.459953
+    ],
+    "frp_mw": 141748.246962,
+    "frp_interval_90": [
+     47733.657768,
+     160906.455032
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 5404.0,
+    "frp_mw": 157720.4
+   }
+  },
+  {
+   "month": "2013-08",
+   "viirs_raw": {
+    "count": 19201.0,
+    "frp_mw": 170507.1
+   },
+   "modis_equivalent": {
+    "count": 4213.064073,
+    "count_interval_90": [
+     1124.298332,
+     5000.986292
+    ],
+    "frp_mw": 134473.699419,
+    "frp_interval_90": [
+     45283.957187,
+     152648.704533
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 4242.0,
+    "frp_mw": 133707.4
+   }
+  },
+  {
+   "month": "2013-09",
+   "viirs_raw": {
+    "count": 11047.0,
+    "frp_mw": 106873.73
+   },
+   "modis_equivalent": {
+    "count": 2104.777101,
+    "count_interval_90": [
+     561.680844,
+     2498.410005
+    ],
+    "frp_mw": 83428.580133,
+    "frp_interval_90": [
+     28094.536458,
+     94704.501575
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 1514.0,
+    "frp_mw": 71826.4
+   }
+  },
+  {
+   "month": "2013-10",
+   "viirs_raw": {
+    "count": 4198.0,
+    "frp_mw": 42971.16
+   },
+   "modis_equivalent": {
+    "count": 921.848039,
+    "count_interval_90": [
+     246.00438,
+     1094.25096
+    ],
+    "frp_mw": 32767.042265,
+    "frp_interval_90": [
+     11034.286596,
+     37195.723586
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 375.0,
+    "frp_mw": 17620.1
+   }
+  },
+  {
+   "month": "2013-11",
+   "viirs_raw": {
+    "count": 230.0,
+    "frp_mw": 1393.63
+   },
+   "modis_equivalent": {
+    "count": 50.330313,
+    "count_interval_90": [
+     13.431148,
+     59.743029
+    ],
+    "frp_mw": 973.506379,
+    "frp_interval_90": [
+     327.827831,
+     1105.082171
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 13.0,
+    "frp_mw": 405.3
+   }
+  },
+  {
+   "month": "2013-12",
+   "viirs_raw": {
+    "count": 7.0,
+    "frp_mw": 27.0
+   },
+   "modis_equivalent": {
+    "count": 1.507438,
+    "count_interval_90": [
+     0.402275,
+     1.789358
+    ],
+    "frp_mw": 23.81133,
+    "frp_interval_90": [
+     8.018455,
+     27.029588
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 2.0,
+    "frp_mw": 22.3
+   }
+  },
+  {
+   "month": "2014-01",
+   "viirs_raw": {
+    "count": 5.0,
+    "frp_mw": 16.06
+   },
+   "modis_equivalent": {
+    "count": 1.003976,
+    "count_interval_90": [
+     0.269761,
+     1.185635
+    ],
+    "frp_mw": 11.921876,
+    "frp_interval_90": [
+     4.051627,
+     13.512428
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 0.0,
+    "frp_mw": 0.0
+   }
+  },
+  {
+   "month": "2014-02",
+   "viirs_raw": {
+    "count": 3.0,
+    "frp_mw": 11.9
+   },
+   "modis_equivalent": {
+    "count": 0.373955,
+    "count_interval_90": [
+     0.100479,
+     0.441619
+    ],
+    "frp_mw": 7.629137,
+    "frp_interval_90": [
+     2.592747,
+     8.646974
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 0.0,
+    "frp_mw": 0.0
+   }
+  },
+  {
+   "month": "2014-03",
+   "viirs_raw": {
+    "count": 8.0,
+    "frp_mw": 28.66
+   },
+   "modis_equivalent": {
+    "count": 1.66187,
+    "count_interval_90": [
+     0.446532,
+     1.962568
+    ],
+    "frp_mw": 19.75464,
+    "frp_interval_90": [
+     6.713577,
+     22.390196
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 2.0,
+    "frp_mw": 17.0
+   }
+  },
+  {
+   "month": "2014-04",
+   "viirs_raw": {
+    "count": 45.0,
+    "frp_mw": 188.65
+   },
+   "modis_equivalent": {
+    "count": 6.153679,
+    "count_interval_90": [
+     1.653447,
+     7.267123
+    ],
+    "frp_mw": 121.300392,
+    "frp_interval_90": [
+     41.223706,
+     137.483626
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 2.0,
+    "frp_mw": 42.4
+   }
+  },
+  {
+   "month": "2014-05",
+   "viirs_raw": {
+    "count": 1639.0,
+    "frp_mw": 9149.92
+   },
+   "modis_equivalent": {
+    "count": 362.606709,
+    "count_interval_90": [
+     97.4297,
+     428.216645
+    ],
+    "frp_mw": 7259.409064,
+    "frp_interval_90": [
+     2467.096263,
+     8227.919662
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 385.0,
+    "frp_mw": 5600.0
+   }
+  },
+  {
+   "month": "2014-06",
+   "viirs_raw": {
+    "count": 11263.0,
+    "frp_mw": 99791.62
+   },
+   "modis_equivalent": {
+    "count": 2502.932028,
+    "count_interval_90": [
+     672.519043,
+     2955.811708
+    ],
+    "frp_mw": 79987.990306,
+    "frp_interval_90": [
+     27183.765269,
+     90659.54989
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 2903.0,
+    "frp_mw": 91019.5
+   }
+  },
+  {
+   "month": "2014-07",
+   "viirs_raw": {
+    "count": 18477.0,
+    "frp_mw": 170539.52
+   },
+   "modis_equivalent": {
+    "count": 3925.888215,
+    "count_interval_90": [
+     1054.856686,
+     4636.23711
+    ],
+    "frp_mw": 136375.36195,
+    "frp_interval_90": [
+     46346.905498,
+     154569.815833
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 4578.0,
+    "frp_mw": 151786.9
+   }
+  },
+  {
+   "month": "2014-08",
+   "viirs_raw": {
+    "count": 21613.0,
+    "frp_mw": 203427.02
+   },
+   "modis_equivalent": {
+    "count": 4739.944332,
+    "count_interval_90": [
+     1273.587452,
+     5597.588266
+    ],
+    "frp_mw": 161129.781655,
+    "frp_interval_90": [
+     54759.647612,
+     182626.834639
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 4638.0,
+    "frp_mw": 150869.8
+   }
+  },
+  {
+   "month": "2014-09",
+   "viirs_raw": {
+    "count": 20726.0,
+    "frp_mw": 202680.23
+   },
+   "modis_equivalent": {
+    "count": 4472.664602,
+    "count_interval_90": [
+     1201.771396,
+     5281.947032
+    ],
+    "frp_mw": 157297.326476,
+    "frp_interval_90": [
+     53457.195061,
+     178283.07428
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 3391.0,
+    "frp_mw": 127173.5
+   }
+  },
+  {
+   "month": "2014-10",
+   "viirs_raw": {
+    "count": 4058.0,
+    "frp_mw": 41138.38
+   },
+   "modis_equivalent": {
+    "count": 885.222786,
+    "count_interval_90": [
+     237.852716,
+     1045.3947
+    ],
+    "frp_mw": 31066.653705,
+    "frp_interval_90": [
+     10557.942746,
+     35211.396495
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 385.0,
+    "frp_mw": 22048.9
+   }
+  },
+  {
+   "month": "2014-11",
+   "viirs_raw": {
+    "count": 384.0,
+    "frp_mw": 3161.71
+   },
+   "modis_equivalent": {
+    "count": 83.134576,
+    "count_interval_90": [
+     22.337636,
+     98.176918
+    ],
+    "frp_mw": 2218.813265,
+    "frp_interval_90": [
+     754.059438,
+     2514.835179
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 14.0,
+    "frp_mw": 216.9
+   }
+  },
+  {
+   "month": "2014-12",
+   "viirs_raw": {
+    "count": 26.0,
+    "frp_mw": 147.81
+   },
+   "modis_equivalent": {
+    "count": 5.736967,
+    "count_interval_90": [
+     1.54148,
+     6.775012
+    ],
+    "frp_mw": 100.90422,
+    "frp_interval_90": [
+     34.292106,
+     114.366309
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 3.0,
+    "frp_mw": 38.3
+   }
+  },
+  {
+   "month": "2015-01",
+   "viirs_raw": {
+    "count": 33.0,
+    "frp_mw": 181.11
+   },
+   "modis_equivalent": {
+    "count": 7.419092,
+    "count_interval_90": [
+     1.898347,
+     8.793756
+    ],
+    "frp_mw": 143.617936,
+    "frp_interval_90": [
+     48.815949,
+     164.041925
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 1.0,
+    "frp_mw": 24.9
+   }
+  },
+  {
+   "month": "2015-02",
+   "viirs_raw": {
+    "count": 18.0,
+    "frp_mw": 99.65
+   },
+   "modis_equivalent": {
+    "count": 3.740701,
+    "count_interval_90": [
+     0.957145,
+     4.433805
+    ],
+    "frp_mw": 71.120863,
+    "frp_interval_90": [
+     24.174087,
+     81.235002
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 1.0,
+    "frp_mw": 42.1
+   }
+  },
+  {
+   "month": "2015-03",
+   "viirs_raw": {
+    "count": 67.0,
+    "frp_mw": 364.48
+   },
+   "modis_equivalent": {
+    "count": 16.525113,
+    "count_interval_90": [
+     4.228333,
+     19.587006
+    ],
+    "frp_mw": 297.143492,
+    "frp_interval_90": [
+     100.999512,
+     339.400439
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 8.0,
+    "frp_mw": 90.9
+   }
+  },
+  {
+   "month": "2015-04",
+   "viirs_raw": {
+    "count": 215.0,
+    "frp_mw": 1152.41
+   },
+   "modis_equivalent": {
+    "count": 56.239732,
+    "count_interval_90": [
+     14.390239,
+     66.660238
+    ],
+    "frp_mw": 937.938109,
+    "frp_interval_90": [
+     318.80655,
+     1071.322827
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 45.0,
+    "frp_mw": 599.9
+   }
+  },
+  {
+   "month": "2015-05",
+   "viirs_raw": {
+    "count": 2916.0,
+    "frp_mw": 19074.02
+   },
+   "modis_equivalent": {
+    "count": 532.186786,
+    "count_interval_90": [
+     136.172326,
+     630.79422
+    ],
+    "frp_mw": 14214.200254,
+    "frp_interval_90": [
+     4831.427685,
+     16235.609838
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 571.0,
+    "frp_mw": 11810.2
+   }
+  },
+  {
+   "month": "2015-06",
+   "viirs_raw": {
+    "count": 13812.0,
+    "frp_mw": 117528.1
+   },
+   "modis_equivalent": {
+    "count": 3127.429024,
+    "count_interval_90": [
+     800.225211,
+     3706.901796
+    ],
+    "frp_mw": 93802.841454,
+    "frp_interval_90": [
+     31883.724516,
+     107142.597423
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 3713.0,
+    "frp_mw": 98037.2
+   }
+  },
+  {
+   "month": "2015-07",
+   "viirs_raw": {
+    "count": 24128.0,
+    "frp_mw": 226325.46
+   },
+   "modis_equivalent": {
+    "count": 5619.681292,
+    "count_interval_90": [
+     1437.925725,
+     6660.93667
+    ],
+    "frp_mw": 179834.738218,
+    "frp_interval_90": [
+     61126.09344,
+     205409.139649
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 6260.0,
+    "frp_mw": 201431.9
+   }
+  },
+  {
+   "month": "2015-08",
+   "viirs_raw": {
+    "count": 24416.0,
+    "frp_mw": 223780.7
+   },
+   "modis_equivalent": {
+    "count": 5015.722489,
+    "count_interval_90": [
+     1283.388866,
+     5945.071993
+    ],
+    "frp_mw": 173063.693048,
+    "frp_interval_90": [
+     58824.605175,
+     197675.180255
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 5060.0,
+    "frp_mw": 179151.1
+   }
+  },
+  {
+   "month": "2015-09",
+   "viirs_raw": {
+    "count": 16271.0,
+    "frp_mw": 168574.81
+   },
+   "modis_equivalent": {
+    "count": 3045.730836,
+    "count_interval_90": [
+     779.320836,
+     3610.065973
+    ],
+    "frp_mw": 131524.289562,
+    "frp_interval_90": [
+     44705.300506,
+     150228.434337
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 2672.0,
+    "frp_mw": 129111.7
+   }
+  },
+  {
+   "month": "2015-10",
+   "viirs_raw": {
+    "count": 3349.0,
+    "frp_mw": 36980.14
+   },
+   "modis_equivalent": {
+    "count": 816.20428,
+    "count_interval_90": [
+     208.844785,
+     967.436539
+    ],
+    "frp_mw": 26606.881356,
+    "frp_interval_90": [
+     9043.718316,
+     30390.661238
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 382.0,
+    "frp_mw": 18563.5
+   }
+  },
+  {
+   "month": "2015-11",
+   "viirs_raw": {
+    "count": 590.0,
+    "frp_mw": 4932.37
+   },
+   "modis_equivalent": {
+    "count": 149.14636,
+    "count_interval_90": [
+     38.162553,
+     176.781281
+    ],
+    "frp_mw": 3654.712452,
+    "frp_interval_90": [
+     1242.242167,
+     4174.451209
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 43.0,
+    "frp_mw": 1239.3
+   }
+  },
+  {
+   "month": "2015-12",
+   "viirs_raw": {
+    "count": 21.0,
+    "frp_mw": 106.13
+   },
+   "modis_equivalent": {
+    "count": 5.013219,
+    "count_interval_90": [
+     1.282748,
+     5.942104
+    ],
+    "frp_mw": 81.135652,
+    "frp_interval_90": [
+     27.578128,
+     92.674
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 0.0,
+    "frp_mw": 0.0
+   }
+  },
+  {
+   "month": "2016-01",
+   "viirs_raw": {
+    "count": 5.0,
+    "frp_mw": 27.35
+   },
+   "modis_equivalent": {
+    "count": 0.650059,
+    "count_interval_90": [
+     0.174864,
+     0.767388
+    ],
+    "frp_mw": 13.504082,
+    "frp_interval_90": [
+     4.594042,
+     15.299123
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 0.0,
+    "frp_mw": 0.0
+   }
+  },
+  {
+   "month": "2016-02",
+   "viirs_raw": {
+    "count": 18.0,
+    "frp_mw": 111.9
+   },
+   "modis_equivalent": {
+    "count": 3.280657,
+    "count_interval_90": [
+     0.88249,
+     3.872786
+    ],
+    "frp_mw": 94.276098,
+    "frp_interval_90": [
+     32.072404,
+     106.807828
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 1.0,
+    "frp_mw": 35.5
+   }
+  },
+  {
+   "month": "2016-03",
+   "viirs_raw": {
+    "count": 3.0,
+    "frp_mw": 20.89
+   },
+   "modis_equivalent": {
+    "count": 0.480414,
+    "count_interval_90": [
+     0.12923,
+     0.567124
+    ],
+    "frp_mw": 17.457833,
+    "frp_interval_90": [
+     5.939095,
+     19.77843
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 0.0,
+    "frp_mw": 0.0
+   }
+  },
+  {
+   "month": "2016-04",
+   "viirs_raw": {
+    "count": 156.0,
+    "frp_mw": 814.17
+   },
+   "modis_equivalent": {
+    "count": 33.285545,
+    "count_interval_90": [
+     8.953746,
+     39.293294
+    ],
+    "frp_mw": 663.450829,
+    "frp_interval_90": [
+     225.70369,
+     751.64059
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 18.0,
+    "frp_mw": 249.9
+   }
+  },
+  {
+   "month": "2016-05",
+   "viirs_raw": {
+    "count": 2593.0,
+    "frp_mw": 16819.93
+   },
+   "modis_equivalent": {
+    "count": 531.986605,
+    "count_interval_90": [
+     143.10335,
+     628.005517
+    ],
+    "frp_mw": 13472.715767,
+    "frp_interval_90": [
+     4583.371562,
+     15263.587879
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 481.0,
+    "frp_mw": 9591.5
+   }
+  },
+  {
+   "month": "2016-06",
+   "viirs_raw": {
+    "count": 15268.0,
+    "frp_mw": 142534.91
+   },
+   "modis_equivalent": {
+    "count": 3469.085474,
+    "count_interval_90": [
+     933.177169,
+     4095.224949
+    ],
+    "frp_mw": 114875.569137,
+    "frp_interval_90": [
+     39080.273484,
+     130145.501102
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 4113.0,
+    "frp_mw": 131303.7
+   }
+  },
+  {
+   "month": "2016-07",
+   "viirs_raw": {
+    "count": 17257.0,
+    "frp_mw": 155811.5
+   },
+   "modis_equivalent": {
+    "count": 3643.769799,
+    "count_interval_90": [
+     980.166909,
+     4301.438261
+    ],
+    "frp_mw": 126425.543644,
+    "frp_interval_90": [
+     43009.535083,
+     143230.765716
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 4369.0,
+    "frp_mw": 149738.3
+   }
+  },
+  {
+   "month": "2016-08",
+   "viirs_raw": {
+    "count": 23999.0,
+    "frp_mw": 219644.24
+   },
+   "modis_equivalent": {
+    "count": 5424.893684,
+    "count_interval_90": [
+     1459.285731,
+     6404.039371
+    ],
+    "frp_mw": 177841.296544,
+    "frp_interval_90": [
+     60500.997365,
+     201481.000958
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 5437.0,
+    "frp_mw": 184107.4
+   }
+  },
+  {
+   "month": "2016-09",
+   "viirs_raw": {
+    "count": 14978.0,
+    "frp_mw": 151350.49
+   },
+   "modis_equivalent": {
+    "count": 3358.94334,
+    "count_interval_90": [
+     903.549152,
+     3965.203126
+    ],
+    "frp_mw": 117512.240882,
+    "frp_interval_90": [
+     39977.260142,
+     133132.654664
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 2791.0,
+    "frp_mw": 112686.9
+   }
+  },
+  {
+   "month": "2016-10",
+   "viirs_raw": {
+    "count": 5229.0,
+    "frp_mw": 54763.96
+   },
+   "modis_equivalent": {
+    "count": 1052.152151,
+    "count_interval_90": [
+     283.026859,
+     1242.056377
+    ],
+    "frp_mw": 40585.569193,
+    "frp_interval_90": [
+     13807.071038,
+     45980.440226
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 533.0,
+    "frp_mw": 29895.5
+   }
+  },
+  {
+   "month": "2016-11",
+   "viirs_raw": {
+    "count": 453.0,
+    "frp_mw": 4421.09
+   },
+   "modis_equivalent": {
+    "count": 110.841743,
+    "count_interval_90": [
+     29.816211,
+     130.847704
+    ],
+    "frp_mw": 3230.263505,
+    "frp_interval_90": [
+     1098.924533,
+     3659.649007
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 28.0,
+    "frp_mw": 1047.0
+   }
+  },
+  {
+   "month": "2016-12",
+   "viirs_raw": {
+    "count": 39.0,
+    "frp_mw": 289.9
+   },
+   "modis_equivalent": {
+    "count": 5.0973,
+    "count_interval_90": [
+     1.371164,
+     6.017317
+    ],
+    "frp_mw": 150.70908,
+    "frp_interval_90": [
+     51.270711,
+     170.742211
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 2.0,
+    "frp_mw": 62.0
+   }
+  },
+  {
+   "month": "2017-01",
+   "viirs_raw": {
+    "count": 18.0,
+    "frp_mw": 137.66
+   },
+   "modis_equivalent": {
+    "count": 5.056478,
+    "count_interval_90": [
+     1.29386,
+     5.99668
+    ],
+    "frp_mw": 104.683771,
+    "frp_interval_90": [
+     35.340672,
+     119.398943
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 0.0,
+    "frp_mw": 0.0
+   }
+  },
+  {
+   "month": "2017-02",
+   "viirs_raw": {
+    "count": 2.0,
+    "frp_mw": 5.64
+   },
+   "modis_equivalent": {
+    "count": 0.097857,
+    "count_interval_90": [
+     0.02504,
+     0.116052
+    ],
+    "frp_mw": 1.879686,
+    "frp_interval_90": [
+     0.634572,
+     2.143909
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 0.0,
+    "frp_mw": 0.0
+   }
+  },
+  {
+   "month": "2017-03",
+   "viirs_raw": {
+    "count": 4.0,
+    "frp_mw": 18.86
+   },
+   "modis_equivalent": {
+    "count": 0.820796,
+    "count_interval_90": [
+     0.210027,
+     0.973415
+    ],
+    "frp_mw": 11.222525,
+    "frp_interval_90": [
+     3.788663,
+     12.800051
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 1.0,
+    "frp_mw": 4.2
+   }
+  },
+  {
+   "month": "2017-04",
+   "viirs_raw": {
+    "count": 92.0,
+    "frp_mw": 442.97
+   },
+   "modis_equivalent": {
+    "count": 17.150108,
+    "count_interval_90": [
+     4.388399,
+     20.339001
+    ],
+    "frp_mw": 297.98742,
+    "frp_interval_90": [
+     100.598933,
+     339.874869
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 11.0,
+    "frp_mw": 170.8
+   }
+  },
+  {
+   "month": "2017-05",
+   "viirs_raw": {
+    "count": 1040.0,
+    "frp_mw": 6820.48
+   },
+   "modis_equivalent": {
+    "count": 138.813572,
+    "count_interval_90": [
+     35.519856,
+     164.624586
+    ],
+    "frp_mw": 4190.939576,
+    "frp_interval_90": [
+     1414.838419,
+     4780.050914
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 126.0,
+    "frp_mw": 3177.1
+   }
+  },
+  {
+   "month": "2017-06",
+   "viirs_raw": {
+    "count": 9405.0,
+    "frp_mw": 80657.11
+   },
+   "modis_equivalent": {
+    "count": 1918.991304,
+    "count_interval_90": [
+     491.0348,
+     2275.808798
+    ],
+    "frp_mw": 63274.303718,
+    "frp_interval_90": [
+     21361.060975,
+     72168.636125
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 2256.0,
+    "frp_mw": 64272.7
+   }
+  },
+  {
+   "month": "2017-07",
+   "viirs_raw": {
+    "count": 15851.0,
+    "frp_mw": 143517.52
+   },
+   "modis_equivalent": {
+    "count": 3365.286173,
+    "count_interval_90": [
+     861.115222,
+     3991.027923
+    ],
+    "frp_mw": 115217.550814,
+    "frp_interval_90": [
+     38896.81883,
+     131413.433437
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 3936.0,
+    "frp_mw": 121668.4
+   }
+  },
+  {
+   "month": "2017-08",
+   "viirs_raw": {
+    "count": 26070.0,
+    "frp_mw": 240326.06
+   },
+   "modis_equivalent": {
+    "count": 5504.174459,
+    "count_interval_90": [
+     1408.41764,
+     6527.621376
+    ],
+    "frp_mw": 187017.139572,
+    "frp_interval_90": [
+     63135.96969,
+     213305.735534
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 5641.0,
+    "frp_mw": 191589.3
+   }
+  },
+  {
+   "month": "2017-09",
+   "viirs_raw": {
+    "count": 21630.0,
+    "frp_mw": 207227.27
+   },
+   "modis_equivalent": {
+    "count": 4572.33966,
+    "count_interval_90": [
+     1169.978147,
+     5422.521094
+    ],
+    "frp_mw": 165608.941988,
+    "frp_interval_90": [
+     55908.678562,
+     188888.233788
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 3936.0,
+    "frp_mw": 157977.3
+   }
+  },
+  {
+   "month": "2017-10",
+   "viirs_raw": {
+    "count": 3292.0,
+    "frp_mw": 41000.59
+   },
+   "modis_equivalent": {
+    "count": 576.589043,
+    "count_interval_90": [
+     147.538597,
+     683.800085
+    ],
+    "frp_mw": 26645.907926,
+    "frp_interval_90": [
+     8995.513668,
+     30391.465735
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 311.0,
+    "frp_mw": 41128.5
+   }
+  },
+  {
+   "month": "2017-11",
+   "viirs_raw": {
+    "count": 209.0,
+    "frp_mw": 1598.9
+   },
+   "modis_equivalent": {
+    "count": 39.062226,
+    "count_interval_90": [
+     9.99531,
+     46.325461
+    ],
+    "frp_mw": 958.488099,
+    "frp_interval_90": [
+     323.580372,
+     1093.220704
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 14.0,
+    "frp_mw": 328.0
+   }
+  },
+  {
+   "month": "2017-12",
+   "viirs_raw": {
+    "count": 18.0,
+    "frp_mw": 76.41
+   },
+   "modis_equivalent": {
+    "count": 3.088093,
+    "count_interval_90": [
+     0.790187,
+     3.662294
+    ],
+    "frp_mw": 45.661523,
+    "frp_interval_90": [
+     15.415082,
+     52.080065
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 1.0,
+    "frp_mw": 7.1
+   }
+  },
+  {
+   "month": "2018-01",
+   "viirs_raw": {
+    "count": 11.0,
+    "frp_mw": 56.63
+   },
+   "modis_equivalent": {
+    "count": 1.368333,
+    "count_interval_90": [
+     0.345859,
+     1.605505
+    ],
+    "frp_mw": 32.672601,
+    "frp_interval_90": [
+     10.957999,
+     37.063804
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 1.0,
+    "frp_mw": 34.4
+   }
+  },
+  {
+   "month": "2018-02",
+   "viirs_raw": {
+    "count": 6.0,
+    "frp_mw": 49.98
+   },
+   "modis_equivalent": {
+    "count": 1.874169,
+    "count_interval_90": [
+     0.473714,
+     2.199018
+    ],
+    "frp_mw": 45.829078,
+    "frp_interval_90": [
+     15.370524,
+     51.988515
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 2.0,
+    "frp_mw": 31.6
+   }
+  },
+  {
+   "month": "2018-03",
+   "viirs_raw": {
+    "count": 11.0,
+    "frp_mw": 50.71
+   },
+   "modis_equivalent": {
+    "count": 1.022115,
+    "count_interval_90": [
+     0.258349,
+     1.199278
+    ],
+    "frp_mw": 18.794334,
+    "frp_interval_90": [
+     6.303395,
+     21.320296
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 0.0,
+    "frp_mw": 0.0
+   }
+  },
+  {
+   "month": "2018-04",
+   "viirs_raw": {
+    "count": 104.0,
+    "frp_mw": 493.54
+   },
+   "modis_equivalent": {
+    "count": 11.044751,
+    "count_interval_90": [
+     2.791665,
+     12.959131
+    ],
+    "frp_mw": 244.474581,
+    "frp_interval_90": [
+     81.993845,
+     277.332009
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 6.0,
+    "frp_mw": 65.8
+   }
+  },
+  {
+   "month": "2018-05",
+   "viirs_raw": {
+    "count": 966.0,
+    "frp_mw": 5853.49
+   },
+   "modis_equivalent": {
+    "count": 165.270106,
+    "count_interval_90": [
+     41.773573,
+     193.916273
+    ],
+    "frp_mw": 3890.246174,
+    "frp_interval_90": [
+     1304.741944,
+     4413.095966
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 117.0,
+    "frp_mw": 2565.1
+   }
+  },
+  {
+   "month": "2018-06",
+   "viirs_raw": {
+    "count": 9087.0,
+    "frp_mw": 74088.05
+   },
+   "modis_equivalent": {
+    "count": 1972.266421,
+    "count_interval_90": [
+     498.508883,
+     2314.118161
+    ],
+    "frp_mw": 59658.82224,
+    "frp_interval_90": [
+     20008.854,
+     67676.978783
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 2131.0,
+    "frp_mw": 57719.2
+   }
+  },
+  {
+   "month": "2018-07",
+   "viirs_raw": {
+    "count": 13267.0,
+    "frp_mw": 119492.2
+   },
+   "modis_equivalent": {
+    "count": 2971.918724,
+    "count_interval_90": [
+     751.180402,
+     3487.03959
+    ],
+    "frp_mw": 92858.920981,
+    "frp_interval_90": [
+     31143.769232,
+     105339.176823
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 2945.0,
+    "frp_mw": 92145.0
+   }
+  },
+  {
+   "month": "2018-08",
+   "viirs_raw": {
+    "count": 31422.0,
+    "frp_mw": 299812.13
+   },
+   "modis_equivalent": {
+    "count": 6954.183735,
+    "count_interval_90": [
+     1757.735328,
+     8159.548175
+    ],
+    "frp_mw": 230105.086903,
+    "frp_interval_90": [
+     77174.488461,
+     261031.252369
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 6914.0,
+    "frp_mw": 231074.7
+   }
+  },
+  {
+   "month": "2018-09",
+   "viirs_raw": {
+    "count": 17931.0,
+    "frp_mw": 179905.9
+   },
+   "modis_equivalent": {
+    "count": 3742.156832,
+    "count_interval_90": [
+     945.865326,
+     4390.782601
+    ],
+    "frp_mw": 142515.563086,
+    "frp_interval_90": [
+     47798.011886,
+     161669.680645
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 2999.0,
+    "frp_mw": 133534.6
+   }
+  },
+  {
+   "month": "2018-10",
+   "viirs_raw": {
+    "count": 4455.0,
+    "frp_mw": 46639.27
+   },
+   "modis_equivalent": {
+    "count": 1026.935197,
+    "count_interval_90": [
+     259.567527,
+     1204.93325
+    ],
+    "frp_mw": 35251.67144,
+    "frp_interval_90": [
+     11822.988129,
+     39989.502484
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 585.0,
+    "frp_mw": 28667.1
+   }
+  },
+  {
+   "month": "2018-11",
+   "viirs_raw": {
+    "count": 821.0,
+    "frp_mw": 7963.83
+   },
+   "modis_equivalent": {
+    "count": 226.862981,
+    "count_interval_90": [
+     57.341751,
+     266.185003
+    ],
+    "frp_mw": 6154.616031,
+    "frp_interval_90": [
+     2064.184457,
+     6981.797543
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 77.0,
+    "frp_mw": 2614.9
+   }
+  },
+  {
+   "month": "2018-12",
+   "viirs_raw": {
+    "count": 97.0,
+    "frp_mw": 803.3
+   },
+   "modis_equivalent": {
+    "count": 20.031778,
+    "count_interval_90": [
+     5.06322,
+     23.503874
+    ],
+    "frp_mw": 508.975328,
+    "frp_interval_90": [
+     170.704225,
+     577.381705
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 5.0,
+    "frp_mw": 94.8
+   }
+  },
+  {
+   "month": "2019-01",
+   "viirs_raw": {
+    "count": 14.0,
+    "frp_mw": 101.36
+   },
+   "modis_equivalent": {
+    "count": 2.849026,
+    "count_interval_90": [
+     0.76041,
+     3.382331
+    ],
+    "frp_mw": 69.440581,
+    "frp_interval_90": [
+     23.262676,
+     79.149644
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 0.0,
+    "frp_mw": 0.0
+   }
+  },
+  {
+   "month": "2019-02",
+   "viirs_raw": {
+    "count": 11.0,
+    "frp_mw": 62.78
+   },
+   "modis_equivalent": {
+    "count": 2.927845,
+    "count_interval_90": [
+     0.781447,
+     3.475904
+    ],
+    "frp_mw": 49.470652,
+    "frp_interval_90": [
+     16.572726,
+     56.387554
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 0.0,
+    "frp_mw": 0.0
+   }
+  },
+  {
+   "month": "2019-03",
+   "viirs_raw": {
+    "count": 280.0,
+    "frp_mw": 2317.86
+   },
+   "modis_equivalent": {
+    "count": 50.046236,
+    "count_interval_90": [
+     13.357424,
+     59.414318
+    ],
+    "frp_mw": 1681.718746,
+    "frp_interval_90": [
+     563.377737,
+     1916.85378
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 16.0,
+    "frp_mw": 671.9
+   }
+  },
+  {
+   "month": "2019-04",
+   "viirs_raw": {
+    "count": 299.0,
+    "frp_mw": 2182.47
+   },
+   "modis_equivalent": {
+    "count": 66.85415,
+    "count_interval_90": [
+     17.843484,
+     79.36848
+    ],
+    "frp_mw": 1699.457627,
+    "frp_interval_90": [
+     569.320282,
+     1937.072882
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 43.0,
+    "frp_mw": 1054.5
+   }
+  },
+  {
+   "month": "2019-05",
+   "viirs_raw": {
+    "count": 4214.0,
+    "frp_mw": 30337.54
+   },
+   "modis_equivalent": {
+    "count": 823.805265,
+    "count_interval_90": [
+     219.874999,
+     978.01216
+    ],
+    "frp_mw": 24765.652215,
+    "frp_interval_90": [
+     8296.522306,
+     28228.343286
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 762.0,
+    "frp_mw": 20564.3
+   }
+  },
+  {
+   "month": "2019-06",
+   "viirs_raw": {
+    "count": 14806.0,
+    "frp_mw": 127185.67
+   },
+   "modis_equivalent": {
+    "count": 3247.459622,
+    "count_interval_90": [
+     866.752388,
+     3855.34681
+    ],
+    "frp_mw": 101523.347209,
+    "frp_interval_90": [
+     34010.439434,
+     115718.167712
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 3776.0,
+    "frp_mw": 109102.2
+   }
+  },
+  {
+   "month": "2019-07",
+   "viirs_raw": {
+    "count": 22395.0,
+    "frp_mw": 207541.87
+   },
+   "modis_equivalent": {
+    "count": 5141.387202,
+    "count_interval_90": [
+     1372.244817,
+     6103.795907
+    ],
+    "frp_mw": 167862.837693,
+    "frp_interval_90": [
+     56234.24593,
+     191333.132119
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 5505.0,
+    "frp_mw": 172622.1
+   }
+  },
+  {
+   "month": "2019-08",
+   "viirs_raw": {
+    "count": 23145.0,
+    "frp_mw": 199505.7
+   },
+   "modis_equivalent": {
+    "count": 4866.156446,
+    "count_interval_90": [
+     1298.785269,
+     5777.045111
+    ],
+    "frp_mw": 156198.986015,
+    "frp_interval_90": [
+     52326.842048,
+     178038.460679
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 5044.0,
+    "frp_mw": 159416.1
+   }
+  },
+  {
+   "month": "2019-09",
+   "viirs_raw": {
+    "count": 15728.0,
+    "frp_mw": 158888.84
+   },
+   "modis_equivalent": {
+    "count": 3137.734789,
+    "count_interval_90": [
+     837.466647,
+     3725.082747
+    ],
+    "frp_mw": 123786.503285,
+    "frp_interval_90": [
+     41468.622622,
+     141094.120134
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 2613.0,
+    "frp_mw": 116923.1
+   }
+  },
+  {
+   "month": "2019-10",
+   "viirs_raw": {
+    "count": 2717.0,
+    "frp_mw": 26710.83
+   },
+   "modis_equivalent": {
+    "count": 656.377741,
+    "count_interval_90": [
+     175.188313,
+     779.244124
+    ],
+    "frp_mw": 19876.093616,
+    "frp_interval_90": [
+     6658.514487,
+     22655.134978
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 399.0,
+    "frp_mw": 17302.1
+   }
+  },
+  {
+   "month": "2019-11",
+   "viirs_raw": {
+    "count": 344.0,
+    "frp_mw": 2986.31
+   },
+   "modis_equivalent": {
+    "count": 85.780778,
+    "count_interval_90": [
+     22.895033,
+     101.837956
+    ],
+    "frp_mw": 2249.618903,
+    "frp_interval_90": [
+     753.62495,
+     2564.156764
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 18.0,
+    "frp_mw": 1142.2
+   }
+  },
+  {
+   "month": "2019-12",
+   "viirs_raw": {
+    "count": 26.0,
+    "frp_mw": 144.81
+   },
+   "modis_equivalent": {
+    "count": 4.312254,
+    "count_interval_90": [
+     1.150948,
+     5.119458
+    ],
+    "frp_mw": 90.595799,
+    "frp_interval_90": [
+     30.349698,
+     103.262748
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 1.0,
+    "frp_mw": 8.8
+   }
+  },
+  {
+   "month": "2020-01",
+   "viirs_raw": {
+    "count": 4.0,
+    "frp_mw": 13.4
+   },
+   "modis_equivalent": {
+    "count": 0.334997,
+    "count_interval_90": [
+     0.090298,
+     0.397806
+    ],
+    "frp_mw": 10.259019,
+    "frp_interval_90": [
+     3.485098,
+     11.709677
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 0.0,
+    "frp_mw": 0.0
+   }
+  },
+  {
+   "month": "2020-02",
+   "viirs_raw": {
+    "count": 2.0,
+    "frp_mw": 1.66
+   },
+   "modis_equivalent": {
+    "count": 0.002605,
+    "count_interval_90": [
+     0.000702,
+     0.003093
+    ],
+    "frp_mw": 0.02608,
+    "frp_interval_90": [
+     0.00886,
+     0.029768
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 0.0,
+    "frp_mw": 0.0
+   }
+  },
+  {
+   "month": "2020-03",
+   "viirs_raw": {
+    "count": 1.0,
+    "frp_mw": 0.87
+   },
+   "modis_equivalent": {
+    "count": 0.000787,
+    "count_interval_90": [
+     0.000212,
+     0.000935
+    ],
+    "frp_mw": 0.006819,
+    "frp_interval_90": [
+     0.002317,
+     0.007783
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 0.0,
+    "frp_mw": 0.0
+   }
+  },
+  {
+   "month": "2020-04",
+   "viirs_raw": {
+    "count": 82.0,
+    "frp_mw": 369.55
+   },
+   "modis_equivalent": {
+    "count": 14.489065,
+    "count_interval_90": [
+     3.905509,
+     17.205645
+    ],
+    "frp_mw": 259.685656,
+    "frp_interval_90": [
+     88.217983,
+     296.406039
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 7.0,
+    "frp_mw": 114.8
+   }
+  },
+  {
+   "month": "2020-05",
+   "viirs_raw": {
+    "count": 2277.0,
+    "frp_mw": 15436.42
+   },
+   "modis_equivalent": {
+    "count": 490.096701,
+    "count_interval_90": [
+     132.104942,
+     581.985782
+    ],
+    "frp_mw": 11993.467591,
+    "frp_interval_90": [
+     4074.308692,
+     13689.382323
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 571.0,
+    "frp_mw": 10682.8
+   }
+  },
+  {
+   "month": "2020-06",
+   "viirs_raw": {
+    "count": 10384.0,
+    "frp_mw": 90697.96
+   },
+   "modis_equivalent": {
+    "count": 2335.898732,
+    "count_interval_90": [
+     629.63853,
+     2773.860443
+    ],
+    "frp_mw": 71457.299242,
+    "frp_interval_90": [
+     24274.805697,
+     81561.59023
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 2569.0,
+    "frp_mw": 74756.7
+   }
+  },
+  {
+   "month": "2020-07",
+   "viirs_raw": {
+    "count": 19477.0,
+    "frp_mw": 178458.32
+   },
+   "modis_equivalent": {
+    "count": 3923.638883,
+    "count_interval_90": [
+     1057.611866,
+     4659.288753
+    ],
+    "frp_mw": 138964.890859,
+    "frp_interval_90": [
+     47207.853643,
+     158614.971526
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 4492.0,
+    "frp_mw": 155708.3
+   }
+  },
+  {
+   "month": "2020-08",
+   "viirs_raw": {
+    "count": 10887.0,
+    "frp_mw": 91984.47
+   },
+   "modis_equivalent": {
+    "count": 2335.712494,
+    "count_interval_90": [
+     629.588329,
+     2773.639288
+    ],
+    "frp_mw": 73308.123696,
+    "frp_interval_90": [
+     24903.550479,
+     83674.127191
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 2644.0,
+    "frp_mw": 75222.2
+   }
+  },
+  {
+   "month": "2020-09",
+   "viirs_raw": {
+    "count": 15474.0,
+    "frp_mw": 151317.3
+   },
+   "modis_equivalent": {
+    "count": 2480.295906,
+    "count_interval_90": [
+     668.560604,
+     2945.330894
+    ],
+    "frp_mw": 115035.956946,
+    "frp_interval_90": [
+     39078.939908,
+     131302.409714
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 2007.0,
+    "frp_mw": 107333.6
+   }
+  },
+  {
+   "month": "2020-10",
+   "viirs_raw": {
+    "count": 5383.0,
+    "frp_mw": 66899.71
+   },
+   "modis_equivalent": {
+    "count": 1551.001577,
+    "count_interval_90": [
+     418.070501,
+     1841.801557
+    ],
+    "frp_mw": 47796.526688,
+    "frp_interval_90": [
+     16236.989232,
+     54555.108652
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 1079.0,
+    "frp_mw": 41508.5
+   }
+  },
+  {
+   "month": "2020-11",
+   "viirs_raw": {
+    "count": 425.0,
+    "frp_mw": 3171.9
+   },
+   "modis_equivalent": {
+    "count": 75.108394,
+    "count_interval_90": [
+     20.245372,
+     89.190597
+    ],
+    "frp_mw": 2306.633561,
+    "frp_interval_90": [
+     783.58799,
+     2632.798934
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 16.0,
+    "frp_mw": 710.4
+   }
+  },
+  {
+   "month": "2020-12",
+   "viirs_raw": {
+    "count": 22.0,
+    "frp_mw": 266.05
+   },
+   "modis_equivalent": {
+    "count": 6.399264,
+    "count_interval_90": [
+     1.724913,
+     7.599073
+    ],
+    "frp_mw": 245.37778,
+    "frp_interval_90": [
+     83.357446,
+     280.074984
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 3.0,
+    "frp_mw": 35.3
+   }
+  },
+  {
+   "month": "2021-01",
+   "viirs_raw": {
+    "count": 2.0,
+    "frp_mw": 13.71
+   },
+   "modis_equivalent": {
+    "count": 0.465628,
+    "count_interval_90": [
+     0.118391,
+     0.549789
+    ],
+    "frp_mw": 9.116066,
+    "frp_interval_90": [
+     3.102523,
+     10.37452
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 1.0,
+    "frp_mw": 22.1
+   }
+  },
+  {
+   "month": "2021-02",
+   "viirs_raw": {
+    "count": 3.0,
+    "frp_mw": 16.86
+   },
+   "modis_equivalent": {
+    "count": 0.223773,
+    "count_interval_90": [
+     0.056897,
+     0.264219
+    ],
+    "frp_mw": 4.771131,
+    "frp_interval_90": [
+     1.623787,
+     5.429776
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 0.0,
+    "frp_mw": 0.0
+   }
+  },
+  {
+   "month": "2021-03",
+   "viirs_raw": {
+    "count": 12.0,
+    "frp_mw": 75.15
+   },
+   "modis_equivalent": {
+    "count": 2.337735,
+    "count_interval_90": [
+     0.594396,
+     2.760272
+    ],
+    "frp_mw": 63.796814,
+    "frp_interval_90": [
+     21.712338,
+     72.603833
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 3.0,
+    "frp_mw": 48.5
+   }
+  },
+  {
+   "month": "2021-04",
+   "viirs_raw": {
+    "count": 121.0,
+    "frp_mw": 620.9
+   },
+   "modis_equivalent": {
+    "count": 17.250382,
+    "count_interval_90": [
+     4.386106,
+     20.368324
+    ],
+    "frp_mw": 423.968481,
+    "frp_interval_90": [
+     144.291642,
+     482.496458
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 12.0,
+    "frp_mw": 255.8
+   }
+  },
+  {
+   "month": "2021-05",
+   "viirs_raw": {
+    "count": 2680.0,
+    "frp_mw": 17586.0
+   },
+   "modis_equivalent": {
+    "count": 524.550873,
+    "count_interval_90": [
+     133.373021,
+     619.361484
+    ],
+    "frp_mw": 13942.829694,
+    "frp_interval_90": [
+     4745.243762,
+     15867.608645
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 587.0,
+    "frp_mw": 12573.5
+   }
+  },
+  {
+   "month": "2021-06",
+   "viirs_raw": {
+    "count": 11426.0,
+    "frp_mw": 91502.03
+   },
+   "modis_equivalent": {
+    "count": 2496.444228,
+    "count_interval_90": [
+     634.749315,
+     2947.667196
+    ],
+    "frp_mw": 74115.565567,
+    "frp_interval_90": [
+     25224.178513,
+     84347.066893
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 3053.0,
+    "frp_mw": 74096.9
+   }
+  },
+  {
+   "month": "2021-07",
+   "viirs_raw": {
+    "count": 19623.0,
+    "frp_mw": 186106.78
+   },
+   "modis_equivalent": {
+    "count": 4271.233126,
+    "count_interval_90": [
+     1086.009561,
+     5043.242558
+    ],
+    "frp_mw": 148451.754346,
+    "frp_interval_90": [
+     50523.442999,
+     168945.213578
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 4673.0,
+    "frp_mw": 160900.2
+   }
+  },
+  {
+   "month": "2021-08",
+   "viirs_raw": {
+    "count": 19375.0,
+    "frp_mw": 175334.55
+   },
+   "modis_equivalent": {
+    "count": 4193.649793,
+    "count_interval_90": [
+     1066.283117,
+     4951.636327
+    ],
+    "frp_mw": 141303.282493,
+    "frp_interval_90": [
+     48090.562284,
+     160809.909894
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 4035.0,
+    "frp_mw": 135783.3
+   }
+  },
+  {
+   "month": "2021-09",
+   "viirs_raw": {
+    "count": 14621.0,
+    "frp_mw": 144136.62
+   },
+   "modis_equivalent": {
+    "count": 3121.105732,
+    "count_interval_90": [
+     793.576601,
+     3685.233934
+    ],
+    "frp_mw": 108247.810908,
+    "frp_interval_90": [
+     36840.602715,
+     123191.198472
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 2355.0,
+    "frp_mw": 100012.7
+   }
+  },
+  {
+   "month": "2021-10",
+   "viirs_raw": {
+    "count": 3033.0,
+    "frp_mw": 29549.34
+   },
+   "modis_equivalent": {
+    "count": 550.086328,
+    "count_interval_90": [
+     139.8657,
+     649.512377
+    ],
+    "frp_mw": 20471.445353,
+    "frp_interval_90": [
+     6967.165238,
+     23297.486262
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 271.0,
+    "frp_mw": 16926.4
+   }
+  },
+  {
+   "month": "2021-11",
+   "viirs_raw": {
+    "count": 525.0,
+    "frp_mw": 3251.04
+   },
+   "modis_equivalent": {
+    "count": 117.75783,
+    "count_interval_90": [
+     29.941266,
+     139.042118
+    ],
+    "frp_mw": 2429.394993,
+    "frp_interval_90": [
+     826.81003,
+     2764.767973
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 33.0,
+    "frp_mw": 810.3
+   }
+  },
+  {
+   "month": "2021-12",
+   "viirs_raw": {
+    "count": 92.0,
+    "frp_mw": 538.94
+   },
+   "modis_equivalent": {
+    "count": 22.298864,
+    "count_interval_90": [
+     5.66974,
+     26.3293
+    ],
+    "frp_mw": 461.250988,
+    "frp_interval_90": [
+     156.980213,
+     524.925738
+    ]
+   },
+   "modis_aqua_observed": {
+    "count": 11.0,
+    "frp_mw": 187.2
+   }
+  }
+ ]
+}

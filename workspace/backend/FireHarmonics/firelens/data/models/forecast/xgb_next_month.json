@@ -1,0 +1,58 @@
+{
+ "trained_years": [
+  2013,
+  2021
+ ],
+ "calibration_year": 2022,
+ "regions": [
+  "california"
+ ],
+ "target": "P(>=1 VIIRS S-NPP vegetation-fire detection in 0.25 deg cell in next month)",
+ "validation": "see forecast_metrics.json",
+ "features": [
+  "lat",
+  "lon",
+  "month_sin",
+  "month_cos",
+  "lag1",
+  "lag2",
+  "lag3",
+  "lag12",
+  "any_lag1",
+  "roll3",
+  "roll6",
+  "roll12",
+  "frp_roll12",
+  "hist_freq",
+  "clim_same_month",
+  "clim_years",
+  "months_since_fire",
+  "nbr_lag1",
+  "nbr_roll12",
+  "region_lag1",
+  "region_clim_same_month"
+ ],
+ "config": {
+  "res_deg": 0.25,
+  "source": "VIIRS_SNPP_SP",
+  "vegetation_only": true,
+  "min_history_months": 12,
+  "xgb_params": {
+   "n_estimators": 400,
+   "max_depth": 5,
+   "learning_rate": 0.05,
+   "subsample": 0.8,
+   "colsample_bytree": 0.8,
+   "min_child_weight": 5,
+   "reg_lambda": 1.0,
+   "tree_method": "hist",
+   "eval_metric": "logloss",
+   "random_state": 0,
+   "n_jobs": 4
+  }
+ },
+ "persistence_rates": [
+  0.519373247897477,
+  0.0617608075040783
+ ]
+}

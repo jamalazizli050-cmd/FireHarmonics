@@ -1,0 +1,98 @@
+[
+  {
+    "file": "design/mockups/01-home.jpeg",
+    "original": "WhatsApp Image 2026-11-14 at 16.03.59.jpeg",
+    "size_bytes": 211843,
+    "sha256": "ee1ba12b5eae721b6017656b3cdc99344acefb9799035d1f6e8ba083596a1b22"
+  },
+  {
+    "file": "design/mockups/02-interactive-globe.jpeg",
+    "original": "WhatsApp Image 2026-11-14 at 16.04.19.jpeg",
+    "size_bytes": 223372,
+    "sha256": "2ed7e3c38155a355b80395a2c0f402c1be610abfb3d9f2300102397911e1ea80"
+  },
+  {
+    "file": "design/mockups/03-about.jpeg",
+    "original": "WhatsApp Image 2026-11-14 at 16.04.38.jpeg",
+    "size_bytes": 123762,
+    "sha256": "6fbb5f1c28c64b988b71b9a4747b28e8e3e0f96a4777ccbd32dd84953af0753b"
+  },
+  {
+    "file": "design/mockups/04-contact.jpeg",
+    "original": "WhatsApp Image 2026-11-14 at 16.04.57.jpeg",
+    "size_bytes": 116028,
+    "sha256": "9addf7b292d6dbe14e5cd128367fb8c3c7017a564527368cfd57501460725502"
+  },
+  {
+    "file": "design/mockups/05-faq.jpeg",
+    "original": "WhatsApp Image 2026-11-14 at 16.05.09.jpeg",
+    "size_bytes": 104433,
+    "sha256": "b3f090bc8e96ecd361561ab6a592259ab54c26750a12ceecceb1df77e98b8276"
+  },
+  {
+    "file": "design/assets/earth-home-render.jpeg",
+    "original": "WhatsApp Image 2026-11-14 at 16.17.14.jpeg",
+    "size_bytes": 131233,
+    "sha256": "59caf3396a41b58361e98b8fd417f3b12a74c582308b4018096971519b6be07b"
+  },
+  {
+    "file": "design/assets/contact-team-illustration.jpeg",
+    "original": "WhatsApp Image 2026-11-14 at 16.17.56.jpeg",
+    "size_bytes": 60384,
+    "sha256": "c782648c6a2c6a8f1297c8ef5c6290cdaede47975273c150d8ee4f7bdd58f421"
+  },
+  {
+    "file": "design/assets/contact-form-fields-reference.jpeg",
+    "original": "WhatsApp Image 2026-11-14 at 16.18.07.jpeg",
+    "size_bytes": 26384,
+    "sha256": "28704b29bba8d44c983ef4da3a5e7393b06048dfd42a41d74593a0e5fc2e557d"
+  },
+  {
+    "file": "design/assets/about-blue-cloud.jpeg",
+    "original": "WhatsApp Image 2026-11-14 at 16.18.53.jpeg",
+    "size_bytes": 20118,
+    "sha256": "97f008c0b4fe7cc324233e8ec588239c17b8dadbe7c10fea3c9f314aebf7f50e"
+  },
+  {
+    "file": "design/assets/about-seated-person.jpeg",
+    "original": "WhatsApp Image 2026-11-14 at 16.19.00.jpeg",
+    "size_bytes": 20114,
+    "sha256": "06a0b7a21386b542c645c5c42c986b16b9c8a6476b882efdc8d574e4261bf5e1"
+  },
+  {
+    "file": "design/assets/about-white-cloud.jpeg",
+    "original": "WhatsApp Image 2026-11-14 at 16.19.06.jpeg",
+    "size_bytes": 10690,
+    "sha256": "b15c8b36ebd69a9978b8be19c37375f62554e9f31d5590bbf9a0dd7cb5b67b7b"
+  },
+  {
+    "file": "design/assets/about-technology-illustration.jpeg",
+    "original": "WhatsApp Image 2026-11-14 at 16.19.14.jpeg",
+    "size_bytes": 35163,
+    "sha256": "6e62f4aba97e8c161577b6b2f200b48e505160192684d8c0c5dc52bcb18a0720"
+  },
+  {
+    "file": "design/assets/about-blue-corner-graphic.jpeg",
+    "original": "WhatsApp Image 2026-11-14 at 16.19.23.jpeg",
+    "size_bytes": 37840,
+    "sha256": "a83d4ccb23f8ecbee6eb33ac14f01b58ec5c43d609af90aa91958dc2f0465f81"
+  },
+  {
+    "file": "design/assets/faq-person-with-laptop.jpeg",
+    "original": "WhatsApp Image 2026-11-14 at 16.19.50.jpeg",
+    "size_bytes": 29096,
+    "sha256": "7fe13d0f373caf8fe913cae33a2444c98c9419da71b0a1135c30e1a6872bc465"
+  },
+  {
+    "file": "design/assets/faq-question-symbol.jpeg",
+    "original": "WhatsApp Image 2026-11-14 at 16.19.59.jpeg",
+    "size_bytes": 6500,
+    "sha256": "b47d4a4fa8c3c01f55ad19a570fd1a0500638939663173cd1f01149504750da9"
+  },
+  {
+    "file": "design/assets/starfield-background.jpeg",
+    "original": "WhatsApp Image 2026-11-14 at 16.21.19.jpeg",
+    "size_bytes": 12987,
+    "sha256": "7755880328c77b8d734fd8bd9c8a6a8b661cd68fd5b7c71af1bb7b56a5aa29fd"
+  }
+]

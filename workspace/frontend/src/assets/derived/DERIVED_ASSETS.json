@@ -1,0 +1,70 @@
+{
+  "method": "Edge/seed flood-fill of near-white background (min channel >= 236) to alpha 0, 2 px un-matted edge band. Originals unchanged.",
+  "generator": "workspace/frontend/scripts/derive-assets.mjs",
+  "files": [
+    {
+      "derived": "src/assets/derived/about-blue-cloud.png",
+      "source": "design/assets/about-blue-cloud.jpeg",
+      "source_sha256": "97f008c0b4fe7cc324233e8ec588239c17b8dadbe7c10fea3c9f314aebf7f50e",
+      "width": 660,
+      "height": 720,
+      "bytes": 111132
+    },
+    {
+      "derived": "src/assets/derived/about-white-cloud.png",
+      "source": "design/assets/about-white-cloud.jpeg",
+      "source_sha256": "b15c8b36ebd69a9978b8be19c37375f62554e9f31d5590bbf9a0dd7cb5b67b7b",
+      "width": 516,
+      "height": 821,
+      "bytes": 40370
+    },
+    {
+      "derived": "src/assets/derived/about-seated-person.png",
+      "source": "design/assets/about-seated-person.jpeg",
+      "source_sha256": "06a0b7a21386b542c645c5c42c986b16b9c8a6476b882efdc8d574e4261bf5e1",
+      "width": 492,
+      "height": 959,
+      "bytes": 112248
+    },
+    {
+      "derived": "src/assets/derived/about-technology-illustration.png",
+      "source": "design/assets/about-technology-illustration.jpeg",
+      "source_sha256": "6e62f4aba97e8c161577b6b2f200b48e505160192684d8c0c5dc52bcb18a0720",
+      "width": 850,
+      "height": 624,
+      "bytes": 247962
+    },
+    {
+      "derived": "src/assets/derived/about-blue-corner-graphic.png",
+      "source": "design/assets/about-blue-corner-graphic.jpeg",
+      "source_sha256": "a83d4ccb23f8ecbee6eb33ac14f01b58ec5c43d609af90aa91958dc2f0465f81",
+      "width": 1102,
+      "height": 850,
+      "bytes": 113662
+    },
+    {
+      "derived": "src/assets/derived/faq-person-with-laptop.png",
+      "source": "design/assets/faq-person-with-laptop.jpeg",
+      "source_sha256": "7fe13d0f373caf8fe913cae33a2444c98c9419da71b0a1135c30e1a6872bc465",
+      "width": 492,
+      "height": 531,
+      "bytes": 150599
+    },
+    {
+      "derived": "src/assets/derived/faq-question-symbol.png",
+      "source": "design/assets/faq-question-symbol.jpeg",
+      "source_sha256": "b47d4a4fa8c3c01f55ad19a570fd1a0500638939663173cd1f01149504750da9",
+      "width": 219,
+      "height": 215,
+      "bytes": 37471
+    },
+    {
+      "derived": "src/assets/derived/contact-team-illustration.png",
+      "source": "design/assets/contact-team-illustration.jpeg",
+      "source_sha256": "c782648c6a2c6a8f1297c8ef5c6290cdaede47975273c150d8ee4f7bdd58f421",
+      "width": 1398,
+      "height": 932,
+      "bytes": 281318
+    }
+  ]
+}

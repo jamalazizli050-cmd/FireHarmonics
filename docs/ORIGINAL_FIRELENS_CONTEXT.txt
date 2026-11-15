@@ -1,0 +1,332 @@
+# FireLens — Project Context
+
+## General Information
+
+**Project:** FireLens — Global Fire Intelligence Platform
+
+**Event:** NASA Space Apps Challenge 2026
+
+**Challenge:** Harmonization of MODIS and VIIRS Hot Spots
+
+**Project type:** Web-based geospatial data analysis and fire-activity forecasting platform.
+
+FireLens is a platform for exploring historical fire activity worldwide using NASA satellite observations.
+
+The concept is that a user selects any geographical location on Earth and receives historical fire activity statistics, seasonal patterns, anomalies, recurring hotspots, and a forecast for the following month.
+
+The platform combines satellite data analysis, experimental harmonization, statistical methods, and machine learning.
+
+## NASA Challenge Background
+
+NASA's challenge concerns the differences between MODIS and VIIRS satellite fire detection systems.
+
+MODIS has a longer historical record, beginning in 2000. VIIRS provides higher-resolution fire observations beginning in 2012.
+
+Because the sensors have different detection sensitivities, raw hotspot counts are not directly comparable.
+
+A simple increase in VIIRS detections does not necessarily represent an actual increase in fire activity.
+
+The challenge focuses on harmonizing the satellite observations and presenting historical activity through an interactive Burning Activity Calendar.
+
+FireLens also includes pattern discovery and experimental forecasting as additional features.
+
+## Data Sources
+
+Primary data provider: NASA FIRMS — Fire Information for Resource Management System.
+
+Relevant instruments:
+
+- MODIS Terra and Aqua.
+- VIIRS Suomi NPP.
+- VIIRS NOAA-20 and NOAA-21 as potential additional sources.
+
+Historical research datasets have been downloaded for five regions:
+
+- California, USA.
+- Zambia / Angola.
+- Rondônia, Brazil.
+- Yakutia, Russia.
+- Punjab, India.
+
+The main research period is 2012–2022.
+
+The Python pipeline supports NASA FIRMS API access, incremental downloading, caching, rate-limit handling, validation, and geographic aggregation.
+
+Not all historical global data is predownloaded.
+
+## Satellite Harmonization
+
+The project includes a prototype that transforms VIIRS observations into estimated MODIS-equivalent activity.
+
+Reported validation results:
+
+| Region | Detection-count harmonization |
+|---|---|
+| California | Validated for comparable overpasses |
+| Zambia / Angola | Validated for comparable overpasses |
+| Rondônia | Not validated |
+| Punjab | Partial |
+| Yakutia | Not validated |
+
+The reported typical monthly detection-count disagreement in California decreased from approximately ×6.2 to ×1.12 after harmonization.
+
+These results concern satellite observations with comparable overpass timing and spatial coverage.
+
+The harmonization has not been confirmed as universally reliable.
+
+Fire Radiative Power (FRP) harmonization has not passed comprehensive validation in any of the five regions.
+
+## Machine Learning and Pattern Discovery
+
+The project uses several analytical techniques:
+
+**XGBoost**
+
+Used for predicting fire activity during the following month.
+
+The global pooled XGBoost model was trained on the available regional datasets, but did not demonstrate statistically significant improvement over regional seasonal baselines.
+
+**Seasonal baseline**
+
+Estimates future satellite fire-detection probability using historical seasonal activity.
+
+This is the primary forecasting fallback when XGBoost is not sufficiently validated.
+
+**Isolation Forest**
+
+Used to identify unusual historical activity.
+
+**Getis-Ord Gi\***
+
+Used for geographical hotspot analysis.
+
+**Statistical time-series analysis**
+
+Used for seasonal patterns, long-term trends, and historical anomalies.
+
+Predictions represent the estimated probability of at least one satellite hotspot detection in a selected area during a future month.
+
+They do not represent the probability of a particular wildfire ignition.
+
+## Current ML Engine Architecture
+
+The inference engine is written in Python.
+
+Main interface:
+
+```python
+from firelens.inference import analyze_location
+
+result = analyze_location(
+    latitude=37.7,
+    longitude=-119.5,
+    radius_km=25,
+    target_month=None
+)
+```
+
+The intended behavior is to accept arbitrary valid coordinates and return a JSON-serializable analysis.
+
+The output includes:
+
+- Selected geographical location.
+- Historical fire activity.
+- Seasonal patterns.
+- Long-term trends.
+- Anomalies.
+- Recurring hotspots.
+- Next-month forecast.
+- Satellite data coverage.
+- Prediction limitations.
+
+For arbitrary new locations, the pipeline is designed to retrieve missing NASA observations automatically and cache them.
+
+For consistency, the universal location-analysis pipeline uses VIIRS S-NPP observations rather than directly combining raw MODIS and VIIRS counts.
+
+## Relevant Python Files
+
+Known components from the development report:
+
+- `src/firelens/inference.py` — main geographic analysis.
+- `location_data.py` — NASA retrieval and caching.
+- `location_patterns.py` — pattern discovery.
+- `progress.py` — progress tracking.
+- `jobs.py` — background job execution.
+- `data/models/global/` — serialized forecasting model.
+- `docs/GLOBAL_INFERENCE_API.md` — inference interface documentation.
+- `docs/API_INTEGRATION_SPEC.md` — proposed backend integration specification.
+- `exports/api_v1/` — prepared API data exports.
+
+Exact file locations and interfaces should be confirmed against the current repository.
+
+## Background Jobs and Progress Tracking
+
+Historical analysis may take considerable time when NASA observations are not already cached.
+
+The Python engine includes a background job system with the following intended interface:
+
+```python
+start_analysis(...)
+get_job_status(job_id)
+get_job_result(job_id)
+```
+
+Supported job statuses:
+
+- queued
+- running
+- completed
+- failed
+
+Progress tracking includes:
+
+- Current analysis stage.
+- Percentage completed where measurable.
+- Estimated remaining time when available.
+- Status and error messages.
+
+Progress is based on completed processing work rather than artificial timers.
+
+Some processing stages have indeterminate duration.
+
+Job state is designed to persist in `data/jobs/`.
+
+The latest report indicated that job-state persistence had been implemented but not fully integration-tested.
+
+## Backend Architecture
+
+The backend is being developed separately by other team members.
+
+Its role is to connect the frontend to the Python inference engine.
+
+The intended communication flow is:
+
+Frontend → Backend HTTP API → Python inference engine → NASA data and trained models.
+
+The frontend sends geographical coordinates and analysis parameters to the backend.
+
+The backend creates an analysis job, tracks its status, and exposes the final results.
+
+The exact HTTP routes depend on the backend implementation.
+
+### Proposed Transport Contract
+
+These are illustrative endpoint conventions, not confirmed implemented routes.
+
+**Start analysis**
+
+`POST /api/v1/analysis`
+
+Request:
+
+```json
+{
+  "latitude": 37.7,
+  "longitude": -119.5,
+  "radius_km": 25,
+  "target_month": "2026-12"
+}
+```
+
+Possible response:
+
+```json
+{
+  "job_id": "analysis_12345",
+  "status": "queued"
+}
+```
+
+**Retrieve status**
+
+`GET /api/v1/analysis/{job_id}/status`
+
+Possible response:
+
+```json
+{
+  "job_id": "analysis_12345",
+  "status": "running",
+  "stage": "retrieving_satellite_data",
+  "progress": 42,
+  "eta_seconds": 95
+}
+```
+
+**Retrieve result**
+
+`GET /api/v1/analysis/{job_id}/result`
+
+**Progress events**
+
+`GET /api/v1/analysis/{job_id}/events`
+
+The final transport may use Server-Sent Events, HTTP polling, or WebSockets.
+
+SSE is suitable for one-way progress events, with polling as a possible fallback.
+
+The exact transport has not been confirmed.
+
+## Frontend Context
+
+The team has already created a UI design.
+
+The current frontend development effort concerns reproducing that existing design as an actual working web application.
+
+The user interface is intended to include:
+
+- An interactive world map.
+- Geographic location selection.
+- Configurable analysis radius.
+- Historical fire-activity information.
+- Burning Activity Calendar.
+- Seasonal and long-term trends.
+- Pattern discovery and anomalies.
+- Fire-activity forecasting.
+- Analysis progress indicators.
+- Satellite observations and harmonization information.
+
+The frontend is separate from the Python ML engine and the team's backend.
+
+The exact frontend framework, file structure, design assets, and implemented UI components have not been established in this conversation.
+
+## Development Status
+
+According to the latest available Claude Code report:
+
+- The universal geographic inference engine has been implemented in code.
+- Automatic data retrieval and caching have been implemented.
+- The pooled XGBoost model has been trained.
+- Pattern analysis functions have been implemented.
+- Background job handling and progress reporting have been implemented.
+- Offline tests have been written.
+
+However, complete integration verification was blocked by Windows Smart App Control preventing a pandas native extension from loading under Python 3.15.
+
+At that point, the six planned real-location integration tests had not been completed.
+
+The current status of that blocker is unknown.
+
+The frontend team has an existing UI design, while the backend is being developed by separate team members.
+
+## Overall Product Concept
+
+FireLens aims to provide a unified user experience:
+
+**Select a location → Retrieve NASA observations → Analyze historical fire activity → Discover patterns → Generate a forecast → Visualize results.**
+
+The platform's scientific foundation is NASA MODIS/VIIRS hotspot analysis and experimental harmonization.
+
+Its additional features are location-based pattern discovery, forecasting, and accessible data visualization.
+
+The project is a hackathon prototype, not an operational wildfire early-warning or emergency-response system.
+
+## Current Collaboration Context
+
+The user is responsible for technical coordination and frontend development.
+
+Claude Code has been used extensively for Python data engineering, harmonization research, and ML implementation.
+
+Other team members are working on backend development, UI design, research, and presentation.
+
+The immediate project context is the transition from data science and backend development to implementation of the team's existing frontend design.

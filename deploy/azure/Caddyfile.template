@@ -1,0 +1,16 @@
+{$FH_DOMAIN} {
+	encode zstd gzip
+	handle /api/* {
+		reverse_proxy 127.0.0.1:8000 {
+			flush_interval -1
+		}
+	}
+	handle /health {
+		reverse_proxy 127.0.0.1:8000
+	}
+	handle {
+		root * /srv/fireharmonics/app/workspace/frontend/dist
+		try_files {path} /index.html
+		file_server
+	}
+}

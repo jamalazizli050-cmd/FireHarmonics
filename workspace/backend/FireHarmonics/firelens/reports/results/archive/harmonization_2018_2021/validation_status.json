@@ -1,0 +1,97 @@
+{
+ "california": {
+  "count": {
+   "status": "validated",
+   "heldout_region_verdict": "improved",
+   "heldout_years_ok": "4/4",
+   "median_monthly_error_factor_model_heldout_region": 1.137246037075399,
+   "median_monthly_error_factor_raw_viirs": 6.549792883808414,
+   "full_domain_total_ratio_heldout_region": 1.3005226371937995
+  },
+  "frp": {
+   "status": "validated",
+   "heldout_region_verdict": "improved",
+   "heldout_years_ok": "4/4",
+   "median_monthly_error_factor_model_heldout_region": 1.2332315449838953,
+   "median_monthly_error_factor_raw_viirs": 1.326186029875833,
+   "full_domain_total_ratio_heldout_region": 1.0957943876809728
+  },
+  "status": "validated"
+ },
+ "punjab": {
+  "count": {
+   "status": "partial",
+   "heldout_region_verdict": "marginal (<10% better than best baseline)",
+   "heldout_years_ok": "3/4",
+   "median_monthly_error_factor_model_heldout_region": 1.353038753443584,
+   "median_monthly_error_factor_raw_viirs": 6.5,
+   "full_domain_total_ratio_heldout_region": 0.9535900520545545
+  },
+  "frp": {
+   "status": "partial",
+   "heldout_region_verdict": "improved",
+   "heldout_years_ok": "1/4",
+   "median_monthly_error_factor_model_heldout_region": 1.2355974430023395,
+   "median_monthly_error_factor_raw_viirs": 2.495489844683392,
+   "full_domain_total_ratio_heldout_region": 1.1621081144232164
+  },
+  "status": "partial"
+ },
+ "rondonia": {
+  "count": {
+   "status": "partial",
+   "heldout_region_verdict": "improved",
+   "heldout_years_ok": "1/4",
+   "median_monthly_error_factor_model_heldout_region": 1.2279117258209478,
+   "median_monthly_error_factor_raw_viirs": 5.207547169811321,
+   "full_domain_total_ratio_heldout_region": 1.1188184092471678
+  },
+  "frp": {
+   "status": "partial",
+   "heldout_region_verdict": "improved",
+   "heldout_years_ok": "1/4",
+   "median_monthly_error_factor_model_heldout_region": 1.4168840798012208,
+   "median_monthly_error_factor_raw_viirs": 1.4840940432164167,
+   "full_domain_total_ratio_heldout_region": 1.174610038546348
+  },
+  "status": "partial"
+ },
+ "yakutia": {
+  "count": {
+   "status": "partial",
+   "heldout_region_verdict": "marginal (<10% better than best baseline)",
+   "heldout_years_ok": "3/4",
+   "median_monthly_error_factor_model_heldout_region": 1.4079287357602546,
+   "median_monthly_error_factor_raw_viirs": 7.713148711224025,
+   "full_domain_total_ratio_heldout_region": 1.4450161438555853
+  },
+  "frp": {
+   "status": "partial",
+   "heldout_region_verdict": "improved",
+   "heldout_years_ok": "2/4",
+   "median_monthly_error_factor_model_heldout_region": 1.1505339041601728,
+   "median_monthly_error_factor_raw_viirs": 1.4190667808017183,
+   "full_domain_total_ratio_heldout_region": 1.3250491345778252
+  },
+  "status": "partial"
+ },
+ "zambia_angola": {
+  "count": {
+   "status": "not_validated",
+   "heldout_region_verdict": "lower error but total biased (ratio outside 0.8-1.25)",
+   "heldout_years_ok": "2/4",
+   "median_monthly_error_factor_model_heldout_region": 1.3981893643225074,
+   "median_monthly_error_factor_raw_viirs": 5.75021128131331,
+   "full_domain_total_ratio_heldout_region": 0.9343822392960274
+  },
+  "frp": {
+   "status": "validated",
+   "heldout_region_verdict": "improved",
+   "heldout_years_ok": "3/4",
+   "median_monthly_error_factor_model_heldout_region": 1.2384795289723654,
+   "median_monthly_error_factor_raw_viirs": 1.441183169737443,
+   "full_domain_total_ratio_heldout_region": 1.1279536072429686
+  },
+  "status": "validated_frp_only"
+ }
+}

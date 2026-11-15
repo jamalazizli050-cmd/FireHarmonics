@@ -1,0 +1,3164 @@
+{
+ "_note": "TEST-ONLY. unified_calendar: firelens.unified_calendar.build() on the real FIRMS yearly archives for 45N 10E (25 km). current_conditions: same code with a FAKE near-real-time client (no MAP_KEY available).",
+ "unified_calendar": {
+  "overlap": {
+   "start": "2012-01",
+   "end": "2021-12",
+   "months": 120,
+   "years": [
+    2012,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021
+   ],
+   "modis_aqua_detections": 38,
+   "viirs_snpp_detections": 354
+  },
+  "status": "ok",
+  "ratio": 0.1073,
+  "ratio_ci95": [
+   0.0667,
+   0.1638
+  ],
+  "validation": {
+   "method": "leave-one-year-out over 2012-2021 (ratio refitted without the tested year)",
+   "years_tested": 4,
+   "median_abs_pct_error_annual": 0.372,
+   "median_abs_pct_error_annual_raw_viirs": 5.2375,
+   "monthly_correlation_modis_vs_viirs": 0.004,
+   "improves_on_raw_viirs": true,
+   "by_year": [
+    {
+     "year": 2012,
+     "modis_observed": 5.0,
+     "viirs_raw": 43.0,
+     "predicted": 4.56,
+     "ratio_without_year": 0.1061
+    },
+    {
+     "year": 2013,
+     "modis_observed": 5.0,
+     "viirs_raw": 28.0,
+     "predicted": 2.83,
+     "ratio_without_year": 0.1012
+    },
+    {
+     "year": 2014,
+     "modis_observed": 8.0,
+     "viirs_raw": 18.0,
+     "predicted": 1.61,
+     "ratio_without_year": 0.0893
+    },
+    {
+     "year": 2015,
+     "modis_observed": 3.0,
+     "viirs_raw": 28.0,
+     "predicted": 3.01,
+     "ratio_without_year": 0.1074
+    },
+    {
+     "year": 2016,
+     "modis_observed": 8.0,
+     "viirs_raw": 55.0,
+     "predicted": 5.52,
+     "ratio_without_year": 0.1003
+    },
+    {
+     "year": 2017,
+     "modis_observed": 3.0,
+     "viirs_raw": 46.0,
+     "predicted": 5.23,
+     "ratio_without_year": 0.1136
+    },
+    {
+     "year": 2018,
+     "modis_observed": 0.0,
+     "viirs_raw": 23.0,
+     "predicted": 2.64,
+     "ratio_without_year": 0.1148
+    },
+    {
+     "year": 2019,
+     "modis_observed": 2.0,
+     "viirs_raw": 36.0,
+     "predicted": 4.08,
+     "ratio_without_year": 0.1132
+    },
+    {
+     "year": 2020,
+     "modis_observed": 1.0,
+     "viirs_raw": 39.0,
+     "predicted": 4.58,
+     "ratio_without_year": 0.1175
+    },
+    {
+     "year": 2021,
+     "modis_observed": 3.0,
+     "viirs_raw": 38.0,
+     "predicted": 4.21,
+     "ratio_without_year": 0.1108
+    }
+   ]
+  },
+  "label": "Harmonized by local MODIS–VIIRS calibration (experimental, not the FireLens regional model)",
+  "method": "local_overlap_calibration",
+  "countries": [
+   "Italy",
+   "Switzerland"
+  ],
+  "reference_sensor": "Aqua MODIS (MODIS_SP, 1 km)",
+  "calibrated_sensor": "S-NPP VIIRS (VIIRS_SNPP_SP/NRT, 375 m)",
+  "limitations": [
+   "Location-level calibration: one MODIS/VIIRS ratio per disc, estimated on 2012-2021. It assumes the ratio is stable over time; it is not validated outside the overlap years.",
+   "Counts are satellite hotspot detections (pixels), not fires. MODIS (1 km) and VIIRS (375 m) see different fire sizes, so the ratio is an average conversion, not a per-fire match.",
+   "Years from the FIRMS yearly archives are treated as fully observed; FIRMS-listed missing days are not removed.",
+   "Only Aqua MODIS and S-NPP VIIRS are used (same afternoon overpass). S-NPP delivery ended on 2026-11-02."
+  ],
+  "monthly": [
+   {
+    "month": "2002-07",
+    "value": 3.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 3.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2002-08",
+    "value": 1.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 1.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2002-09",
+    "value": 3.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 3.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2002-10",
+    "value": 4.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 4.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2002-11",
+    "value": 4.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 4.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2002-12",
+    "value": 4.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 4.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2003-01",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2003-02",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2003-03",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2003-04",
+    "value": 1.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 1.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2003-05",
+    "value": 1.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 1.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2003-06",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2003-07",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2003-08",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2003-09",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2003-10",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2003-11",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2003-12",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2004-01",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2004-02",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2004-03",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2004-04",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2004-05",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2004-06",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2004-07",
+    "value": 5.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 5.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2004-08",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2004-09",
+    "value": 4.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 4.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2004-10",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2004-11",
+    "value": 2.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 2.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2004-12",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2005-01",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2005-02",
+    "value": 1.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 1.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2005-03",
+    "value": 1.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 1.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2005-04",
+    "value": 1.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 1.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2005-05",
+    "value": 2.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 2.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2005-06",
+    "value": 1.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 1.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2005-07",
+    "value": 2.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 2.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2005-08",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2005-09",
+    "value": 1.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 1.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2005-10",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2005-11",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2005-12",
+    "value": 1.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 1.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2006-01",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2006-02",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2006-03",
+    "value": 1.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 1.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2006-04",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2006-05",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2006-06",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2006-07",
+    "value": 3.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 3.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2006-08",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2006-09",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2006-10",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2006-11",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2006-12",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2007-01",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2007-02",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2007-03",
+    "value": 1.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 1.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2007-04",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2007-05",
+    "value": 1.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 1.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2007-06",
+    "value": 3.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 3.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2007-07",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2007-08",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2007-09",
+    "value": 1.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 1.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2007-10",
+    "value": 2.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 2.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2007-11",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2007-12",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2008-01",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2008-02",
+    "value": 1.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 1.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2008-03",
+    "value": 1.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 1.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2008-04",
+    "value": 2.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 2.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2008-05",
+    "value": 1.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 1.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2008-06",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2008-07",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2008-08",
+    "value": 1.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 1.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2008-09",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2008-10",
+    "value": 5.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 5.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2008-11",
+    "value": 1.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 1.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2008-12",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2009-01",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2009-02",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2009-03",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2009-04",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2009-05",
+    "value": 1.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 1.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2009-06",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2009-07",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2009-08",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2009-09",
+    "value": 1.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 1.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2009-10",
+    "value": 1.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 1.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2009-11",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2009-12",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2010-01",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2010-02",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2010-03",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2010-04",
+    "value": 1.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 1.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2010-05",
+    "value": 1.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 1.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2010-06",
+    "value": 2.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 2.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2010-07",
+    "value": 1.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 1.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2010-08",
+    "value": 1.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 1.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2010-09",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2010-10",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2010-11",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2010-12",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2011-01",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2011-02",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2011-03",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2011-04",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2011-05",
+    "value": 1.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 1.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2011-06",
+    "value": 1.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 1.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2011-07",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2011-08",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2011-09",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2011-10",
+    "value": 3.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 3.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2011-11",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2011-12",
+    "value": 0.0,
+    "source": "modis_aqua",
+    "interval_95": null,
+    "modis_aqua": 0.0,
+    "viirs_snpp": null
+   },
+   {
+    "month": "2012-01",
+    "value": 0.11,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.07,
+     0.16
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 1.0
+   },
+   {
+    "month": "2012-02",
+    "value": 0.0,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.0,
+     0.0
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 0.0
+   },
+   {
+    "month": "2012-03",
+    "value": 0.43,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.27,
+     0.66
+    ],
+    "modis_aqua": 1.0,
+    "viirs_snpp": 4.0
+   },
+   {
+    "month": "2012-04",
+    "value": 0.0,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.0,
+     0.0
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 0.0
+   },
+   {
+    "month": "2012-05",
+    "value": 0.43,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.27,
+     0.66
+    ],
+    "modis_aqua": 1.0,
+    "viirs_snpp": 4.0
+   },
+   {
+    "month": "2012-06",
+    "value": 0.21,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.13,
+     0.33
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 2.0
+   },
+   {
+    "month": "2012-07",
+    "value": 0.86,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.53,
+     1.31
+    ],
+    "modis_aqua": 2.0,
+    "viirs_snpp": 8.0
+   },
+   {
+    "month": "2012-08",
+    "value": 1.93,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     1.2,
+     2.95
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 18.0
+   },
+   {
+    "month": "2012-09",
+    "value": 0.43,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.27,
+     0.66
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 4.0
+   },
+   {
+    "month": "2012-10",
+    "value": 0.21,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.13,
+     0.33
+    ],
+    "modis_aqua": 1.0,
+    "viirs_snpp": 2.0
+   },
+   {
+    "month": "2012-11",
+    "value": 0.0,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.0,
+     0.0
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 0.0
+   },
+   {
+    "month": "2012-12",
+    "value": 0.0,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.0,
+     0.0
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 0.0
+   },
+   {
+    "month": "2013-01",
+    "value": 0.11,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.07,
+     0.16
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 1.0
+   },
+   {
+    "month": "2013-02",
+    "value": 0.11,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.07,
+     0.16
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 1.0
+   },
+   {
+    "month": "2013-03",
+    "value": 0.11,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.07,
+     0.16
+    ],
+    "modis_aqua": 1.0,
+    "viirs_snpp": 1.0
+   },
+   {
+    "month": "2013-04",
+    "value": 0.0,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.0,
+     0.0
+    ],
+    "modis_aqua": 1.0,
+    "viirs_snpp": 0.0
+   },
+   {
+    "month": "2013-05",
+    "value": 0.32,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.2,
+     0.49
+    ],
+    "modis_aqua": 1.0,
+    "viirs_snpp": 3.0
+   },
+   {
+    "month": "2013-06",
+    "value": 0.32,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.2,
+     0.49
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 3.0
+   },
+   {
+    "month": "2013-07",
+    "value": 1.07,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.67,
+     1.64
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 10.0
+   },
+   {
+    "month": "2013-08",
+    "value": 0.54,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.33,
+     0.82
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 5.0
+   },
+   {
+    "month": "2013-09",
+    "value": 0.32,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.2,
+     0.49
+    ],
+    "modis_aqua": 1.0,
+    "viirs_snpp": 3.0
+   },
+   {
+    "month": "2013-10",
+    "value": 0.0,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.0,
+     0.0
+    ],
+    "modis_aqua": 1.0,
+    "viirs_snpp": 0.0
+   },
+   {
+    "month": "2013-11",
+    "value": 0.0,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.0,
+     0.0
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 0.0
+   },
+   {
+    "month": "2013-12",
+    "value": 0.11,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.07,
+     0.16
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 1.0
+   },
+   {
+    "month": "2014-01",
+    "value": 0.0,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.0,
+     0.0
+    ],
+    "modis_aqua": 1.0,
+    "viirs_snpp": 0.0
+   },
+   {
+    "month": "2014-02",
+    "value": 0.0,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.0,
+     0.0
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 0.0
+   },
+   {
+    "month": "2014-03",
+    "value": 0.11,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.07,
+     0.16
+    ],
+    "modis_aqua": 1.0,
+    "viirs_snpp": 1.0
+   },
+   {
+    "month": "2014-04",
+    "value": 0.21,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.13,
+     0.33
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 2.0
+   },
+   {
+    "month": "2014-05",
+    "value": 0.21,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.13,
+     0.33
+    ],
+    "modis_aqua": 1.0,
+    "viirs_snpp": 2.0
+   },
+   {
+    "month": "2014-06",
+    "value": 0.54,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.33,
+     0.82
+    ],
+    "modis_aqua": 2.0,
+    "viirs_snpp": 5.0
+   },
+   {
+    "month": "2014-07",
+    "value": 0.54,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.33,
+     0.82
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 5.0
+   },
+   {
+    "month": "2014-08",
+    "value": 0.32,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.2,
+     0.49
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 3.0
+   },
+   {
+    "month": "2014-09",
+    "value": 0.0,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.0,
+     0.0
+    ],
+    "modis_aqua": 2.0,
+    "viirs_snpp": 0.0
+   },
+   {
+    "month": "2014-10",
+    "value": 0.0,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.0,
+     0.0
+    ],
+    "modis_aqua": 1.0,
+    "viirs_snpp": 0.0
+   },
+   {
+    "month": "2014-11",
+    "value": 0.0,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.0,
+     0.0
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 0.0
+   },
+   {
+    "month": "2014-12",
+    "value": 0.0,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.0,
+     0.0
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 0.0
+   },
+   {
+    "month": "2015-01",
+    "value": 0.0,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.0,
+     0.0
+    ],
+    "modis_aqua": 1.0,
+    "viirs_snpp": 0.0
+   },
+   {
+    "month": "2015-02",
+    "value": 0.0,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.0,
+     0.0
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 0.0
+   },
+   {
+    "month": "2015-03",
+    "value": 0.11,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.07,
+     0.16
+    ],
+    "modis_aqua": 1.0,
+    "viirs_snpp": 1.0
+   },
+   {
+    "month": "2015-04",
+    "value": 0.21,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.13,
+     0.33
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 2.0
+   },
+   {
+    "month": "2015-05",
+    "value": 0.32,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.2,
+     0.49
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 3.0
+   },
+   {
+    "month": "2015-06",
+    "value": 0.64,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.4,
+     0.98
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 6.0
+   },
+   {
+    "month": "2015-07",
+    "value": 0.43,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.27,
+     0.66
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 4.0
+   },
+   {
+    "month": "2015-08",
+    "value": 0.43,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.27,
+     0.66
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 4.0
+   },
+   {
+    "month": "2015-09",
+    "value": 0.75,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.47,
+     1.15
+    ],
+    "modis_aqua": 1.0,
+    "viirs_snpp": 7.0
+   },
+   {
+    "month": "2015-10",
+    "value": 0.0,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.0,
+     0.0
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 0.0
+   },
+   {
+    "month": "2015-11",
+    "value": 0.0,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.0,
+     0.0
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 0.0
+   },
+   {
+    "month": "2015-12",
+    "value": 0.11,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.07,
+     0.16
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 1.0
+   },
+   {
+    "month": "2016-01",
+    "value": 0.0,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.0,
+     0.0
+    ],
+    "modis_aqua": 2.0,
+    "viirs_snpp": 0.0
+   },
+   {
+    "month": "2016-02",
+    "value": 0.0,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.0,
+     0.0
+    ],
+    "modis_aqua": 1.0,
+    "viirs_snpp": 0.0
+   },
+   {
+    "month": "2016-03",
+    "value": 0.11,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.07,
+     0.16
+    ],
+    "modis_aqua": 1.0,
+    "viirs_snpp": 1.0
+   },
+   {
+    "month": "2016-04",
+    "value": 0.54,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.33,
+     0.82
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 5.0
+   },
+   {
+    "month": "2016-05",
+    "value": 0.32,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.2,
+     0.49
+    ],
+    "modis_aqua": 1.0,
+    "viirs_snpp": 3.0
+   },
+   {
+    "month": "2016-06",
+    "value": 0.64,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.4,
+     0.98
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 6.0
+   },
+   {
+    "month": "2016-07",
+    "value": 0.54,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.33,
+     0.82
+    ],
+    "modis_aqua": 1.0,
+    "viirs_snpp": 5.0
+   },
+   {
+    "month": "2016-08",
+    "value": 1.61,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     1.0,
+     2.46
+    ],
+    "modis_aqua": 1.0,
+    "viirs_snpp": 15.0
+   },
+   {
+    "month": "2016-09",
+    "value": 0.75,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.47,
+     1.15
+    ],
+    "modis_aqua": 1.0,
+    "viirs_snpp": 7.0
+   },
+   {
+    "month": "2016-10",
+    "value": 1.39,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.87,
+     2.13
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 13.0
+   },
+   {
+    "month": "2016-11",
+    "value": 0.0,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.0,
+     0.0
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 0.0
+   },
+   {
+    "month": "2016-12",
+    "value": 0.0,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.0,
+     0.0
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 0.0
+   },
+   {
+    "month": "2017-01",
+    "value": 0.11,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.07,
+     0.16
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 1.0
+   },
+   {
+    "month": "2017-02",
+    "value": 0.21,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.13,
+     0.33
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 2.0
+   },
+   {
+    "month": "2017-03",
+    "value": 0.32,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.2,
+     0.49
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 3.0
+   },
+   {
+    "month": "2017-04",
+    "value": 0.64,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.4,
+     0.98
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 6.0
+   },
+   {
+    "month": "2017-05",
+    "value": 0.43,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.27,
+     0.66
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 4.0
+   },
+   {
+    "month": "2017-06",
+    "value": 0.64,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.4,
+     0.98
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 6.0
+   },
+   {
+    "month": "2017-07",
+    "value": 0.32,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.2,
+     0.49
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 3.0
+   },
+   {
+    "month": "2017-08",
+    "value": 1.5,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.93,
+     2.29
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 14.0
+   },
+   {
+    "month": "2017-09",
+    "value": 0.21,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.13,
+     0.33
+    ],
+    "modis_aqua": 3.0,
+    "viirs_snpp": 2.0
+   },
+   {
+    "month": "2017-10",
+    "value": 0.43,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.27,
+     0.66
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 4.0
+   },
+   {
+    "month": "2017-11",
+    "value": 0.0,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.0,
+     0.0
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 0.0
+   },
+   {
+    "month": "2017-12",
+    "value": 0.11,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.07,
+     0.16
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 1.0
+   },
+   {
+    "month": "2018-01",
+    "value": 0.21,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.13,
+     0.33
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 2.0
+   },
+   {
+    "month": "2018-02",
+    "value": 0.0,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.0,
+     0.0
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 0.0
+   },
+   {
+    "month": "2018-03",
+    "value": 0.21,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.13,
+     0.33
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 2.0
+   },
+   {
+    "month": "2018-04",
+    "value": 0.32,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.2,
+     0.49
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 3.0
+   },
+   {
+    "month": "2018-05",
+    "value": 0.32,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.2,
+     0.49
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 3.0
+   },
+   {
+    "month": "2018-06",
+    "value": 0.43,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.27,
+     0.66
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 4.0
+   },
+   {
+    "month": "2018-07",
+    "value": 0.32,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.2,
+     0.49
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 3.0
+   },
+   {
+    "month": "2018-08",
+    "value": 0.32,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.2,
+     0.49
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 3.0
+   },
+   {
+    "month": "2018-09",
+    "value": 0.11,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.07,
+     0.16
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 1.0
+   },
+   {
+    "month": "2018-10",
+    "value": 0.0,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.0,
+     0.0
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 0.0
+   },
+   {
+    "month": "2018-11",
+    "value": 0.0,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.0,
+     0.0
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 0.0
+   },
+   {
+    "month": "2018-12",
+    "value": 0.21,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.13,
+     0.33
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 2.0
+   },
+   {
+    "month": "2019-01",
+    "value": 0.21,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.13,
+     0.33
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 2.0
+   },
+   {
+    "month": "2019-02",
+    "value": 0.0,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.0,
+     0.0
+    ],
+    "modis_aqua": 1.0,
+    "viirs_snpp": 0.0
+   },
+   {
+    "month": "2019-03",
+    "value": 0.11,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.07,
+     0.16
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 1.0
+   },
+   {
+    "month": "2019-04",
+    "value": 0.54,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.33,
+     0.82
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 5.0
+   },
+   {
+    "month": "2019-05",
+    "value": 0.11,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.07,
+     0.16
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 1.0
+   },
+   {
+    "month": "2019-06",
+    "value": 0.54,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.33,
+     0.82
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 5.0
+   },
+   {
+    "month": "2019-07",
+    "value": 0.86,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.53,
+     1.31
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 8.0
+   },
+   {
+    "month": "2019-08",
+    "value": 0.86,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.53,
+     1.31
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 8.0
+   },
+   {
+    "month": "2019-09",
+    "value": 0.43,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.27,
+     0.66
+    ],
+    "modis_aqua": 1.0,
+    "viirs_snpp": 4.0
+   },
+   {
+    "month": "2019-10",
+    "value": 0.0,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.0,
+     0.0
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 0.0
+   },
+   {
+    "month": "2019-11",
+    "value": 0.0,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.0,
+     0.0
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 0.0
+   },
+   {
+    "month": "2019-12",
+    "value": 0.21,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.13,
+     0.33
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 2.0
+   },
+   {
+    "month": "2020-01",
+    "value": 0.0,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.0,
+     0.0
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 0.0
+   },
+   {
+    "month": "2020-02",
+    "value": 0.11,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.07,
+     0.16
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 1.0
+   },
+   {
+    "month": "2020-03",
+    "value": 0.43,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.27,
+     0.66
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 4.0
+   },
+   {
+    "month": "2020-04",
+    "value": 0.75,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.47,
+     1.15
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 7.0
+   },
+   {
+    "month": "2020-05",
+    "value": 0.43,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.27,
+     0.66
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 4.0
+   },
+   {
+    "month": "2020-06",
+    "value": 0.75,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.47,
+     1.15
+    ],
+    "modis_aqua": 1.0,
+    "viirs_snpp": 7.0
+   },
+   {
+    "month": "2020-07",
+    "value": 0.54,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.33,
+     0.82
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 5.0
+   },
+   {
+    "month": "2020-08",
+    "value": 0.43,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.27,
+     0.66
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 4.0
+   },
+   {
+    "month": "2020-09",
+    "value": 0.21,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.13,
+     0.33
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 2.0
+   },
+   {
+    "month": "2020-10",
+    "value": 0.43,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.27,
+     0.66
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 4.0
+   },
+   {
+    "month": "2020-11",
+    "value": 0.11,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.07,
+     0.16
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 1.0
+   },
+   {
+    "month": "2020-12",
+    "value": 0.0,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.0,
+     0.0
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 0.0
+   },
+   {
+    "month": "2021-01",
+    "value": 0.21,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.13,
+     0.33
+    ],
+    "modis_aqua": 1.0,
+    "viirs_snpp": 2.0
+   },
+   {
+    "month": "2021-02",
+    "value": 0.0,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.0,
+     0.0
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 0.0
+   },
+   {
+    "month": "2021-03",
+    "value": 0.0,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.0,
+     0.0
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 0.0
+   },
+   {
+    "month": "2021-04",
+    "value": 0.32,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.2,
+     0.49
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 3.0
+   },
+   {
+    "month": "2021-05",
+    "value": 0.21,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.13,
+     0.33
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 2.0
+   },
+   {
+    "month": "2021-06",
+    "value": 0.86,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.53,
+     1.31
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 8.0
+   },
+   {
+    "month": "2021-07",
+    "value": 0.54,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.33,
+     0.82
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 5.0
+   },
+   {
+    "month": "2021-08",
+    "value": 0.75,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.47,
+     1.15
+    ],
+    "modis_aqua": 1.0,
+    "viirs_snpp": 7.0
+   },
+   {
+    "month": "2021-09",
+    "value": 0.54,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.33,
+     0.82
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 5.0
+   },
+   {
+    "month": "2021-10",
+    "value": 0.21,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.13,
+     0.33
+    ],
+    "modis_aqua": 1.0,
+    "viirs_snpp": 2.0
+   },
+   {
+    "month": "2021-11",
+    "value": 0.32,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.2,
+     0.49
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 3.0
+   },
+   {
+    "month": "2021-12",
+    "value": 0.11,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.07,
+     0.16
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 1.0
+   },
+   {
+    "month": "2022-01",
+    "value": 0.0,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.0,
+     0.0
+    ],
+    "modis_aqua": 1.0,
+    "viirs_snpp": 0.0
+   },
+   {
+    "month": "2022-02",
+    "value": 0.11,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.07,
+     0.16
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 1.0
+   },
+   {
+    "month": "2022-03",
+    "value": 0.0,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.0,
+     0.0
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 0.0
+   },
+   {
+    "month": "2022-04",
+    "value": 0.97,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.6,
+     1.47
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 9.0
+   },
+   {
+    "month": "2022-05",
+    "value": 0.32,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.2,
+     0.49
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 3.0
+   },
+   {
+    "month": "2022-06",
+    "value": 0.64,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.4,
+     0.98
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 6.0
+   },
+   {
+    "month": "2022-07",
+    "value": 0.75,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.47,
+     1.15
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 7.0
+   },
+   {
+    "month": "2022-08",
+    "value": 0.43,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.27,
+     0.66
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 4.0
+   },
+   {
+    "month": "2022-09",
+    "value": 0.0,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.0,
+     0.0
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 0.0
+   },
+   {
+    "month": "2022-10",
+    "value": 0.21,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.13,
+     0.33
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 2.0
+   },
+   {
+    "month": "2022-11",
+    "value": 0.11,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.07,
+     0.16
+    ],
+    "modis_aqua": 1.0,
+    "viirs_snpp": 1.0
+   },
+   {
+    "month": "2022-12",
+    "value": 0.0,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.0,
+     0.0
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 0.0
+   },
+   {
+    "month": "2023-01",
+    "value": 0.43,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.27,
+     0.66
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 4.0
+   },
+   {
+    "month": "2023-02",
+    "value": 0.0,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.0,
+     0.0
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 0.0
+   },
+   {
+    "month": "2023-03",
+    "value": 0.0,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.0,
+     0.0
+    ],
+    "modis_aqua": 1.0,
+    "viirs_snpp": 0.0
+   },
+   {
+    "month": "2023-04",
+    "value": 0.21,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.13,
+     0.33
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 2.0
+   },
+   {
+    "month": "2023-05",
+    "value": 0.21,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.13,
+     0.33
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 2.0
+   },
+   {
+    "month": "2023-06",
+    "value": 0.86,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.53,
+     1.31
+    ],
+    "modis_aqua": 2.0,
+    "viirs_snpp": 8.0
+   },
+   {
+    "month": "2023-07",
+    "value": 0.97,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.6,
+     1.47
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 9.0
+   },
+   {
+    "month": "2023-08",
+    "value": 0.75,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.47,
+     1.15
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 7.0
+   },
+   {
+    "month": "2023-09",
+    "value": 0.32,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.2,
+     0.49
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 3.0
+   },
+   {
+    "month": "2023-10",
+    "value": 0.0,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.0,
+     0.0
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 0.0
+   },
+   {
+    "month": "2023-11",
+    "value": 0.0,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.0,
+     0.0
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 0.0
+   },
+   {
+    "month": "2023-12",
+    "value": 0.0,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.0,
+     0.0
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 0.0
+   },
+   {
+    "month": "2024-01",
+    "value": 0.0,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.0,
+     0.0
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 0.0
+   },
+   {
+    "month": "2024-02",
+    "value": 0.0,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.0,
+     0.0
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 0.0
+   },
+   {
+    "month": "2024-03",
+    "value": 0.32,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.2,
+     0.49
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 3.0
+   },
+   {
+    "month": "2024-04",
+    "value": 0.21,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.13,
+     0.33
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 2.0
+   },
+   {
+    "month": "2024-05",
+    "value": 0.43,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.27,
+     0.66
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 4.0
+   },
+   {
+    "month": "2024-06",
+    "value": 0.11,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.07,
+     0.16
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 1.0
+   },
+   {
+    "month": "2024-07",
+    "value": 0.32,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.2,
+     0.49
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 3.0
+   },
+   {
+    "month": "2024-08",
+    "value": 0.32,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.2,
+     0.49
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 3.0
+   },
+   {
+    "month": "2024-09",
+    "value": 0.11,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.07,
+     0.16
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 1.0
+   },
+   {
+    "month": "2024-10",
+    "value": 0.11,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.07,
+     0.16
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 1.0
+   },
+   {
+    "month": "2024-11",
+    "value": 0.0,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.0,
+     0.0
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 0.0
+   },
+   {
+    "month": "2024-12",
+    "value": 0.32,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.2,
+     0.49
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 3.0
+   },
+   {
+    "month": "2025-01",
+    "value": 0.11,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.07,
+     0.16
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 1.0
+   },
+   {
+    "month": "2025-02",
+    "value": 0.0,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.0,
+     0.0
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 0.0
+   },
+   {
+    "month": "2025-03",
+    "value": 0.11,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.07,
+     0.16
+    ],
+    "modis_aqua": 1.0,
+    "viirs_snpp": 1.0
+   },
+   {
+    "month": "2025-04",
+    "value": 0.11,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.07,
+     0.16
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 1.0
+   },
+   {
+    "month": "2025-05",
+    "value": 0.11,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.07,
+     0.16
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 1.0
+   },
+   {
+    "month": "2025-06",
+    "value": 0.54,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.33,
+     0.82
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 5.0
+   },
+   {
+    "month": "2025-07",
+    "value": 0.64,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.4,
+     0.98
+    ],
+    "modis_aqua": 1.0,
+    "viirs_snpp": 6.0
+   },
+   {
+    "month": "2025-08",
+    "value": 0.64,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.4,
+     0.98
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 6.0
+   },
+   {
+    "month": "2025-09",
+    "value": 0.54,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.33,
+     0.82
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 5.0
+   },
+   {
+    "month": "2025-10",
+    "value": 0.21,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.13,
+     0.33
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 2.0
+   },
+   {
+    "month": "2025-11",
+    "value": 0.11,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.07,
+     0.16
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 1.0
+   },
+   {
+    "month": "2025-12",
+    "value": 0.32,
+    "source": "viirs_snpp_scaled",
+    "interval_95": [
+     0.2,
+     0.49
+    ],
+    "modis_aqua": 0.0,
+    "viirs_snpp": 3.0
+   }
+  ],
+  "unit": "detections on the Aqua-MODIS scale",
+  "season": {
+   "status": "ok",
+   "fire_year_starts": "Jan",
+   "definition": "Onset = month when 10 % of a fire-year's detections are reached, end = 90 %, peak = busiest month; the fire-year starts at the calendar month with the least activity.",
+   "typical": {
+    "onset": "Apr",
+    "peak": "Jul",
+    "end": "Sep",
+    "length_months": 7
+   },
+   "years": [
+    {
+     "fire_year": "2003-01..2003-12",
+     "onset": "Apr",
+     "peak": "Apr",
+     "end": "May",
+     "length_months": 2,
+     "detections": 2.0
+    },
+    {
+     "fire_year": "2004-01..2004-12",
+     "onset": "Jul",
+     "peak": "Jul",
+     "end": "Nov",
+     "length_months": 5,
+     "detections": 11.0
+    },
+    {
+     "fire_year": "2005-01..2005-12",
+     "onset": "Feb",
+     "peak": "May",
+     "end": "Sep",
+     "length_months": 8,
+     "detections": 10.0
+    },
+    {
+     "fire_year": "2006-01..2006-12",
+     "onset": "Mar",
+     "peak": "Jul",
+     "end": "Jul",
+     "length_months": 5,
+     "detections": 4.0
+    },
+    {
+     "fire_year": "2007-01..2007-12",
+     "onset": "Mar",
+     "peak": "Jun",
+     "end": "Oct",
+     "length_months": 8,
+     "detections": 8.0
+    },
+    {
+     "fire_year": "2008-01..2008-12",
+     "onset": "Mar",
+     "peak": "Oct",
+     "end": "Oct",
+     "length_months": 8,
+     "detections": 12.0
+    },
+    {
+     "fire_year": "2009-01..2009-12",
+     "onset": "May",
+     "peak": "May",
+     "end": "Oct",
+     "length_months": 6,
+     "detections": 3.0
+    },
+    {
+     "fire_year": "2010-01..2010-12",
+     "onset": "Apr",
+     "peak": "Jun",
+     "end": "Aug",
+     "length_months": 5,
+     "detections": 6.0
+    },
+    {
+     "fire_year": "2011-01..2011-12",
+     "onset": "May",
+     "peak": "Oct",
+     "end": "Oct",
+     "length_months": 6,
+     "detections": 5.0
+    },
+    {
+     "fire_year": "2012-01..2012-12",
+     "onset": "Mar",
+     "peak": "Aug",
+     "end": "Sep",
+     "length_months": 7,
+     "detections": 4.61
+    },
+    {
+     "fire_year": "2013-01..2013-12",
+     "onset": "Mar",
+     "peak": "Jul",
+     "end": "Sep",
+     "length_months": 7,
+     "detections": 3.01
+    },
+    {
+     "fire_year": "2014-01..2014-12",
+     "onset": "Apr",
+     "peak": "Jun",
+     "end": "Aug",
+     "length_months": 5,
+     "detections": 1.9300000000000002
+    },
+    {
+     "fire_year": "2015-01..2015-12",
+     "onset": "Apr",
+     "peak": "Sep",
+     "end": "Sep",
+     "length_months": 6,
+     "detections": 2.9999999999999996
+    },
+    {
+     "fire_year": "2016-01..2016-12",
+     "onset": "Apr",
+     "peak": "Aug",
+     "end": "Oct",
+     "length_months": 7,
+     "detections": 5.8999999999999995
+    },
+    {
+     "fire_year": "2017-01..2017-12",
+     "onset": "Mar",
+     "peak": "Aug",
+     "end": "Oct",
+     "length_months": 8,
+     "detections": 4.92
+    },
+    {
+     "fire_year": "2018-01..2018-12",
+     "onset": "Mar",
+     "peak": "Jun",
+     "end": "Sep",
+     "length_months": 7,
+     "detections": 2.4499999999999997
+    },
+    {
+     "fire_year": "2019-01..2019-12",
+     "onset": "Apr",
+     "peak": "Jul",
+     "end": "Sep",
+     "length_months": 6,
+     "detections": 3.87
+    },
+    {
+     "fire_year": "2020-01..2020-12",
+     "onset": "Mar",
+     "peak": "Apr",
+     "end": "Oct",
+     "length_months": 8,
+     "detections": 4.19
+    },
+    {
+     "fire_year": "2021-01..2021-12",
+     "onset": "Apr",
+     "peak": "Jun",
+     "end": "Nov",
+     "length_months": 8,
+     "detections": 4.07
+    },
+    {
+     "fire_year": "2022-01..2022-12",
+     "onset": "Apr",
+     "peak": "Apr",
+     "end": "Aug",
+     "length_months": 5,
+     "detections": 3.5399999999999996
+    },
+    {
+     "fire_year": "2023-01..2023-12",
+     "onset": "Jan",
+     "peak": "Jul",
+     "end": "Aug",
+     "length_months": 8,
+     "detections": 3.75
+    },
+    {
+     "fire_year": "2024-01..2024-12",
+     "onset": "Mar",
+     "peak": "May",
+     "end": "Dec",
+     "length_months": 10,
+     "detections": 2.2500000000000004
+    },
+    {
+     "fire_year": "2025-01..2025-12",
+     "onset": "May",
+     "peak": "Jul",
+     "end": "Nov",
+     "length_months": 7,
+     "detections": 3.44
+    }
+   ]
+  }
+ },
+ "current_conditions": {
+  "window": {
+   "start": "2026-11-02",
+   "end": "2026-11-15",
+   "days": 14
+  },
+  "sensor": "VIIRS NOAA-20 near real-time",
+  "reference": "S-NPP VIIRS, same calendar window, 2012 onwards",
+  "limitations": [
+   "Different satellites carrying the same VIIRS instrument: NOAA-20 and S-NPP counts are comparable but not identical.",
+   "Near-real-time data may still change; the most recent day can be incomplete.",
+   "A count above the past range is unusual for this place, not a forecast of danger."
+  ],
+  "status": "ok",
+  "detections": 1,
+  "category": "isolated_detections",
+  "percentile": 100.0,
+  "history_median": 0.0,
+  "history_p90": 0.0,
+  "history_max": 0.0,
+  "history": [
+   {
+    "year": 2012,
+    "detections": 0
+   },
+   {
+    "year": 2013,
+    "detections": 0
+   },
+   {
+    "year": 2014,
+    "detections": 0
+   },
+   {
+    "year": 2015,
+    "detections": 0
+   },
+   {
+    "year": 2016,
+    "detections": 0
+   },
+   {
+    "year": 2017,
+    "detections": 0
+   },
+   {
+    "year": 2018,
+    "detections": 0
+   },
+   {
+    "year": 2019,
+    "detections": 0
+   },
+   {
+    "year": 2020,
+    "detections": 0
+   },
+   {
+    "year": 2021,
+    "detections": 0
+   },
+   {
+    "year": 2022,
+    "detections": 0
+   },
+   {
+    "year": 2023,
+    "detections": 0
+   },
+   {
+    "year": 2024,
+    "detections": 0
+   },
+   {
+    "year": 2025,
+    "detections": 0
+   }
+  ],
+  "explanation": "1 detection in the last 14 days vs a median of 0 in the same window of 14 past years."
+ }
+}
