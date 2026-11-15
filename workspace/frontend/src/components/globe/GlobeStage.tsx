@@ -12,9 +12,18 @@ export interface GlobeMarker {
   lng: number;
 }
 
+/** A place picked on the globe: the clicked point and the country it falls in. */
+export interface GlobePick {
+  lat: number;
+  lng: number;
+  country: string;
+}
+
 interface Props {
   mode: GlobeMode;
   marker: GlobeMarker | null;
+  /** Called when the user clicks a country (or presses Enter: the country at the centre of the view). */
+  onPick?: (pick: GlobePick) => void;
   /** Width in CSS px reserved on the right for the analysis panel (globe page, desktop). */
   panelWidth: number;
 }
@@ -22,6 +31,7 @@ interface Props {
 const FOV = 20;
 const CAMERA_Z = 3000;
 const DEG = Math.PI / 180;
+const CLICK_SLOP_PX = 6;
 
 /** Pixel layout of the sphere (centre and radius) for each mode, measured from the mockups (1600 x 1040). */
 function layoutFor(mode: GlobeMode, w: number, h: number, panelWidth: number) {
@@ -44,8 +54,12 @@ function layoutFor(mode: GlobeMode, w: number, h: number, panelWidth: number) {
   return { cx: w / 2, cy: h * 0.5 + r * 0.64, r };
 }
 
-function Earth({ mode, marker, panelWidth, reduceMotion }: Props & { reduceMotion: boolean }) {
-  const { size, invalidate } = useThree();
+function Earth({ mode, marker, panelWidth, onPick, reduceMotion }: Props & { reduceMotion: boolean }) {
+  const { size, invalidate, camera } = useThree();
+  const onPickRef = useRef(onPick);
+  useEffect(() => {
+    onPickRef.current = onPick;
+  }, [onPick]);
   const [ready, setReady] = useState(false);
   const earth = useMemo(() => createEarth(), []);
   const group = useRef<THREE.Group>(null);
@@ -78,6 +92,8 @@ function Earth({ mode, marker, panelWidth, reduceMotion }: Props & { reduceMotio
   // marker + fly-to
   useEffect(() => {
     const a = anim.current;
+    // the country containing the selected place glows red
+    earth.setHighlight(marker ? earth.countryAt(marker.lat, marker.lng) : null);
     if (marker) {
       earth.globe.objectsData([{ lat: marker.lat, lng: marker.lng }]);
       a.targetYaw = -marker.lng * DEG;
@@ -111,8 +127,34 @@ function Earth({ mode, marker, panelWidth, reduceMotion }: Props & { reduceMotio
     let lastY = 0;
     const pointers = new Map<number, { x: number; y: number }>();
     let pinchDist = 0;
+    // a click is a single-pointer press that barely moved; anything else is a drag/pinch
+    let downAt: { x: number; y: number } | null = null;
+    let moved = 0;
+    const emit = (lat: number, lng: number) => {
+      const country = earth.countryAt(lat, lng);
+      const name = (country?.properties as { name?: string } | null)?.name;
+      if (name && onPickRef.current) onPickRef.current({ lat, lng, country: name });
+    };
+    const pickAt = (clientX: number, clientY: number) => {
+      const g = group.current;
+      if (!g) return;
+      const rect = el.getBoundingClientRect();
+      const ndc = new THREE.Vector2(
+        ((clientX - rect.left) / rect.width) * 2 - 1,
+        -((clientY - rect.top) / rect.height) * 2 + 1,
+      );
+      const ray = new THREE.Raycaster();
+      ray.setFromCamera(ndc, camera);
+      const sphere = new THREE.Sphere(g.getWorldPosition(new THREE.Vector3()), GLOBE_RADIUS * g.scale.x);
+      const hit = ray.ray.intersectSphere(sphere, new THREE.Vector3());
+      if (!hit) return;
+      const { lat, lng } = earth.globe.toGeoCoords(g.worldToLocal(hit));
+      emit(lat, lng);
+    };
     const onDown = (e: PointerEvent) => {
       pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      downAt = pointers.size === 1 ? { x: e.clientX, y: e.clientY } : null;
+      moved = 0;
       el.setPointerCapture(e.pointerId);
       lastX = e.clientX;
       lastY = e.clientY;
@@ -125,6 +167,7 @@ function Earth({ mode, marker, panelWidth, reduceMotion }: Props & { reduceMotio
     const onMove = (e: PointerEvent) => {
       if (!pointers.has(e.pointerId)) return;
       pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      if (downAt) moved = Math.max(moved, Math.hypot(e.clientX - downAt.x, e.clientY - downAt.y));
       const a = anim.current;
       if (pointers.size === 2) {
         const [p1, p2] = [...pointers.values()];
@@ -141,7 +184,10 @@ function Earth({ mode, marker, panelWidth, reduceMotion }: Props & { reduceMotio
       invalidate();
     };
     const onUp = (e: PointerEvent) => {
+      const click = e.type === 'pointerup' && downAt !== null && pointers.size === 1 && moved < CLICK_SLOP_PX;
       pointers.delete(e.pointerId);
+      if (click) pickAt(e.clientX, e.clientY);
+      if (pointers.size === 0) downAt = null;
       if (pointers.size < 2) pinchDist = 0;
       if (pointers.size === 0) anim.current.dragging = false;
     };
@@ -161,7 +207,11 @@ function Earth({ mode, marker, panelWidth, reduceMotion }: Props & { reduceMotio
       else if (e.key === 'ArrowDown') a.targetPitch = Math.min(a.targetPitch + step, 80 * DEG);
       else if (e.key === '+' || e.key === '=') a.targetZoom = Math.min(a.targetZoom * 1.15, 2.6);
       else if (e.key === '-' || e.key === '_') a.targetZoom = Math.max(a.targetZoom / 1.15, 0.6);
-      else handled = false;
+      else if (e.key === 'Enter') {
+        // the point facing the viewer (inverse of the fly-to: yaw = -lng, pitch = lat)
+        const lng = ((((-a.yaw / DEG + 180) % 360) + 360) % 360) - 180;
+        emit(a.pitch / DEG, lng);
+      } else handled = false;
       if (handled) {
         e.preventDefault();
         invalidate();
@@ -182,7 +232,7 @@ function Earth({ mode, marker, panelWidth, reduceMotion }: Props & { reduceMotio
       el.removeEventListener('wheel', onWheel);
       keyTarget.removeEventListener('keydown', onKey);
     };
-  }, [mode, gl, invalidate]);
+  }, [mode, gl, invalidate, camera, earth]);
 
   useFrame((state, delta) => {
     const g = group.current;
@@ -222,6 +272,9 @@ function Earth({ mode, marker, panelWidth, reduceMotion }: Props & { reduceMotio
     earth.sideMaterial.opacity = 0.85 * a.borders;
     earth.capMaterial.visible = earth.sideMaterial.visible = a.borders > 0.01;
     const pulse = reduceMotion ? 1 : 1 + 0.18 * Math.sin(state.clock.elapsedTime * 2.6);
+    earth.hiCapMaterial.opacity = (0.62 + (pulse - 1) * 0.5) * a.borders;
+    earth.hiSideMaterial.opacity = 0.9 * a.borders;
+    earth.hiCapMaterial.visible = earth.hiSideMaterial.visible = a.borders > 0.01;
     earth.pinGlow.scale.setScalar(14 * pulse);
 
     const settling =
@@ -241,7 +294,7 @@ function Earth({ mode, marker, panelWidth, reduceMotion }: Props & { reduceMotio
   );
 }
 
-export default function GlobeStage({ mode, marker, panelWidth }: Props) {
+export default function GlobeStage({ mode, marker, panelWidth, onPick }: Props) {
   const { reduceMotion } = useA11y();
   const visible = mode !== 'hidden';
   return (
@@ -254,7 +307,7 @@ export default function GlobeStage({ mode, marker, panelWidth }: Props) {
       aria-roledescription={mode === 'globe' ? 'interactive globe' : undefined}
       aria-label={
         mode === 'globe'
-          ? 'Interactive 3D globe. Drag or use the arrow keys to rotate; scroll, pinch or use plus and minus to zoom. Locations are chosen with the search field in the panel.'
+          ? 'Interactive 3D globe. Drag or use the arrow keys to rotate; scroll, pinch or use plus and minus to zoom. Click a country, or press Enter for the country in the centre, to analyse that place; the search field in the panel also chooses locations.'
           : undefined
       }
     >
@@ -266,8 +319,17 @@ export default function GlobeStage({ mode, marker, panelWidth }: Props) {
         style={{ touchAction: mode === 'globe' ? 'none' : 'auto' }}
       >
         <ambientLight intensity={mode === 'home' ? 0.8 : 2.3} />
-        <directionalLight position={mode === 'home' ? [-2200, 1900, 1500] : [-600, 900, 3000]} intensity={mode === 'home' ? 4.6 : 1.6} />
-        <Earth mode={mode} marker={marker} panelWidth={panelWidth} reduceMotion={reduceMotion} />
+        <directionalLight
+          position={mode === 'home' ? [-2200, 1900, 1500] : [-600, 900, 3000]}
+          intensity={mode === 'home' ? 4.6 : 1.6}
+        />
+        <Earth
+          mode={mode}
+          marker={marker}
+          panelWidth={panelWidth}
+          onPick={onPick}
+          reduceMotion={reduceMotion}
+        />
       </Canvas>
     </div>
   );

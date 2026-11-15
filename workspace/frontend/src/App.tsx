@@ -1,17 +1,25 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { MotionConfig } from 'motion/react';
-import { lazy, Suspense, useEffect, useMemo, useState } from 'react';
-import { BrowserRouter, Navigate, Route, Routes, useLocation, useSearchParams } from 'react-router';
+import { lazy, Suspense, useCallback, useEffect, useMemo, useState } from 'react';
+import {
+  BrowserRouter,
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from 'react-router';
 import AccessibilityPanel from './components/layout/AccessibilityPanel';
 import NavBar from './components/layout/NavBar';
 import Starfield from './components/layout/Starfield';
 import { A11yProvider, useA11y } from './state/a11y';
-import { parseLocationParams } from './state/location';
+import { locationSearch, parseLocationParams } from './state/location';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
 import FaqPage from './pages/FaqPage';
-import type { GlobeMode } from './components/globe/GlobeStage';
+import type { GlobeMode, GlobePick } from './components/globe/GlobeStage';
 
 const GlobeStage = lazy(() => import('./components/globe/GlobeStage'));
 const GlobePage = lazy(() => import('./pages/GlobePage'));
@@ -41,7 +49,23 @@ function Shell() {
   const [params] = useSearchParams();
   const { reduceMotion } = useA11y();
   const width = useViewportWidth();
+  const navigate = useNavigate();
   const path = location.pathname;
+  // Clicking a country on the globe analyses the clicked point, labelled with the country's name.
+  const onPick = useCallback(
+    (p: GlobePick) =>
+      navigate(
+        '/globe' +
+          locationSearch({
+            id: 'globe:' + p.lat + ',' + p.lng,
+            name: p.country,
+            detail: '',
+            latitude: p.lat,
+            longitude: p.lng,
+          }),
+      ),
+    [navigate],
+  );
   const mode: GlobeMode = path === '/' ? 'home' : path === '/globe' ? 'globe' : 'hidden';
   const selected = mode === 'globe' ? parseLocationParams(params) : null;
   const marker = useMemo(
@@ -68,10 +92,14 @@ function Shell() {
       </a>
       <Starfield variant={mode === 'globe' ? 'deep' : mode === 'home' ? 'home' : 'navy'} />
       <Suspense fallback={null}>
-        <GlobeStage mode={mode} marker={marker} panelWidth={panelWidthFor(width)} />
+        <GlobeStage mode={mode} marker={marker} panelWidth={panelWidthFor(width)} onPick={onPick} />
       </Suspense>
       <NavBar variant={mode === 'globe' ? 'globe' : 'default'} />
-      <main id="main" tabIndex={-1} className={`page-main page-main--${mode === 'hidden' ? 'content' : mode}`}>
+      <main
+        id="main"
+        tabIndex={-1}
+        className={`page-main page-main--${mode === 'hidden' ? 'content' : mode}`}
+      >
         <Suspense fallback={<p className="page-loading">Loading…</p>}>
           <Routes>
             <Route path="/" element={<HomePage />} />

@@ -62,6 +62,36 @@ test.describe('home → interactive globe', () => {
     await expect(page).toHaveURL(/lat=37\.70000&lon=-119\.50000/);
   });
 
+  test('clicking a country on the globe selects that place and names it after the country', async ({ page, viewport }) => {
+    test.skip((viewport?.width ?? 0) < 820, 'desktop layout');
+    await page.goto('/globe');
+    const stage = page.getByTestId('globe-stage');
+    await page.waitForTimeout(2500); // textures + settle
+    // The default view faces 18 N, 20 E (Chad); the sphere centre is at (0.4 w, 0.567 h) on desktop (mockup 02).
+    const w = viewport!.width;
+    const h = viewport!.height;
+    await page.mouse.click(Math.min(w * 0.4, (w - Math.min(Math.max(w * 0.256, 340), 470)) * 0.54), h * 0.567);
+    await expect(page).toHaveURL(/\/globe\?lat=1[5-9]\.\d+&lon=(1[5-9]|2[0-5])\.\d+&name=Chad/);
+    await expect(page.getByRole('complementary', { name: 'Location analysis' })).toContainText('Chad');
+    // a drag is not a click: rotating the globe must not change the selection
+    const before = page.url();
+    const box = (await stage.boundingBox())!;
+    await page.mouse.move(box.x + box.width * 0.3, box.y + box.height * 0.5);
+    await page.mouse.down();
+    await page.mouse.move(box.x + box.width * 0.36, box.y + box.height * 0.52, { steps: 6 });
+    await page.mouse.up();
+    expect(page.url()).toBe(before);
+  });
+
+  test('Enter on the focused globe selects the country in the centre of the view', async ({ page, viewport }) => {
+    test.skip((viewport?.width ?? 0) < 820, 'desktop layout');
+    await page.goto('/globe');
+    await page.waitForTimeout(1500);
+    await page.getByTestId('globe-stage').focus();
+    await page.keyboard.press('Enter');
+    await expect(page).toHaveURL(/name=Chad/);
+  });
+
   test('live backend: the analysis request reaches the real API and its outcome is reported honestly', async ({ page }) => {
     test.skip(!process.env.E2E_LIVE_BACKEND, 'starts a real NASA analysis; run with E2E_LIVE_BACKEND=1');
     const post = page.waitForResponse((r) => r.url().endsWith('/api/v1/analyses') && r.request().method() === 'POST');
