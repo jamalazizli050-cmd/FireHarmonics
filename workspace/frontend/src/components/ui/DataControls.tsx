@@ -1,7 +1,7 @@
 import { useId, useState } from 'react';
 import type { FirmsSource } from '../../api/types';
 import { PERIOD_PRESETS, presetRange, todayUtc, validatePeriod, type PeriodPreset, type PeriodSelection } from '../../lib/period';
-import { groupSources, SOURCE_INFO, sourceLongLabel } from '../../lib/sources';
+import { SOURCE_INFO, sourceLongLabel } from '../../lib/sources';
 import { RADIUS_OPTIONS_KM } from '../../state/location';
 
 export type DataView = 'raw' | 'harmonized' | 'normalized';
@@ -29,8 +29,9 @@ interface Props {
   layout: 'panel' | 'report';
 }
 
-const HARMONIZED = '__harmonized__';
 const NORMALIZED = '__normalized__';
+/** The main NASA FIRMS product: VIIRS on NOAA-20, near real-time (S-NPP delivery ended on 2026-11-02). */
+export const MAIN_SOURCE: FirmsSource = 'VIIRS_NOAA20_NRT';
 
 /**
  * Satellite-source and time-period controls. The same component (bound to the same state) is rendered
@@ -80,12 +81,16 @@ function CustomPeriod({
 export default function DataControls({ settings, onChange, sources, harmonized, disabled, layout }: Props) {
   const id = useId();
 
-  const selectValue = settings.view === 'harmonized' ? HARMONIZED : settings.view === 'normalized' ? NORMALIZED : settings.source;
+  // The main source is always listed; any other current source (e.g. from an older link) is kept visible so the
+  // select never shows a value it does not contain.
+  const offered = [...new Set<FirmsSource>([MAIN_SOURCE, settings.source])].filter(
+    (s) => s === MAIN_SOURCE || sources.includes(s),
+  );
+  const selectValue = settings.view === 'normalized' ? NORMALIZED : settings.source;
   const info = SOURCE_INFO[settings.source];
 
   const onSource = (value: string) => {
-    if (value === HARMONIZED) onChange({ ...settings, view: 'harmonized' });
-    else if (value === NORMALIZED) onChange({ ...settings, view: 'normalized' });
+    if (value === NORMALIZED) onChange({ ...settings, view: 'normalized' });
     else onChange({ ...settings, view: 'raw', source: value as FirmsSource });
   };
 
@@ -109,36 +114,25 @@ export default function DataControls({ settings, onChange, sources, harmonized, 
           onChange={(e) => onSource(e.target.value)}
           aria-describedby={`${id}-source-help`}
         >
-          {groupSources(sources).map((g) => (
-            <optgroup key={g.label} label={g.label}>
-              {g.items.map((s) => (
-                <option key={s} value={s}>
-                  {SOURCE_INFO[s].instrument} · {SOURCE_INFO[s].platforms} ·{' '}
-                  {SOURCE_INFO[s].processing === 'near real-time' ? 'Near real-time' : 'Standard archive'}
-                </option>
-              ))}
-            </optgroup>
+          {/* Only the main NASA FIRMS VIIRS product and the normalized index are offered. */}
+          {offered.map((s) => (
+            <option key={s} value={s}>
+              {SOURCE_INFO[s].instrument} · {SOURCE_INFO[s].platforms} ·{' '}
+              {SOURCE_INFO[s].processing === 'near real-time' ? 'Near real-time' : 'Standard archive'}
+            </option>
           ))}
-          <optgroup label="Derived product">
-            <option value={HARMONIZED} disabled={!harmonized.available}>
-              Harmonized MODIS-equivalent (regional only){harmonized.available ? '' : ' — not available here'}
-            </option>
-            <option value={NORMALIZED} disabled={!harmonized.normalizedAvailable}>
-              Normalized index — not harmonized{harmonized.normalizedAvailable ? '' : ' (needs 12 observed months)'}
-            </option>
-          </optgroup>
+          <option value={NORMALIZED} disabled={!harmonized.normalizedAvailable}>
+            Normalized index — not harmonized{harmonized.normalizedAvailable ? '' : ' (needs 12 observed months)'}
+          </option>
         </select>
         <p id={`${id}-source-help`} className="field__help">
-          {settings.view === 'harmonized' ? (
-            <>Regional MODIS-equivalent monthly series (2012–2021). Not validated at the local scale. The descriptive statistics still use {settings.source}.</>
-          ) : settings.view === 'normalized' ? (
+          {settings.view === 'normalized' ? (
             <>Relative activity index (each month ÷ the series’ average month). Mathematical normalization, not a harmonization and not validated. The descriptive statistics still use {settings.source}.</>
           ) : (
             <>
               {sourceLongLabel(settings.source)}.{info?.note ? ` ${info.note}` : ''}
             </>
           )}
-          {!harmonized.available && settings.view === 'raw' && layout === 'report' ? ` Harmonized: ${harmonized.reason}` : ''}
         </p>
       </div>
 

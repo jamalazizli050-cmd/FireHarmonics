@@ -127,19 +127,20 @@ test.describe('location analysis report (backend example result)', () => {
     await expect(open).toBeFocused();
   });
 
-  test('source selection is synchronised between panel and report and triggers a real-shaped API request', async ({ page }) => {
+  test('settings are synchronised between panel and report and trigger a real-shaped API request', async ({ page }) => {
     const state = await mockCompletedAnalysis(page);
     await page.goto(GLOBE_URL);
     await expect(page.getByTestId('panel-summary')).toBeVisible();
     await page.getByTestId('open-report').click();
     const dialog = page.getByRole('dialog');
-    await dialog.getByLabel('Satellite data').selectOption('MODIS_SP');
-    await expect.poll(() => state.posts.at(-1)?.source).toBe('MODIS_SP');
-    expect(state.posts.at(-1)).toMatchObject({ ml_mode: 'cache_only', radius_km: 25 });
+    const before = state.posts.length;
+    await dialog.getByLabel('Time period').selectOption('last_90');
+    await expect.poll(() => state.posts.length).toBeGreaterThan(before);
+    expect(state.posts.at(-1)).toMatchObject({ source: 'VIIRS_NOAA20_NRT', ml_mode: 'cache_only', radius_km: 25 });
     await page.keyboard.press('Escape');
     await expect(dialog).toBeHidden();
     const panel = page.getByRole('complementary', { name: 'Location analysis' });
-    await expect(panel.getByLabel('Satellite data')).toHaveValue('MODIS_SP');
+    await expect(panel.getByLabel('Time period')).toHaveValue('last_90');
     await panel.getByLabel('Time period').selectOption('last_365');
     await expect.poll(() => state.posts.at(-1)?.start_date).toBeTruthy();
     const last = state.posts.at(-1)!;
@@ -147,12 +148,16 @@ test.describe('location analysis report (backend example result)', () => {
     expect(days).toBe(365);
   });
 
-  test('harmonized option is unavailable outside the training regions', async ({ page }) => {
+  test('satellite data offers only the main FIRMS VIIRS product and the normalized index', async ({ page }) => {
     await mockCompletedAnalysis(page);
     await page.goto(GLOBE_URL);
     await expect(page.getByTestId('panel-summary')).toBeVisible();
-    const option = page.getByLabel('Satellite data').locator('option[value="__harmonized__"]');
-    await expect(option).toBeDisabled();
+    const options = page.getByLabel('Satellite data').locator('option');
+    await expect(options).toHaveCount(2);
+    expect(await options.evaluateAll((els) => els.map((e) => (e as HTMLOptionElement).value))).toEqual([
+      'VIIRS_NOAA20_NRT',
+      '__normalized__',
+    ]);
   });
 
   test('normalized index is offered where no harmonized series exists, clearly labelled', async ({ page }) => {

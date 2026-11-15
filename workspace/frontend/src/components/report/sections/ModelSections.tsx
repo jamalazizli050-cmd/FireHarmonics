@@ -299,15 +299,6 @@ export function SatelliteSection({
               <p className="view-card__count">
                 {v.status === 'this_result' ? `${fmtNumber(v.detection_count)} detections (${sourceLabel(v.source)})` : `Needs a separate analysis (${v.source})`}
               </p>
-              {v.status !== 'this_result' && (
-                <button
-                  type="button"
-                  className="button button--small"
-                  onClick={() => onSettingsChange({ ...settings, view: 'raw', source: v.source as AnalysisSettings['source'] })}
-                >
-                  Analyse raw {instrument} ({v.source})
-                </button>
-              )}
             </div>
           );
         })}
@@ -319,11 +310,6 @@ export function SatelliteSection({
             {hv.validation ? ` · count ${humanize(hv.validation.count)} · FRP ${humanize(hv.validation.frp)}` : ''}
           </p>
           <p className="fineprint">{hv.explanation}</p>
-          {harmonized.available && settings.view !== 'harmonized' && (
-            <button type="button" className="button button--small" onClick={() => onSettingsChange({ ...settings, view: 'harmonized' })}>
-              Show regional harmonized series
-            </button>
-          )}
         </div>
         {sa.views.normalized && (
           <div className={`view-card ${settings.view === 'normalized' ? 'is-current' : ''}`} data-testid="normalized-card">
