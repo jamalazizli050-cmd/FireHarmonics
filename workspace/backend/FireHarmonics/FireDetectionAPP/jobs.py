@@ -9,7 +9,10 @@ An ML failure never yields fabricated output: the job completes with the genuine
 descriptive statistics, ``status="partial"``, ``prediction.probability=None`` and
 the engine error, and the partial result is not cached (so a new request retries).
 """
+import hashlib
+import hmac
 import logging
+import secrets
 import threading
 import time
 from concurrent.futures import ThreadPoolExecutor
@@ -62,6 +65,20 @@ class AnalysisService:
         job = self.store.job(job_id)
         if job is None:
             raise HTTPException(404, "Analysis job not found")
+        return job
+
+    @staticmethod
+    def token_hash(token):
+        return hashlib.sha256(token.encode("utf-8")).hexdigest()
+
+    def authorize(self, job_id, token):
+        """Only the client that started a job (it holds the owner token from POST /analyses) may cancel or retry it.
+
+        Job IDs alone are not credentials: they appear in URLs, logs and shared exports."""
+        job = self.require_job(job_id)
+        expected = job.get("owner_hash")
+        if not token or not expected or not hmac.compare_digest(self.token_hash(token), expected):
+            raise HTTPException(403, "This analysis was started by another client. Only its owner can cancel or retry it.")
         return job
 
     def update(self, job_id, **changes):
@@ -146,10 +163,13 @@ class AnalysisService:
                    "links": {"status": prefix, "events": f"{prefix}/events", "result": f"{prefix}/result",
                              "retry": f"{prefix}/retry", "export": f"{prefix}/export"},
                    "result": result}
+            # The owner token is returned once and only its hash is stored; it authorizes cancel/retry.
+            token = secrets.token_urlsafe(32)
+            job["owner_hash"] = self.token_hash(token)
             self.store.save_job(job)
             if not hit:
                 self.executor.submit(self.run, job_id)
-            return job
+            return {**job, "owner_token": token}
 
     def retry(self, job_id):
         with self.lock:

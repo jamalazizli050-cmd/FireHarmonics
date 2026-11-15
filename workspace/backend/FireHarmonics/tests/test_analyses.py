@@ -49,7 +49,13 @@ class AnalysisTests(unittest.TestCase):
         response = self.client.post("/api/v1/analyses", json=payload or PAYLOAD)
         self.assertEqual(response.status_code, 202, response.text)
         self.assertEqual(response.json()["status_code"], 202)
+        self.tokens = {**getattr(self, "tokens", {}), response.json()["job_id"]: response.json()["owner_token"]}
         return response.json()["job_id"]
+
+    def act(self, job_id, action, token=None):
+        """POST cancel/retry as the job's owner (or with an explicit token)."""
+        token = getattr(self, "tokens", {}).get(job_id) if token is None else token
+        return self.client.post(f"/api/v1/analyses/{job_id}/{action}", headers={"X-Job-Token": token} if token else {})
 
     def test_background_work_returns_before_nasa_and_pending_result_is_202(self):
         gate = threading.Event()
@@ -149,11 +155,11 @@ class AnalysisTests(unittest.TestCase):
         failed = self.client.get(f"/api/v1/analyses/{job_id}/result")
         self.assertEqual(failed.status_code, 409)
         self.get.side_effect = self.respond
-        response = self.client.post(f"/api/v1/analyses/{job_id}/retry")
+        response = self.act(job_id, "retry")
         self.assertEqual(response.status_code, 202)
         self.assertEqual(self.wait(job_id)["status"], "completed")
         self.assertEqual(self.wait(job_id)["attempt"], 2)
-        self.assertEqual(self.client.post(f"/api/v1/analyses/{job_id}/retry").status_code, 409)
+        self.assertEqual(self.act(job_id, "retry").status_code, 409)
 
     def test_retry_reuses_successful_download_batches(self):
         downloaded = []
@@ -172,7 +178,7 @@ class AnalysisTests(unittest.TestCase):
         first_url = downloaded[0]
         self.get.reset_mock()
         self.get.side_effect = self.respond
-        self.assertEqual(self.client.post(f"/api/v1/analyses/{job_id}/retry").status_code, 202)
+        self.assertEqual(self.act(job_id, "retry").status_code, 202)
         self.assertEqual(self.wait(job_id)["status"], "completed")
         self.assertNotIn(first_url, [call.args[0] for call in self.get.call_args_list])
 
@@ -182,7 +188,7 @@ class AnalysisTests(unittest.TestCase):
         job = self.wait(job_id)
         self.assertEqual(job["error"]["retry_after_seconds"], 120)
         self.assertEqual(self.get.call_count, 1)
-        retry = self.client.post(f"/api/v1/analyses/{job_id}/retry")
+        retry = self.act(job_id, "retry")
         self.assertEqual(retry.status_code, 429)
         self.assertGreater(int(retry.headers["Retry-After"]), 60)
 
@@ -217,7 +223,7 @@ class AnalysisTests(unittest.TestCase):
         job = self.wait(job_id)
         self.assertEqual(job["error"]["code"], "insufficient_data")
         self.assertFalse(job["error"]["recoverable"])
-        self.assertEqual(self.client.post(f"/api/v1/analyses/{job_id}/retry").status_code, 409)
+        self.assertEqual(self.act(job_id, "retry").status_code, 409)
         self.assertEqual(self.get.call_count, 1)
 
     def test_restart_marks_unfinished_jobs_recoverable(self):
@@ -252,7 +258,7 @@ class CancelTests(AnalysisTests):
         self.get.side_effect = blocked
         job_id = self.submit()
         self.assertTrue(reached.wait(1))
-        response = self.client.post(f"/api/v1/analyses/{job_id}/cancel")
+        response = self.act(job_id, "cancel")
         self.assertEqual(response.status_code, 200, response.text)
         gate.set()
         job = self.wait(job_id)
@@ -260,10 +266,10 @@ class CancelTests(AnalysisTests):
         self.assertEqual(job["stage"], "cancelled")
         self.assertEqual(job["error"]["code"], "cancelled")
         self.assertTrue(job["error"]["recoverable"])
-        self.assertEqual(self.client.post(f"/api/v1/analyses/{job_id}/cancel").status_code, 409)
+        self.assertEqual(self.act(job_id, "cancel").status_code, 409)
         # a cancelled job can be retried and then completes normally
         self.get.side_effect = self.respond
-        self.assertEqual(self.client.post(f"/api/v1/analyses/{job_id}/retry").status_code, 202)
+        self.assertEqual(self.act(job_id, "retry").status_code, 202)
         self.assertEqual(self.wait(job_id)["status"], "completed")
 
     def test_cancel_queued_job_never_runs(self):
@@ -276,3 +282,37 @@ class CancelTests(AnalysisTests):
 
     def test_cancel_unknown_job_is_404(self):
         self.assertEqual(self.client.post("/api/v1/analyses/nope/cancel").status_code, 404)
+
+    def test_only_the_owner_can_cancel_or_retry(self):
+        gate = threading.Event()
+        reached = threading.Event()
+        self.addCleanup(gate.set)
+
+        def blocked(url, **kwargs):
+            reached.set()
+            gate.wait(3)
+            return self.respond(url, **kwargs)
+
+        self.get.side_effect = blocked
+        job_id = self.submit()
+        self.assertTrue(reached.wait(1))
+        # another browser knows the job id but not the owner token
+        self.assertEqual(self.client.post(f"/api/v1/analyses/{job_id}/cancel").status_code, 403)
+        self.assertEqual(self.act(job_id, "cancel", token="guessed-token").status_code, 403)
+        status = self.client.get(f"/api/v1/analyses/{job_id}").json()
+        self.assertNotIn("owner_hash", status)
+        self.assertNotIn("owner_token", status)
+        gate.set()
+        self.assertEqual(self.wait(job_id)["status"], "completed")   # untouched by the other client
+        self.assertEqual(self.client.post(f"/api/v1/analyses/{job_id}/retry").status_code, 403)
+
+    def test_another_jobs_token_does_not_work(self):
+        first = self.submit()
+        second = self.submit({**PAYLOAD, "latitude": PAYLOAD["latitude"] + 1})
+        self.assertEqual(self.act(first, "cancel", token=self.tokens[second]).status_code, 403)
+
+    def test_job_list_does_not_expose_ids_or_requests(self):
+        job_id = self.submit()
+        listing = self.client.get("/api/v1/analyses").json()
+        self.assertNotIn(job_id, str(listing))
+        self.assertNotIn("jobs", listing)

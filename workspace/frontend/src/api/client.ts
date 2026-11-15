@@ -110,12 +110,18 @@ export const api = {
     return data as ResultEnvelope;
   },
   /** Cancel a queued/running job (backend stops it at its next checkpoint). Errors are ignored by callers. */
-  cancel: (jobId: string) =>
-    request<JobResponse>(`/api/v1/analyses/${encodeURIComponent(jobId)}/cancel`, { method: 'POST' }).then((r) => r.data),
-  retry: (jobId: string, signal?: AbortSignal) =>
-    request<JobResponse>(`/api/v1/analyses/${encodeURIComponent(jobId)}/retry`, { method: 'POST', signal }).then(
-      (r) => r.data,
-    ),
+  cancel: (jobId: string, ownerToken: string) =>
+    request<JobResponse>(`/api/v1/analyses/${encodeURIComponent(jobId)}/cancel`, {
+      method: 'POST',
+      headers: { 'X-Job-Token': ownerToken },
+    }).then((r) => r.data),
+  /** Only the client that started the job holds its owner token; the backend answers 403 to anyone else. */
+  retry: (jobId: string, ownerToken: string, signal?: AbortSignal) =>
+    request<JobResponse>(`/api/v1/analyses/${encodeURIComponent(jobId)}/retry`, {
+      method: 'POST',
+      headers: { 'X-Job-Token': ownerToken },
+      signal,
+    }).then((r) => r.data),
   eventsUrl: (jobId: string) => `${API_BASE}/api/v1/analyses/${encodeURIComponent(jobId)}/events`,
   exportUrl: (jobId: string, format: 'json' | 'csv', table?: CsvTable) => {
     const params = new URLSearchParams({ format });

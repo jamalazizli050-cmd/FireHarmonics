@@ -113,6 +113,8 @@ class JobResponse(BaseModel):
 
 class AcceptedJobResponse(JobResponse):
     status_code: Literal[202] = 202
+    # Only in the response to POST /api/v1/analyses. Send it as X-Job-Token to cancel or retry the job.
+    owner_token: str | None = None
 
 
 class Prediction(BaseModel):

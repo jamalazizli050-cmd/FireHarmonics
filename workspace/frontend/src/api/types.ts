@@ -65,6 +65,8 @@ export interface JobResponse {
   result_status: ResultStatus | null;
   links: JobLinks;
   request?: Partial<AnalysisRequest>;
+  /** Only in the POST /api/v1/analyses response: proves this client owns the job (needed to cancel/retry). */
+  owner_token?: string | null;
 }
 
 export interface Period {

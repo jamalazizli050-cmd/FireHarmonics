@@ -320,14 +320,15 @@ test('changing settings cancels the superseded analysis on the server', async ({
              retry: `/api/v1/analyses/${id}/retry`, export: `/api/v1/analyses/${id}/export` },
   });
   let n = 0;
-  await page.route('**/api/v1/analyses', (r) => (r.request().method() === 'POST' ? r.fulfill({ status: 202, json: job(`job-${++n}`, 'running') }) : r.continue()));
+  await page.route('**/api/v1/analyses', (r) => (r.request().method() === 'POST' ? r.fulfill({ status: 202, json: { ...job(`job-${++n}`, 'running'), owner_token: `token-${n}` } }) : r.continue()));
   await page.route('**/api/v1/analyses/*/events', (r) => r.fulfill({ status: 200, headers: { 'Content-Type': 'text/event-stream' }, body: ': waiting\n\n' }));
   await page.route('**/api/v1/analyses/*/cancel', (r) => {
-    cancels.push(r.request().url().split('/').at(-2)!);
+    cancels.push(`${r.request().url().split('/').at(-2)} ${r.request().headers()['x-job-token']}`);
     return r.fulfill({ status: 200, json: job('x', 'failed') });
   });
   await page.goto('/globe?lat=45&lon=10&name=Cancel%20check');
   await expect(page.getByTestId('job-status')).toBeVisible();
   await page.getByRole('complementary', { name: 'Location analysis' }).getByLabel('Area of interest').selectOption('50');
-  await expect.poll(() => cancels).toEqual(['job-1']);
+  // the cancel carries the owner token the backend issued for job-1 (other clients would get 403)
+  await expect.poll(() => cancels).toEqual(['job-1 token-1']);
 });

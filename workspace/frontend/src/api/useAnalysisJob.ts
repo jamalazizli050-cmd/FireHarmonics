@@ -40,6 +40,9 @@ export function useAnalysisJob() {
     stateRef.current = state;
   }, [state]);
   const runRef = useRef(0);
+  /** Owner token of the job this client started. Kept in memory only, never in state, storage or URLs. */
+  const ownerRef = useRef<{ jobId: string; token: string } | null>(null);
+  const ownerToken = (jobId: string) => (ownerRef.current?.jobId === jobId ? ownerRef.current.token : null);
   const cleanupRef = useRef<() => void>(() => {});
 
   const stopWatching = useCallback(() => {
@@ -169,7 +172,9 @@ export function useAnalysisJob() {
   /** The previous job is superseded: cancel it on the server so it does not occupy a worker. */
   const cancelPrevious = useCallback(() => {
     const prev = stateRef.current.job;
-    if (prev && !TERMINAL.has(prev.status)) void api.cancel(prev.job_id).catch(() => undefined);
+    const token = prev ? ownerToken(prev.job_id) : null;
+    if (prev && token && !TERMINAL.has(prev.status)) void api.cancel(prev.job_id, token).catch(() => undefined);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- ownerToken only reads a ref
   }, []);
 
   const start = useCallback(
@@ -179,7 +184,8 @@ export function useAnalysisJob() {
       const run = ++runRef.current;
       setState({ ...INITIAL, phase: 'submitting', request: body });
       try {
-        const job = await api.startAnalysis(body);
+        const { owner_token: token, ...job } = await api.startAnalysis(body);
+        if (token) ownerRef.current = { jobId: job.job_id, token };
         if (run !== runRef.current) return;
         setState((s) => ({ ...s, phase: 'running', job }));
         watch(run, job);
@@ -193,12 +199,13 @@ export function useAnalysisJob() {
 
   const retry = useCallback(async () => {
     const { job, request } = stateRef.current;
-    if (job && stateRef.current.phase === 'failed' && stateRef.current.jobError?.recoverable) {
+    const token = job ? ownerToken(job.job_id) : null;
+    if (job && token && stateRef.current.phase === 'failed' && stateRef.current.jobError?.recoverable) {
       stopWatching();
       const run = ++runRef.current;
       setState((s) => ({ ...s, phase: 'submitting', jobError: null, apiError: null, result: null }));
       try {
-        const next = await api.retry(job.job_id);
+        const next = await api.retry(job.job_id, token);
         if (run !== runRef.current) return;
         setState((s) => ({ ...s, phase: 'running', job: next }));
         watch(run, next);

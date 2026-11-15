@@ -181,9 +181,11 @@ def start_analysis(payload: AnalysisRequest, manager: Service):
 
 
 @app.get("/api/v1/analyses", tags=["Analyses"])
-def list_analyses(manager: Service, limit: int = Query(default=20, ge=1, le=100)):
+def list_analyses(manager: Service):
+    """Queue size only. Other clients' job IDs and locations are never listed."""
     jobs = manager.store.jobs()
-    return {"status_code": 200, "count": len(jobs), "jobs": [JobResponse.model_validate(job).model_dump(mode="json") for job in jobs[:limit]]}
+    active = sum(job["status"] not in TERMINAL for job in jobs)
+    return {"status_code": 200, "count": len(jobs), "active": active}
 
 
 @app.get("/api/v1/analyses/{job_id}", response_model=JobResponse, tags=["Analyses"])
@@ -237,13 +239,18 @@ def analysis_result(job_id: str, manager: Service):
 
 
 @app.post("/api/v1/analyses/{job_id}/cancel", response_model=JobResponse, tags=["Analyses"])
-def cancel_analysis(job_id: str, manager: Service):
-    """Cancel a queued or running analysis (it stops at its next checkpoint). Completed jobs return 409."""
+def cancel_analysis(job_id: str, manager: Service, x_job_token: Annotated[str | None, Header()] = None):
+    """Cancel a queued or running analysis (it stops at its next checkpoint). Completed jobs return 409.
+
+    Requires the X-Job-Token header with the owner_token returned when the job was created (403 otherwise)."""
+    manager.authorize(job_id, x_job_token)
     return manager.cancel(job_id)
 
 
 @app.post("/api/v1/analyses/{job_id}/retry", response_model=AcceptedJobResponse, status_code=202, tags=["Analyses"])
-def retry_analysis(job_id: str, manager: Service):
+def retry_analysis(job_id: str, manager: Service, x_job_token: Annotated[str | None, Header()] = None):
+    """Retry a failed recoverable analysis. Requires the X-Job-Token header (see cancel)."""
+    manager.authorize(job_id, x_job_token)
     return manager.retry(job_id)
 
 

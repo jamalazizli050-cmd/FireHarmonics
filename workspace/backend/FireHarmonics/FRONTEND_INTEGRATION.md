@@ -42,7 +42,8 @@ Landsat. See `result.provenance`.
 | Live progress (SSE) | `GET /api/v1/analyses/{job_id}/events` |
 | Final result | `GET /api/v1/analyses/{job_id}/result` |
 | JSON / CSV export | `GET /api/v1/analyses/{job_id}/export?format=json` or `?format=csv&table=...` |
-| Retry a failed job | `POST /api/v1/analyses/{job_id}/retry` |
+| Retry a failed job (owner only, `X-Job-Token`) | `POST /api/v1/analyses/{job_id}/retry` |
+| Cancel a queued/running job (owner only, `X-Job-Token`) | `POST /api/v1/analyses/{job_id}/cancel` |
 | Saved result for a point (never downloads) | `GET /api/v1/locations/analysis?latitude=..&longitude=..&radius_km=25` |
 | Example locations | `GET /api/v1/regions` |
 | Harmonization availability | `GET /api/v1/harmonization` |
@@ -107,6 +108,12 @@ Response **202** (captured):
  "request": { "...": "the validated request, with defaults filled in" }
 }
 ```
+
+The 202 response to `POST /api/v1/analyses` (and only that response) also carries
+`owner_token`. Keep it in memory and send it as the `X-Job-Token` header to `cancel` and
+`retry`; without it those endpoints answer 403, so a client that only knows a job ID
+cannot stop or restart someone else's analysis. The server stores only its SHA-256 hash.
+`GET /api/v1/analyses` returns queue counts only, never job IDs or locations.
 
 If a fresh saved result exists, the 202 already has `status: "completed"`,
 `progress: 100` and `cache_hit: true`. Go straight to the result.
@@ -414,6 +421,7 @@ All handled errors have `{status_code, detail, recoverable}`. Schema-validation 
 | 429 | Queue full (32 active jobs) or NASA pause still active on retry; has `Retry-After` | Wait and retry |
 | 500 | `NASA_FIRMS_MAP_KEY` missing (`recoverable: true`) or internal error | Configuration problem |
 | 502 / 504 | NASA error or timeout | Retry later |
+| 403 | `cancel`/`retry` without the job's `X-Job-Token` owner token | Only the client that started the job can do this |
 | 409 | Result of a failed job; retry of a non-recoverable job; export of an unfinished job or missing table | See `detail` |
 
 ML failures do **not** fail the job. They give `result.status: "partial"`,
