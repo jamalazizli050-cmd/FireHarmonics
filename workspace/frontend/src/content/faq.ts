@@ -2,29 +2,31 @@
 export const FAQ: { q: string; a: string[] }[] = [
   {
     q: 'Do I need to create an account to use the platform?',
-    a: ['No. FireHarmonics has no sign-up or login. Search for a location and the analysis starts.'],
+    a: [
+      'No. FireHarmonics has no sign-up or login. Search for a place, type coordinates or click a country on the globe, and the analysis starts.',
+    ],
   },
   {
     q: 'Where does the fire data come from?',
     a: [
       'From NASA FIRMS (Fire Information for Resource Management System). FIRMS is the distribution service, not a satellite sensor.',
-      'The detections come from the MODIS instruments on Terra and Aqua, the VIIRS instruments on Suomi NPP, NOAA-20 and NOAA-21, and (US and Canada only) Landsat OLI.',
+      'For the selected period you can choose VIIRS on NOAA-20 or MODIS on Terra/Aqua (near real-time). The 2002–now calendar uses NASA’s yearly archives of Aqua MODIS, Suomi NPP VIIRS and NOAA-20 VIIRS, and the history and forecast use the Suomi NPP VIIRS record.',
     ],
   },
   {
     q: 'What does “harmonized” mean here?',
     a: [
-      'A MODIS-equivalent monthly series derived from VIIRS for 2012–2021. It exists only for five training regions (California, Zambia/Angola, Rondônia, Yakutia and Punjab) and covers only fires both sensors observed.',
-      'Counts are validated in California and Zambia/Angola only, fire radiative power (FRP) is not fully validated in any region, and nothing is validated at the local (10–100 km) scale. Elsewhere FireHarmonics offers a separate, locally calibrated MODIS+VIIRS calendar (see below).',
+      'Aqua MODIS and VIIRS put on one consistent scale (the Aqua-MODIS scale), so the burning-activity record from 2002 to today does not jump when the satellites change. Choose “Harmonized · MODIS + VIIRS” in Satellite data to see it; the full calendar is in the report.',
+      'It is our own method, labelled experimental, and validated on held-out years (see the next question). The normalized index in Satellite Analysis is different: it only rescales one sensor and is not a harmonization.',
     ],
   },
   {
     q: 'How do MODIS and VIIRS differ, and how are they combined into one calendar?',
     a: [
       'MODIS detects fires in roughly 1 km pixels, VIIRS in 375 m pixels and sees smaller fires, so their raw counts are not comparable and are never simply added together.',
-      'FireHarmonics builds a 2002–present calendar for the selected circle with a continuity chain: Aqua MODIS before 2012, S-NPP VIIRS from 2012 converted to the Aqua-MODIS scale, and NOAA-20 VIIRS converted through S-NPP after S-NPP stopped delivering data. Each pair of satellites is linked on the years both flew.',
-      'Activity is counted as active 1-km cells per day or night overpass, so a fire that VIIRS splits into many small pixels is not counted many times. Day and night get separate conversion factors, and where a place has little fire history the factor leans on the surrounding region instead of noisy local numbers.',
-      'The model is checked forward in time: factors fitted on 2012–2016 predict MODIS in 2017–2021 from VIIRS alone (and NOAA-20 is checked against S-NPP the same way). The report shows the factors, every month’s 90 % interval and the validation next to the previous method and raw VIIRS. It is experimental and labelled so.',
+      'FireHarmonics uses a continuity chain: Aqua MODIS before 2012, S-NPP VIIRS from 2012 converted to the Aqua-MODIS scale, and NOAA-20 VIIRS converted through S-NPP after S-NPP stopped delivering data. Each pair of satellites is linked on the years both flew.',
+      'Activity is counted as active 1-km cells per day or night overpass, so a fire that VIIRS splits into many small pixels is not counted many times. Day and night get separate conversion factors, and where a place has little fire history the factor leans on the surrounding region.',
+      'To test it we “switch MODIS off”: factors fitted on 2012–2016 predict MODIS in 2017–2021 from VIIRS alone. Across our test locations the median annual error was 12–18 %, against 459–508 % for raw VIIRS, and the true value fell inside the 90 % interval in about 90 % of months. Each report shows this test for its own location.',
     ],
   },
   {
@@ -51,21 +53,21 @@ export const FAQ: { q: string; a: string[] }[] = [
   {
     q: 'How large is the analysed area?',
     a: [
-      'A circle around the chosen point: 25 km radius by default, or 10, 50 or 100 km. The forecast model was trained on circles of exactly these sizes.',
-      'Results are only comparable between places analysed with the same radius.',
+      'A circle around the chosen point: 25 km radius by default, or 10, 50 or 100 km. When you click a country on the globe, the circle is centred on the point you clicked, not on the whole country.',
+      'The forecast model was trained on circles of exactly these sizes, and results are only comparable between places analysed with the same radius.',
     ],
   },
   {
-    q: 'Why can an analysis take a long time?',
+    q: 'How long does an analysis take?',
     a: [
-      'Completed years come from NASA’s yearly per-country archives, and only the current year is requested piece by piece from the FIRMS API (in parallel, within NASA’s transaction limit). A new location usually takes a few minutes; a NASA rate-limit pause can add about 10 minutes. The panel shows live progress.',
-      'Locations analysed before, and other places in a country already downloaded, are served from the local cache in seconds.',
+      'Usually less than a minute. Completed years come from NASA’s yearly archives stored on our server, and only the most recent months are requested from the FIRMS API. Close to NASA’s request limit the backend waits until the limit frees up, usually a minute or two; the panel shows each step live.',
+      'Near-real-time products start only a few months back, so a long period chosen with them is shortened to the dates NASA has; the 2002–now calendar and the history are not affected. In a country whose archives are not on the server yet, the calendar is prepared in the background and appears when you analyse the place again a few minutes later.',
     ],
   },
   {
     q: 'Can I export the results?',
     a: [
-      'Yes. The report offers a PDF generated in your browser, the full result as JSON, and individual tables as CSV (daily, monthly, annual and hotspot tables, plus the ML monthly, seasonal, anomaly and hotspot tables when the ML stage ran).',
+      'Yes, from the side panel or the report: a PDF of the report generated in your browser, the full result as JSON, and individual tables as CSV — the selected period (daily, monthly, annual, detection cells), the harmonized MODIS+VIIRS calendar, and the ML monthly, seasonal, anomaly and hotspot tables when the ML stage ran.',
     ],
   },
 ];
