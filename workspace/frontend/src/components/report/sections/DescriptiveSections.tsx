@@ -31,22 +31,29 @@ import { sourceLabel } from '../../../lib/sources';
 import { chartPalette, useA11y } from '../../../state/a11y';
 import InfoTip from '../../ui/InfoTip';
 import { Metric, Notice, StatusText } from '../../ui/primitives';
-import { BaselineCard, ExperimentalXgbCard, methodLabel } from '../ForecastCards';
-import { CombinedHeatmap, CurrentConditionsCard, SeasonCard } from './CalendarExtras';
+import { CombinedHeatmap } from './CalendarExtras';
 
 export function Section({
   id,
   title,
   series,
   children,
+  className,
 }: {
   id: string;
   title: string;
   series?: ReactNode;
   children: ReactNode;
+  className?: string;
 }) {
   return (
-    <section id={id} className="report-section" tabIndex={-1} aria-labelledby={`${id}-h`} data-pdf-section>
+    <section
+      id={id}
+      className={`report-section ${className ?? ''}`}
+      tabIndex={-1}
+      aria-labelledby={`${id}-h`}
+      data-pdf-section
+    >
       <header className="report-section__head">
         <h3 id={`${id}-h`}>{title}</h3>
         {typeof series === 'string' && <InfoTip text={series} label={`About the data in ${title}`} />}
@@ -90,58 +97,6 @@ function MlUnavailable({ result }: { result: AnalysisResult }) {
 
 const mlHasContent = (r: AnalysisResult) =>
   ['ok', 'partial', 'insufficient_data'].includes(r.ml_analysis.status);
-
-/* ------------------------------------------------------------------ 2. Overview */
-export function OverviewSection({ result }: { result: AnalysisResult }) {
-  const o = result.overview;
-  const p = result.prediction;
-  return (
-    <Section id="r-overview" title="Overview">
-      <div className="overview-grid">
-        <div className="overview-forecast">
-          <ExperimentalXgbCard prediction={p} />
-          <BaselineCard prediction={p} radiusKm={result.location.radius_km} />
-          <p className="overview-forecast__method">
-            Backend-selected method: <strong>{methodLabel(p.method)}</strong>
-            {o?.forecast.target_month ? ` for ${fmtYearMonth(o.forecast.target_month)}` : ''}
-            {o?.forecast.relative_activity ? ` · ${humanize(o.forecast.relative_activity)}` : ''}
-          </p>
-        </div>
-        <dl className="metric-grid">
-          <Metric
-            label="Detections in selected period"
-            value={fmtNumber(o?.descriptive.detection_count ?? result.detection_count)}
-            sub={`${sourceLabel(o?.descriptive.source ?? result.source)} · ${o?.descriptive.period.start_date ?? NA} → ${o?.descriptive.period.end_date ?? NA}`}
-            tone="fire"
-          />
-          <Metric
-            label="Mean detections per year"
-            value={fmtNumber(o?.ml.mean_annual_detections, 1)}
-            sub="Complete years only"
-          />
-          <Metric
-            label="Peak season"
-            value={o?.ml.peak_month ? monthName(o.ml.peak_month) : NA}
-            sub="Peak calendar month"
-          />
-          <Metric
-            label="Long-term trend"
-            value={o?.ml.trend_direction ? humanize(o.ml.trend_direction) : NA}
-            sub={
-              o?.ml.trend_pct_per_year != null
-                ? `${fmtSignedPercent(o.ml.trend_pct_per_year)} per year${o.ml.trend_significant ? ' · significant' : ' · not statistically significant'}`
-                : 'Not computed'
-            }
-          />
-        </dl>
-      </div>
-      <div className="overview-now">
-        <CurrentConditionsCard now={result.ml_analysis.current_conditions} />
-        <SeasonCard season={result.ml_analysis.unified_calendar?.season} />
-      </div>
-    </Section>
-  );
-}
 
 /* ------------------------------------------------------------------ 3. Calendar */
 function heatColor(value: number | null, max: number, heat: string[]) {

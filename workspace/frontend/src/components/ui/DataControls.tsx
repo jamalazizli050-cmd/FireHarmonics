@@ -127,11 +127,11 @@ export default function DataControls({ settings, onChange, sources, harmonized, 
   const periodHelp = `${settings.period.start} → ${settings.period.end} (UTC). Near real-time products hold recent data and standard products the archive; the backend checks NASA availability before downloading.`;
   // In the report the explanations sit behind an (i); the side panel keeps them as text.
   const compact = layout === 'report';
-  const labelRow = (htmlFor: string, text: string, help: string) =>
+  const labelRow = (htmlFor: string, text: string, help: string | null) =>
     compact ? (
       <div className="field__label-row">
         <label htmlFor={htmlFor}>{text}</label>
-        <InfoTip text={help} />
+        {help && <InfoTip text={help} />}
       </div>
     ) : (
       <label htmlFor={htmlFor}>{text}</label>
@@ -149,7 +149,7 @@ export default function DataControls({ settings, onChange, sources, harmonized, 
   return (
     <div className={`data-controls data-controls--${layout}`}>
       <div className="field">
-        {labelRow(`${id}-source`, 'Satellite data', sourceHelp)}
+        {labelRow(`${id}-source`, 'Satellite data', compact ? null : sourceHelp)}
         <select
           id={`${id}-source`}
           value={selectValue}

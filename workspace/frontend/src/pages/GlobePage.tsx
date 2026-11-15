@@ -1,12 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
 import { Maximize2, Satellite } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
-import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router';
 import { api } from '../api/client';
 import { FIRMS_SOURCES, type FirmsSource } from '../api/types';
 import { useAnalysisJob } from '../api/useAnalysisJob';
 import JobStatus from '../components/report/JobStatus';
+import PanelExports from '../components/report/PanelExports';
 import PanelSummary from '../components/report/PanelSummary';
 import DataControls, {
   type AnalysisSettings,
@@ -80,6 +81,9 @@ export default function GlobePage() {
     radiusKm: ANALYSIS_RADIUS_KM,
   }));
   const [reportOpen, setReportOpen] = useState(false);
+  // PDF requested from the side panel: the report opens and renders the PDF itself.
+  const [pdfOnOpen, setPdfOnOpen] = useState(false);
+  const onAutoPdfDone = useCallback(() => setPdfOnOpen(false), []);
   const reportTrigger = useRef<HTMLButtonElement>(null);
   const job = useAnalysisJob();
   const mlDoneFor = useRef<string | null>(null);
@@ -278,6 +282,16 @@ export default function GlobePage() {
             {shown && <PanelSummary result={shown} />}
             {shown && viewSettings.view === 'normalized' && <NormalizedNote result={shown} />}
             {shown && viewSettings.view === 'harmonized' && <HarmonizedNote result={shown} />}
+            {shown && (
+              <PanelExports
+                result={shown}
+                jobId={stale ? null : (job.job?.job_id ?? null)}
+                onPdf={() => {
+                  setPdfOnOpen(true);
+                  setReportOpen(true);
+                }}
+              />
+            )}
 
             <button
               ref={reportTrigger}
@@ -314,7 +328,10 @@ export default function GlobePage() {
               busy={busy}
               jobState={job}
               onRetry={() => void job.retry()}
+              autoPdf={pdfOnOpen}
+              onAutoPdfDone={onAutoPdfDone}
               onClose={() => {
+                setPdfOnOpen(false);
                 setReportOpen(false);
                 reportTrigger.current?.focus();
               }}

@@ -1,4 +1,4 @@
-import { AlertTriangle, Globe, ListChecks, Search, X } from 'lucide-react';
+import { Globe, Search, X } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
@@ -10,12 +10,7 @@ import { sourceLongLabel } from '../../lib/sources';
 import DataControls, { type AnalysisSettings, type HarmonizedAvailability } from '../ui/DataControls';
 import { Notice } from '../ui/primitives';
 import JobStatus from './JobStatus';
-import {
-  CalendarSection,
-  OverviewSection,
-  PatternsSection,
-  TrendsSection,
-} from './sections/DescriptiveSections';
+import { CalendarSection, PatternsSection, TrendsSection } from './sections/DescriptiveSections';
 import { ExportSection, ForecastSection, SatelliteSection } from './sections/ModelSections';
 
 interface Props {
@@ -30,10 +25,11 @@ interface Props {
   jobState: AnalysisJobState;
   onRetry: () => void;
   onClose: () => void;
+  autoPdf?: boolean;
+  onAutoPdfDone?: () => void;
 }
 
 const SECTIONS = [
-  ['r-overview', 'Overview'],
   ['r-calendar', 'Activity calendar'],
   ['r-trends', 'Historical trends'],
   ['r-patterns', 'AI pattern discovery'],
@@ -41,6 +37,35 @@ const SECTIONS = [
   ['r-forecast', 'AI forecast'],
   ['r-export', 'Export'],
 ] as const;
+
+/** List icon of the reference: three square bullets with lines. */
+function ContentIcon() {
+  return (
+    <svg viewBox="0 0 28 28" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="2.2">
+      <rect x="2" y="2.5" width="6" height="6" rx="1" />
+      <rect x="2" y="11" width="6" height="6" rx="1" />
+      <rect x="2" y="19.5" width="6" height="6" rx="1" />
+      <path d="M12 5.5h14M12 14h14M12 22.5h14" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+/** Warning sign of the reference: amber triangle with a dark exclamation mark. */
+function WarningIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 26 24" aria-hidden="true" className={className}>
+      <path
+        d="M13 1.2 25 22.5H1L13 1.2Z"
+        fill="#f8b00e"
+        stroke="#f8b00e"
+        strokeWidth="1.6"
+        strokeLinejoin="round"
+      />
+      <path d="M13 8.2v7.2" stroke="#1d1d1f" strokeWidth="2.4" strokeLinecap="round" />
+      <circle cx="13" cy="18.8" r="1.4" fill="#1d1d1f" />
+    </svg>
+  );
+}
 
 /* Optional artwork for the report (drop files named meteor / warnings / location into src/assets/report/). */
 const ART = import.meta.glob<string>('../../assets/report/*.{png,webp,svg,jpg,jpeg}', {
@@ -86,6 +111,7 @@ export default function ReportOverlay(props: Props) {
     dialog?.querySelector<HTMLElement>('.report__close')?.focus();
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
+    document.body.classList.add('report-open');
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         e.preventDefault();
@@ -114,6 +140,7 @@ export default function ReportOverlay(props: Props) {
     return () => {
       document.removeEventListener('keydown', onKey, true);
       document.body.style.overflow = previousOverflow;
+      document.body.classList.remove('report-open');
     };
   }, []);
 
@@ -147,105 +174,113 @@ export default function ReportOverlay(props: Props) {
         exit={{ opacity: 0, scale: 0.96, y: 16 }}
         transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
       >
-        <header className="report__top">
-          <p className="report__kicker">Location Analysis Report</p>
-          <button type="button" className="report__close" onClick={onClose}>
-            <X aria-hidden="true" size={26} />
-            <span className="visually-hidden">Close report</span>
-          </button>
-        </header>
+        <div className="report__inner">
+          <header className="report__top">
+            <p className="report__kicker">Location Analysis Report</p>
+            <button type="button" className="report__close" onClick={onClose}>
+              <X aria-hidden="true" size={26} />
+              <span className="visually-hidden">Close report</span>
+            </button>
+          </header>
 
-        <div className="report-loc">
-          {locationArt ? (
-            <img className="report-loc__art" src={locationArt} alt="" />
-          ) : (
-            <span className="report-loc__icon" aria-hidden="true">
-              <Globe size={44} strokeWidth={1.6} />
-              <Search size={20} strokeWidth={2.4} className="report-loc__lens" />
-            </span>
-          )}
-          <div className="report-loc__card">
-            <h2 id="report-title">{loc.name ?? formatCoordinates(loc.latitude, loc.longitude)}</h2>
-            <p>
-              {formatCoordinates(loc.latitude, loc.longitude)} · {loc.radius_km} km radius ·{' '}
-              {fmtDate(result.coverage.start_date)} → {fmtDate(result.coverage.end_date)}
-            </p>
-          </div>
-        </div>
-
-        <div className="report__controls">
-          <DataControls
-            layout="report"
-            settings={settings}
-            onChange={onSettingsChange}
-            sources={sources}
-            harmonized={harmonized}
-          />
-        </div>
-        {(stale || busy || jobState.phase === 'failed' || jobState.phase === 'error') && (
-          <div className="report__job">
-            {stale && (
-              <Notice tone="info" title="Updating">
-                This report still shows the previous result ({sourceLongLabel(result.source)}). It will
-                refresh when the new analysis completes.
-              </Notice>
+          <div className="report-loc">
+            {locationArt ? (
+              <img className="report-loc__art" src={locationArt} alt="" />
+            ) : (
+              <span className="report-loc__icon" aria-hidden="true">
+                <Globe size={44} strokeWidth={1.6} />
+                <Search size={20} strokeWidth={2.4} className="report-loc__lens" />
+              </span>
             )}
-            {(busy || jobState.phase === 'failed' || jobState.phase === 'error') && (
-              <JobStatus state={jobState} onRetry={onRetry} />
-            )}
+            <div className="report-loc__card">
+              <h2 id="report-title">{loc.name ?? formatCoordinates(loc.latitude, loc.longitude)}</h2>
+              <p>
+                {formatCoordinates(loc.latitude, loc.longitude)} · {loc.radius_km} km radius ·{' '}
+                {fmtDate(result.coverage.start_date)} → {fmtDate(result.coverage.end_date)}
+              </p>
+            </div>
           </div>
-        )}
 
-        <nav className="report-content" aria-label="Report sections">
-          {meteor && <img className="report-content__art" src={meteor} alt="" />}
-          <h3 className="report-content__title">
-            <ListChecks aria-hidden="true" size={30} /> Content
-          </h3>
-          <ul>
-            {SECTIONS.map(([id, label]) => (
-              <li key={id}>
-                <button type="button" onClick={() => jump(id)}>
-                  {label}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </nav>
-
-        <div className="report__body" ref={bodyRef} data-pdf-root>
-          {warnings.length > 0 && (
-            <section
-              className="report-warnings"
-              data-pdf-section
-              aria-labelledby="report-warnings-h"
-              data-has-art={warningsArt ? 'true' : undefined}
-            >
-              <div>
-                <h3 id="report-warnings-h" className="report-warnings__title">
-                  <AlertTriangle aria-hidden="true" size={24} className="report-warnings__icon" /> Warnings
-                  &amp; limitations
-                </h3>
-                <ul className="report-warnings__box" tabIndex={0} aria-label="Warnings and limitations list">
-                  {warnings.map((w) => (
-                    <li key={w}>{w}</li>
-                  ))}
-                </ul>
-              </div>
-              {warningsArt && <img className="report-warnings__art" src={warningsArt} alt="" />}
-            </section>
+          <div className="report__controls">
+            <DataControls
+              layout="report"
+              settings={settings}
+              onChange={onSettingsChange}
+              sources={sources}
+              harmonized={harmonized}
+            />
+          </div>
+          {(stale || busy || jobState.phase === 'failed' || jobState.phase === 'error') && (
+            <div className="report__job">
+              {stale && (
+                <Notice tone="info" title="Updating">
+                  This report still shows the previous result ({sourceLongLabel(result.source)}). It will
+                  refresh when the new analysis completes.
+                </Notice>
+              )}
+              {(busy || jobState.phase === 'failed' || jobState.phase === 'error') && (
+                <JobStatus state={jobState} onRetry={onRetry} />
+              )}
+            </div>
           )}
-          <OverviewSection result={result} />
-          <CalendarSection result={result} />
-          <TrendsSection result={result} />
-          <PatternsSection result={result} />
-          <SatelliteSection
-            result={result}
-            settings={settings}
-            onSettingsChange={onSettingsChange}
-            harmonized={harmonized}
-          />
-          <ForecastSection result={result} />
-          <ExportSection result={result} jobId={props.jobId} bodyRef={bodyRef} />
+
+          <nav className="report-content" aria-label="Report sections">
+            {meteor && <img className="report-content__art" src={meteor} alt="" />}
+            <h3 className="report-content__title">
+              <ContentIcon /> Content
+            </h3>
+            <ul>
+              {SECTIONS.map(([id, label]) => (
+                <li key={id}>
+                  <button type="button" onClick={() => jump(id)}>
+                    {label}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <div className="report__body" ref={bodyRef} data-pdf-root>
+            {warnings.length > 0 && (
+              <section
+                className="report-warnings"
+                data-pdf-section
+                aria-labelledby="report-warnings-h"
+                data-has-art={warningsArt ? 'true' : undefined}
+              >
+                <div>
+                  <h3 id="report-warnings-h" className="report-warnings__title">
+                    <WarningIcon className="report-warnings__icon" /> Warnings &amp; limitations
+                  </h3>
+                  <div className="report-warnings__box">
+                    <ul tabIndex={0} aria-label="Warnings and limitations list">
+                      {warnings.map((w) => (
+                        <li key={w}>{w}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+                {warningsArt && <img className="report-warnings__art" src={warningsArt} alt="" />}
+              </section>
+            )}
+            <CalendarSection result={result} />
+            <TrendsSection result={result} />
+            <PatternsSection result={result} />
+            <SatelliteSection
+              result={result}
+              settings={settings}
+              onSettingsChange={onSettingsChange}
+              harmonized={harmonized}
+            />
+            <ForecastSection result={result} />
+            <ExportSection
+              result={result}
+              jobId={props.jobId}
+              bodyRef={bodyRef}
+              autoPdf={props.autoPdf}
+              onAutoPdfDone={props.onAutoPdfDone}
+            />
+          </div>
         </div>
       </motion.div>
     </motion.div>,

@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { Loader2 } from 'lucide-react';
-import { useState, type RefObject } from 'react';
+import { useEffect, useRef, useState, type RefObject } from 'react';
 import {
   Area,
   CartesianGrid,
@@ -342,8 +342,14 @@ export function SatelliteSection({
 }
 
 /* ------------------------------------------------------------------ 8. Export */
-const ML_TABLES = new Set<CsvTable>(['ml_monthly', 'ml_seasonal', 'ml_anomalies', 'ml_hotspots', 'calendar']);
-const TABLE_LABELS: Record<CsvTable, string> = {
+export const ML_TABLES = new Set<CsvTable>([
+  'ml_monthly',
+  'ml_seasonal',
+  'ml_anomalies',
+  'ml_hotspots',
+  'calendar',
+]);
+export const TABLE_LABELS: Record<CsvTable, string> = {
   daily: 'Daily counts (selected period)',
   monthly: 'Monthly counts (selected period)',
   annual: 'Annual counts (selected period)',
@@ -359,11 +365,26 @@ export function ExportSection({
   result,
   jobId,
   bodyRef,
+  autoPdf,
+  onAutoPdfDone,
 }: {
   result: AnalysisResult;
   jobId: string | null;
   bodyRef: RefObject<HTMLDivElement | null>;
+  /** Start the PDF as soon as the report has rendered (requested from the side panel). */
+  autoPdf?: boolean;
+  onAutoPdfDone?: () => void;
 }) {
+  const pdfButton = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    if (!autoPdf) return;
+    // give the charts a moment to lay out before the PDF snapshot
+    const t = setTimeout(() => {
+      pdfButton.current?.click();
+      onAutoPdfDone?.();
+    }, 900);
+    return () => clearTimeout(t);
+  }, [autoPdf, onAutoPdfDone]);
   const mlRan = ['ok', 'partial', 'insufficient_data'].includes(
     result.components?.ml_analysis ?? result.ml_analysis.status,
   );
@@ -389,13 +410,14 @@ export function ExportSection({
   };
 
   return (
-    <Section id="r-export" title="Export">
+    <Section id="r-export" title="Export" className="report-export">
       <div className="export-grid">
         <div className="export-item">
           <p className="export-item__label">
             PDF report <InfoTip text="Rendered in your browser from this report." />
           </p>
           <button
+            ref={pdfButton}
             type="button"
             className="report-button"
             disabled={busy !== null}

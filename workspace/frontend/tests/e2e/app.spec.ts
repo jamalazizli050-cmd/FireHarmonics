@@ -159,7 +159,6 @@ test.describe('location analysis report (backend example result)', () => {
     const dialog = page.getByRole('dialog', { name: 'Example point' });
     await expect(dialog).toBeVisible();
     for (const title of [
-      'Overview',
       'Burning Activity Calendar',
       'Historical Trends',
       'AI Pattern Discovery',
@@ -304,6 +303,30 @@ test.describe('location analysis report (backend example result)', () => {
       dialog.getByRole('button', { name: 'Download JSON' }).click(),
     ]);
     expect(json.suggestedFilename()).toMatch(/\.json$/);
+  });
+
+  test('the side panel downloads JSON and CSV directly and the PDF through the report', async ({ page }) => {
+    test.setTimeout(120_000);
+    await mockCompletedAnalysis(page);
+    await page.goto(GLOBE_URL);
+    const exportsBox = page.getByTestId('panel-exports');
+    await exportsBox.getByLabel('CSV table').selectOption('calendar');
+    const [csv] = await Promise.all([
+      page.waitForEvent('download'),
+      exportsBox.getByRole('button', { name: 'CSV' }).click(),
+    ]);
+    expect(csv.suggestedFilename()).toMatch(/calendar\.csv$/);
+    const [json] = await Promise.all([
+      page.waitForEvent('download'),
+      exportsBox.getByRole('button', { name: 'JSON' }).click(),
+    ]);
+    expect(json.suggestedFilename()).toMatch(/\.json$/);
+    const [pdf] = await Promise.all([
+      page.waitForEvent('download', { timeout: 90_000 }),
+      exportsBox.getByRole('button', { name: 'PDF' }).click(),
+    ]);
+    expect(pdf.suggestedFilename()).toBe('fireharmonics-report-Example-point.pdf');
+    await expect(page.getByRole('dialog')).toBeVisible();
   });
 
   test('PDF export is generated in the browser', async ({ page }) => {
