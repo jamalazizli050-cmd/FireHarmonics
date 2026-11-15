@@ -352,7 +352,16 @@ test.describe('about, contact, faq', () => {
     await expect(page.getByRole('heading', { name: 'Meet the Team' })).toHaveCount(0);
   });
 
-  test('contact form validates after interaction and never fakes delivery', async ({ page }) => {
+  test('contact form validates, keeps the text when Formspree rejects it, and confirms real delivery', async ({
+    page,
+  }) => {
+    // Formspree is intercepted: tests never send real messages to the team's inbox.
+    const sent: Record<string, unknown>[] = [];
+    let reply = { status: 422, json: { errors: [{ message: 'Form rejected in this test.' }] } as object };
+    await page.route('https://formspree.io/f/**', (route) => {
+      sent.push(route.request().postDataJSON() as Record<string, unknown>);
+      return route.fulfill({ status: reply.status, json: reply.json });
+    });
     await page.goto('/contact');
     const email = page.getByLabel('Email');
     await email.fill('not-an-email');
@@ -363,9 +372,20 @@ test.describe('about, contact, faq', () => {
     await email.fill('ada@example.com');
     await page.getByLabel('Message').fill('Hello FireHarmonics team, this is a test message.');
     await page.getByRole('button', { name: 'Submit' }).click();
-    await expect(page.getByRole('alert').filter({ hasText: /not configured/ })).toBeVisible();
+    // a rejected submission is reported and the text is kept
+    await expect(page.getByRole('alert').filter({ hasText: /rejected in this test/ })).toBeVisible();
     await expect(page.getByText(/delivered/)).toHaveCount(0);
     await expect(page.getByLabel('Message')).toHaveValue('Hello FireHarmonics team, this is a test message.');
+    expect(sent[0]).toMatchObject({
+      name: 'Ada Lovelace',
+      email: 'ada@example.com',
+      message: 'Hello FireHarmonics team, this is a test message.',
+    });
+    // an accepted submission is confirmed and the form is cleared
+    reply = { status: 200, json: { ok: true } };
+    await page.getByRole('button', { name: 'Submit' }).click();
+    await expect(page.getByText(/your message was delivered/)).toBeVisible();
+    await expect(page.getByLabel('Message')).toHaveValue('');
   });
 
   test('faq has ten entries and allows several open at once', async ({ page }) => {
