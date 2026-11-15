@@ -207,7 +207,7 @@ class Plan:
 
 
 def make_plan(settings: Settings, tiles: list[BBox], start: date, end: date,
-              products: list[tuple[str, date, date]]) -> Plan:
+              products: list[tuple[str, date, date]], skip: tuple[date, date] | None = None) -> Plan:
     plan = Plan(tiles, start, end, products)
     for source, s, e in products:
         regions = known_regions(settings, source)
@@ -219,6 +219,8 @@ def make_plan(settings: Settings, tiles: list[BBox], start: date, end: date,
             for r in cands:
                 plan.regions[r.name] = r
             for ch in acquisition.iter_chunks(s, e):
+                if skip and ch.start >= skip[0] and ch.end <= skip[1]:
+                    continue    # deliberately not retrieved: those days stay unobserved
                 lo, hi = max(ch.start, s), min(ch.end, e)
                 need = set(range(lo.toordinal(), hi.toordinal() + 1))
                 for r in cands:
@@ -266,13 +268,14 @@ def _runs(chunks: list[tuple[date, date]]) -> list[tuple[date, date]]:
 
 
 def ensure_data(settings: Settings, tiles: list[BBox], start: date, end: date, tracker,
-                allow_download: bool = True, client_factory=None) -> tuple[Plan, dict]:
+                allow_download: bool = True, client_factory=None,
+                skip: tuple[date, date] | None = None) -> tuple[Plan, dict]:
     """Plan, download (if needed and allowed) and process. Returns (plan, info)."""
     from .pipeline import availability_for
     tracker.start_stage("plan", message="Checking FIRMS availability and the local cache")
     avail, avail_note = availability(settings, client_factory, allow_refresh=allow_download)
     products = product_windows(avail, start, end)
-    plan = make_plan(settings, tiles, start, end, products)
+    plan = make_plan(settings, tiles, start, end, products, skip)
     info = {"availability": avail_note, "chunks_downloaded": 0, "chunks_failed": 0, "rows_downloaded": 0,
             "chunks_reused_from_concurrent_job": 0, "download_skipped": False,
             "chunks_from_country_archive": 0, "country_archive": [],
@@ -303,7 +306,7 @@ def ensure_data(settings: Settings, tiles: list[BBox], start: date, end: date, t
                         with PROCESS_LOCK:
                             cleaning.process(settings, SP, plan.regions[rname], date(y, 1, 1), date(y, 12, 31))
             info["country_archive"] = arch_log
-            plan = make_plan(settings, tiles, start, end, products)
+            plan = make_plan(settings, tiles, start, end, products, skip)
         if plan.n_requests:
             info["download_skipped"] = True
             tracker.warn(f"{plan.n_requests} request chunks are not cached and downloads are disabled; "
@@ -314,7 +317,7 @@ def ensure_data(settings: Settings, tiles: list[BBox], start: date, end: date, t
     with tiles_lock(tiles):
         tracker.end_stage()
         before = plan.n_requests
-        plan = make_plan(settings, tiles, start, end, products)  # another job may have fetched chunks
+        plan = make_plan(settings, tiles, start, end, products, skip)  # another job may have fetched chunks
         info["chunks_reused_from_concurrent_job"] = before - plan.n_requests
         tracker.start_stage("download", total=plan.n_requests,
                             message=f"Downloading {plan.n_requests} FIRMS request chunks (5 days each)")
@@ -347,7 +350,7 @@ def ensure_data(settings: Settings, tiles: list[BBox], start: date, end: date, t
                         touched.setdefault((SP, rname), []).extend(
                             (date(y, 1, 1), date(y, 12, 31)) for y in res.years)
                 info["country_archive"] = archive_log
-                plan = make_plan(settings, tiles, start, end, products)
+                plan = make_plan(settings, tiles, start, end, products, skip)
             for (source, rname), chunks in plan.missing.items():
                 region = plan.regions[rname]
                 window = availability_for(avail, source)
@@ -374,7 +377,7 @@ def ensure_data(settings: Settings, tiles: list[BBox], start: date, end: date, t
                 cleaning.process(settings, src, plan.regions[rn], date(y, 1, 1), date(y, 12, 31))
             tracker.advance(1, message=f"{src} {rn} {y} processed")
         tracker.end_stage()
-        plan = make_plan(settings, tiles, start, end, products)
+        plan = make_plan(settings, tiles, start, end, products, skip)
     return plan, info
 
 

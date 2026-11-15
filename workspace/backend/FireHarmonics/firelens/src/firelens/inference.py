@@ -333,13 +333,20 @@ def run_analysis(req: dict, tracker: ProgressTracker, settings: Settings | None 
     # Archive-only mode: the history ends with the last completed year of the FIRMS yearly archives, so no Area API
     # downloads are needed (the current year is not in the archives).
     archive_only = bool(getattr(settings, "archive_only_history", False))
-    end_day = date(today.year - 1, 12, 31) if archive_only else today
+    end_day = today
+    skip = None
+    if archive_only:
+        # Completed years from the yearly archives + only the last ~3 months from the Area API (enough for the
+        # forecast's 1-3 month lead); earlier months of the current year are not retrieved and stay unobserved.
+        recent_start = (pd.Period(today, "M") - 3).start_time.date()
+        if recent_start > date(today.year, 1, 1):
+            skip = (date(today.year, 1, 1), recent_start - pd.Timedelta(days=1).to_pytimedelta())
     cur = pd.Period(end_day, "M")
     start_m = cur - 12 * req["history_years"]
     start = max(start_m.start_time.date(), LD.SERIES_START)
     months = pd.period_range(pd.Period(start, "M"), cur, freq="M")
     tiles = LD.analysis_tiles(lat, lon, rad)
-    plan, info = LD.ensure_data(settings, tiles, start, end_day, tracker, allow_download=allow_download)
+    plan, info = LD.ensure_data(settings, tiles, start, end_day, tracker, allow_download=allow_download, skip=skip)
 
     tracker.start_stage("load", message="Loading cached observations")
     with LD.PROCESS_LOCK:
@@ -368,6 +375,7 @@ def run_analysis(req: dict, tracker: ProgressTracker, settings: Settings | None 
         "sensor_series": "S-NPP VIIRS 375 m (VIIRS_SNPP_SP, then VIIRS_SNPP_NRT after the SP record ends)",
         "window": {"start": str(start), "end": str(end_day), "months": len(months)},
         "archive_only_history": archive_only,
+        "not_retrieved": {"start": str(skip[0]), "end": str(skip[1])} if skip else None,
         "products": [{"product": s, "first_day": str(a), "last_day": str(b)} for s, a, b in plan.products],
         "product_availability": info["product_availability"],
         "min_month_coverage_for_observed": LD.MIN_MONTH_COVERAGE,
@@ -402,9 +410,10 @@ def run_analysis(req: dict, tracker: ProgressTracker, settings: Settings | None 
         "The pooled XGBoost model is validated only in five regions (California, Zambia/Angola, Rondonia, Yakutia, "
         "Punjab); it is not claimed to be globally validated.",
     ] + pred_lim
-    if archive_only:
-        limitations.append(f"History ends {end_day:%Y-%m} (FIRMS yearly archives only); months of {today.year} are not "
-                            "included in the ML record. The 14-day 'Now' check still uses near-real-time data.")
+    if skip:
+        limitations.append(f"To keep analyses fast, {skip[0]:%Y-%m-%d} to {skip[1]:%Y-%m-%d} is not retrieved (completed "
+                            "years come from the FIRMS yearly archives, the last ~3 months from the Area API); those "
+                            "months are unobserved, not zero.")
     if not cov["complete"]:
         limitations.append("Some requested days could not be retrieved; those months are unobserved (see data_coverage).")
     if trend.get("status") == "ok" and not trend.get("significant_at_0.05"):
