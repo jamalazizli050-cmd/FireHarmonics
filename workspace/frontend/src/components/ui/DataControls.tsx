@@ -30,8 +30,11 @@ interface Props {
 }
 
 const NORMALIZED = '__normalized__';
-/** The main NASA FIRMS product: VIIRS on NOAA-20, near real-time (S-NPP delivery ended on 2026-11-02). */
-export const MAIN_SOURCE: FirmsSource = 'VIIRS_NOAA20_NRT';
+/**
+ * The NASA FIRMS products offered: VIIRS on NOAA-20 (S-NPP delivery ended on 2026-11-02) and MODIS Terra/Aqua,
+ * both near real-time so the default recent periods have data.
+ */
+export const MAIN_SOURCES: readonly FirmsSource[] = ['VIIRS_NOAA20_NRT', 'MODIS_NRT'];
 
 /**
  * Satellite-source and time-period controls. The same component (bound to the same state) is rendered
@@ -81,10 +84,10 @@ function CustomPeriod({
 export default function DataControls({ settings, onChange, sources, harmonized, disabled, layout }: Props) {
   const id = useId();
 
-  // The main source is always listed; any other current source (e.g. from an older link) is kept visible so the
+  // The main sources are always listed; any other current source (e.g. from an older link) is kept visible so the
   // select never shows a value it does not contain.
-  const offered = [...new Set<FirmsSource>([MAIN_SOURCE, settings.source])].filter(
-    (s) => s === MAIN_SOURCE || sources.includes(s),
+  const offered = [...new Set<FirmsSource>([...MAIN_SOURCES, settings.source])].filter(
+    (s) => MAIN_SOURCES.includes(s) || sources.includes(s),
   );
   const selectValue = settings.view === 'normalized' ? NORMALIZED : settings.source;
   const info = SOURCE_INFO[settings.source];
@@ -114,7 +117,7 @@ export default function DataControls({ settings, onChange, sources, harmonized, 
           onChange={(e) => onSource(e.target.value)}
           aria-describedby={`${id}-source-help`}
         >
-          {/* Only the main NASA FIRMS VIIRS product and the normalized index are offered. */}
+          {/* Only the main NASA FIRMS VIIRS and MODIS products and the normalized index are offered. */}
           {offered.map((s) => (
             <option key={s} value={s}>
               {SOURCE_INFO[s].instrument} · {SOURCE_INFO[s].platforms} ·{' '}

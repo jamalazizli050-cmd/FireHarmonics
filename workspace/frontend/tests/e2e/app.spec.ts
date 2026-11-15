@@ -148,14 +148,15 @@ test.describe('location analysis report (backend example result)', () => {
     expect(days).toBe(365);
   });
 
-  test('satellite data offers only the main FIRMS VIIRS product and the normalized index', async ({ page }) => {
+  test('satellite data offers only main FIRMS VIIRS, MODIS and the normalized index', async ({ page }) => {
     await mockCompletedAnalysis(page);
     await page.goto(GLOBE_URL);
     await expect(page.getByTestId('panel-summary')).toBeVisible();
     const options = page.getByLabel('Satellite data').locator('option');
-    await expect(options).toHaveCount(2);
+    await expect(options).toHaveCount(3);
     expect(await options.evaluateAll((els) => els.map((e) => (e as HTMLOptionElement).value))).toEqual([
       'VIIRS_NOAA20_NRT',
+      'MODIS_NRT',
       '__normalized__',
     ]);
   });
