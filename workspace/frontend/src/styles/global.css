@@ -2942,3 +2942,12 @@ textarea {
 .data-table td:first-child {
   padding-left: 0;
 }
+
+/* continuity chain calendar: NOAA-20 months and unusually high months */
+.heatmap__cell--n20 {
+  box-shadow: inset 0 -3px 0 rgba(143, 214, 173, 0.9);
+}
+.heatmap__cell--high {
+  outline: 2px solid var(--text);
+  outline-offset: -2px;
+}

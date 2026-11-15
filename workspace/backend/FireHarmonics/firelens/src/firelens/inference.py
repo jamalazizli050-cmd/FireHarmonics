@@ -297,7 +297,7 @@ def _predict(req: dict, m: pd.DataFrame, obs: LD.Observations, settings: Setting
 
 
 # ------------------------------------------------------------------ core
-def _unified_calendar(settings, lat, lon, rad, today, m, allow_download, tracker):
+def _unified_calendar(settings, lat, lon, rad, today, m, allow_download, tracker, recent=None):
     """MODIS+VIIRS calendar (local calibration), season timing and current conditions; never fails the analysis."""
     if not getattr(settings, "use_country_archive", False):
         off = {"status": "disabled", "explanation": "FIRMS yearly archives are disabled (FIRELENS_COUNTRY_ARCHIVE=0)."}
@@ -310,7 +310,7 @@ def _unified_calendar(settings, lat, lon, rad, today, m, allow_download, tracker
             log.warning("No FIRMS client for current conditions: %s", e)
     try:
         cal, now = UC.build(settings, lat, lon, rad, today, m, allow_download=allow_download, client=client,
-                            tracker=tracker)
+                            tracker=tracker, recent=recent)
         if not allow_download and now.get("status") == "unavailable":
             now["explanation"] = "Cache-only analysis: near-real-time data were not requested."
         return cal, now
@@ -361,7 +361,7 @@ def run_analysis(req: dict, tracker: ProgressTracker, settings: Settings | None 
     anomalies, anom_meta = LP.monthly_anomaly_list(m)
     cell_out, cell_meta = LP.cell_month_outliers(obs.detections, m, rad)
     hs, hs_meta = LP.hotspots(obs.detections, m, lat, lon, rad)
-    uc_cal, uc_now = _unified_calendar(settings, lat, lon, rad, today, m, allow_download, tracker)
+    uc_cal, uc_now = _unified_calendar(settings, lat, lon, rad, today, m, allow_download, tracker, obs.detections)
     tracker.end_stage()
 
     tracker.start_stage("predict", message="Forecasting the target month")

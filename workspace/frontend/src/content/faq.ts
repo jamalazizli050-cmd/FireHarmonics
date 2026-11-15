@@ -22,8 +22,9 @@ export const FAQ: { q: string; a: string[] }[] = [
     q: 'How do MODIS and VIIRS differ, and how are they combined into one calendar?',
     a: [
       'MODIS detects fires in roughly 1 km pixels, VIIRS in 375 m pixels and sees smaller fires, so their raw counts are not comparable and are never simply added together.',
-      'FireHarmonics builds a 2002–present calendar for the selected circle: Aqua MODIS before 2012, and S-NPP VIIRS from 2012 converted to the Aqua-MODIS scale. Both satellites pass over at the same local time.',
-      'The conversion factor is estimated for that place on 2012–2021, when both sensors observed, and checked year by year (leave-one-year-out) against MODIS. The report shows the factor, its 95 % interval and the validation result. It is a local calibration, not the FireLens regional model, and is labelled experimental.',
+      'FireHarmonics builds a 2002–present calendar for the selected circle with a continuity chain: Aqua MODIS before 2012, S-NPP VIIRS from 2012 converted to the Aqua-MODIS scale, and NOAA-20 VIIRS converted through S-NPP after S-NPP stopped delivering data. Each pair of satellites is linked on the years both flew.',
+      'Activity is counted as active 1-km cells per day or night overpass, so a fire that VIIRS splits into many small pixels is not counted many times. Day and night get separate conversion factors, and where a place has little fire history the factor leans on the surrounding region instead of noisy local numbers.',
+      'The model is checked forward in time: factors fitted on 2012–2016 predict MODIS in 2017–2021 from VIIRS alone (and NOAA-20 is checked against S-NPP the same way). The report shows the factors, every month’s 90 % interval and the validation next to the previous method and raw VIIRS. It is experimental and labelled so.',
     ],
   },
   {

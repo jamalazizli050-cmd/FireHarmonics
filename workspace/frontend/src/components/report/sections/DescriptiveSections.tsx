@@ -306,7 +306,7 @@ export function CalendarSection({ result }: { result: AnalysisResult }) {
       title="Burning Activity Calendar"
       series={
         view === 'combined'
-          ? `Series: Aqua MODIS 2002–2011 + S-NPP VIIRS from 2012 on the Aqua-MODIS scale (${cal?.unit ?? 'detections'})`
+          ? `Series: Aqua MODIS 2002–2011, then S-NPP and NOAA-20 VIIRS on the Aqua-MODIS scale (${cal?.unit ?? 'detections'})`
           : view === 'ml'
             ? mlSeriesLabel(result)
             : descSeriesLabel(result)
@@ -328,8 +328,9 @@ export function CalendarSection({ result }: { result: AnalysisResult }) {
           <>
             <CombinedHeatmap cal={cal!} />
             <p className="fineprint">
-              {cal!.label}. Before 2012: Aqua MODIS. From 2012: S-NPP VIIRS × {fmtNumber(cal!.ratio ?? null, 3)} (local ratio
-              on 2012–2021; see Satellite Analysis for its validation).
+              {cal!.label}. Before 2012: Aqua MODIS. From 2012: S-NPP VIIRS scaled per day/night overpass (fitted on
+              2012–2021); after S-NPP, NOAA-20 via S-NPP. Outlined months are unusually high for that calendar month. See
+              Satellite Analysis for the coefficients and the held-out validation.
             </p>
           </>
         ) : (

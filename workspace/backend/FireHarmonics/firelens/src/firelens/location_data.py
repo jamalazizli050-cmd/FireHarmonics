@@ -56,7 +56,8 @@ SERIES_START = SNPP.start             # 2012-01-20
 MIN_MONTH_COVERAGE = 0.9
 TILE_DEG = 1.0
 AVAILABILITY_MAX_AGE_H = 24
-DET_COLUMNS = ["latitude", "longitude", "acq_date", "frp_mw", "fire_type", "daynight", "qc_usable"]
+# confidence_class: the MODIS+VIIRS calendar excludes low-confidence detections
+DET_COLUMNS = ["latitude", "longitude", "acq_date", "frp_mw", "fire_type", "daynight", "confidence_class", "qc_usable"]
 
 DOWNLOAD_LOCK = threading.Lock()        # availability-table refresh (short, global)
 _TILE_LOCKS: dict[str, threading.Lock] = {}

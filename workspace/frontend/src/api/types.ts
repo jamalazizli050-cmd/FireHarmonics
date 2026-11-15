@@ -260,10 +260,18 @@ export interface MlHotspot {
 export interface CalendarMonth {
   month: string;
   value: number | null;
-  source: 'modis_aqua' | 'viirs_snpp_scaled' | null;
-  interval_95: [number, number] | null;
+  source: 'modis_aqua' | 'viirs_snpp_scaled' | 'viirs_noaa20_scaled' | null;
+  /** 90 % interval: link-coefficient bootstrap + counting noise. Null for Aqua months (the reference itself). */
+  interval_90: [number, number] | null;
+  /** Active 1-km cell-overpasses seen by each sensor (unscaled). */
   modis_aqua: number | null;
   viirs_snpp: number | null;
+  viirs_noaa20: number | null;
+  /** Against the same calendar month of the fixed baseline years. */
+  percentile: number | null;
+  baseline_median: number | null;
+  diff_from_median: number | null;
+  anomaly: 'high' | null;
 }
 
 export interface SeasonTiming {
@@ -283,9 +291,55 @@ export interface SeasonTiming {
   };
 }
 
-/** MODIS+VIIRS calendar harmonized by local overlap calibration (FireLens `unified_calendar`). */
+export type StratumValues<T> = { D: T; N: T };
+
+/** One link of the continuity chain (reference <- target), per day/night stratum. */
+export interface ChainLink {
+  link: 'aqua_snpp' | 'snpp_n20' | string;
+  reference: string;
+  target: string;
+  status?: 'unavailable' | string;
+  explanation?: string;
+  fit_years?: number[];
+  ratio?: StratumValues<number>;
+  ratio_ci90?: StratumValues<[number, number]>;
+  prior: StratumValues<number>;
+  prior_scope: StratumValues<string>;
+  local_weight?: StratumValues<number>;
+  overlap_units?: { reference: StratumValues<number>; target: StratumValues<number> };
+  dispersion_k?: number | null;
+}
+
+export interface MethodScore {
+  median_abs_pct_error_annual: number | null;
+  median_abs_log_error_monthly: number | null;
+  anomaly_rank_correlation: number | null;
+  years_scored: number[];
+}
+
+/** Held-out-in-time test of one link: fitted on train_years, scored on test_years. */
+export interface ForwardTest {
+  status: 'ok' | 'insufficient_years' | 'too_little_activity' | 'unavailable' | string;
+  explanation?: string;
+  train_years?: number[];
+  test_years?: number[];
+  months_tested?: number;
+  methods?: { continuity_chain: MethodScore | null; pixel_ratio: MethodScore | null; raw_target: MethodScore | null };
+  interval_90_coverage?: number;
+  beats_pixel_ratio?: boolean | null;
+  by_year?: {
+    year: number;
+    reference: number;
+    continuity_chain: number;
+    reference_pixels: number;
+    pixel_ratio: number | null;
+    raw_target_pixels: number;
+  }[];
+}
+
+/** MODIS+VIIRS calendar on the Aqua-MODIS scale (FireLens `unified_calendar`, continuity chain). */
 export interface UnifiedCalendar {
-  status: 'ok' | 'insufficient_overlap' | 'unavailable' | 'failed' | 'disabled' | string;
+  status: 'ok' | 'preparing' | 'unavailable' | 'failed' | 'disabled' | string;
   explanation?: string;
   label?: string;
   method?: string;
@@ -293,25 +347,16 @@ export interface UnifiedCalendar {
   reference_sensor?: string;
   calibrated_sensor?: string;
   unit?: string;
-  overlap?: {
-    start: string;
-    end: string;
-    months: number;
-    years: number[];
-    modis_aqua_detections: number;
-    viirs_snpp_detections: number;
-  };
-  ratio?: number;
-  ratio_ci95?: [number, number] | null;
+  unit_definition?: string;
+  kappa?: number;
+  chain?: ChainLink[];
   validation?: {
     method: string;
-    years_tested: number;
-    median_abs_pct_error_annual: number | null;
-    median_abs_pct_error_annual_raw_viirs: number | null;
-    monthly_correlation_modis_vs_viirs: number | null;
-    improves_on_raw_viirs: boolean | null;
-    by_year: { year: number; modis_observed: number; viirs_raw: number; predicted: number; ratio_without_year: number }[];
+    aqua_snpp: ForwardTest;
+    snpp_n20: ForwardTest;
+    seam_2012?: { harmonized_over_aqua_2012_2013: number | null; explanation: string };
   };
+  baseline_years?: [number, number];
   monthly?: CalendarMonth[];
   season?: SeasonTiming;
   limitations?: string[];
@@ -323,7 +368,12 @@ export interface CurrentConditions {
   window?: { start: string; end: string; days: number } | null;
   sensor?: string;
   reference?: string;
+  /** NOAA-20 near-real-time detections (pixels) in the window. */
   detections?: number;
+  /** The same as active 1-km cell-overpasses, and on the S-NPP scale (bridge ratio applied). */
+  active_cells?: number;
+  snpp_equivalent?: number;
+  unit?: string;
   category?:
     | 'highest_on_record'
     | 'well_above_normal'

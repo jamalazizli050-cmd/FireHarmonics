@@ -190,8 +190,10 @@ test.describe('location analysis report (backend example result)', () => {
     await expect(heat.getByRole('gridcell', { name: /Aqua MODIS/ }).first()).toBeVisible();
     await expect(heat.getByRole('gridcell', { name: /S-NPP VIIRS scaled to MODIS/ }).first()).toBeVisible();
     const val = dialog.getByTestId('calibration-validation');
-    await expect(val).toContainText('Local calibration · experimental');
-    await expect(val).toContainText('0.107');
+    await expect(val).toContainText('Continuity chain · experimental');
+    await expect(val).toContainText('0.211');                     // Aqua <- S-NPP day ratio from the fixture
+    await expect(val).toContainText('NOAA-20');
+    await expect(heat.getByRole('gridcell', { name: /unusually high/ }).first()).toBeVisible();
   });
 
   test('area radius selector sends the chosen radius to the API', async ({ page }) => {

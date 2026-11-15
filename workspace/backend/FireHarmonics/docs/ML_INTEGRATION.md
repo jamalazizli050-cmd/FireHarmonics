@@ -124,12 +124,33 @@ demo locations in advance (no MAP_KEY needed).
 
 ### MODIS+VIIRS calendar (`firelens/src/firelens/unified_calendar.py`)
 
-Aqua MODIS (2002-07 on) and S-NPP VIIRS (2012 on) from the same yearly archives, FireLens QC, vegetation type 0,
-within the disc. Local ratio `r = sum(MODIS)/sum(VIIRS)` on 2012-2021 (before Aqua's orbit drift), 95 % CI by year
-bootstrap, leave-one-year-out validation against raw VIIRS. Measured on 2026-11-15: Zambia/Angola r = 0.177
-(CI 0.168-0.186), annual error 3 % vs 463 % for raw VIIRS, monthly r = 0.97; Yosemite r = 0.089, 30 % vs 1,236 %,
-monthly r = 0.96. Season timing (10 % / 90 % of a fire-year) and current conditions (NOAA-20 NRT, last 14 days, vs the
-same window in past S-NPP years) are computed in the same module. Not the FireLens regional harmonization model.
+**Continuity chain.** Aqua MODIS (2002-07 on), S-NPP VIIRS (2012 on) and NOAA-20 VIIRS (2018 on) from the same
+yearly archives; vegetation fires (type 0), nominal/high confidence, within the disc.
+
+* Unit: active 1-km cell-overpasses (0.01 deg cell x day x day/night), which removes VIIRS pixel fragmentation.
+* Links per day/night stratum: Aqua <- S-NPP on 2012-2021 (before Aqua's orbit drift), S-NPP <- NOAA-20 on 2019 on.
+  NOAA-20-only months are `theta1 * theta2 * NOAA-20`.
+* Partial pooling: `theta = (sum ref + kappa * prior) / (sum target + kappa)`, `kappa = 40`; the prior is the
+  regional ratio from `harmonization_priors.json` (5 deg cell, then 15 deg, then global), restricted to the fit years.
+* 90 % interval per month: year-block bootstrap of the links plus negative-binomial counting noise.
+* Anomaly per month vs the same calendar month in 2003-2021 (percentile, median, `anomaly: "high"`).
+* Validation held out in time: fit 2012-2016 -> predict Aqua 2017-2021 from S-NPP; fit 2019-2022 -> predict S-NPP
+  2023-2025 from NOAA-20; compared with the previous pixel ratio and raw VIIRS.
+
+Benchmark on 2026-11-15 (`firelens/tools/benchmark_harmonization.py`, locally cached archives, 15-17 locations in
+the US, Angola, Zambia, Portugal, Spain, Italy, Poland and the UK), median annual error on the held-out years:
+
+| Test | radius | continuity chain | previous pixel ratio | raw VIIRS | 90 % interval coverage |
+| --- | --- | --- | --- | --- | --- |
+| Aqua <- S-NPP | 25 km | 18 % | 19 % | 459 % | 92 % |
+| Aqua <- S-NPP | 50 km | 12 % | 16 % | 508 % | 90 % |
+| S-NPP <- NOAA-20 | 25 km | 13 % | 14 % | 10 % | 86 % |
+| S-NPP <- NOAA-20 | 50 km | 6 % | 6 % | 6 % | 83 % |
+
+The chain matches or beats the previous pixel ratio on annual totals, adds calibrated intervals, day/night handling,
+pooling for sparse places and the NOAA-20 continuation. S-NPP and NOAA-20 already agree closely, so the bridge mainly
+keeps the scale consistent. Season timing and current conditions (NOAA-20 NRT, last 14 days, on the S-NPP scale) are
+computed in the same module. Rebuild the priors after downloading archives: `python tools/build_harmonization_priors.py`.
 
 ## 6. Forecast method selection
 

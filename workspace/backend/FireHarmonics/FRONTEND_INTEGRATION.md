@@ -356,15 +356,20 @@ lists all five regions and their statuses.
 
 ### Harmonized MODIS+VIIRS calendar, season timing and current conditions
 
-`ml_analysis.unified_calendar` (FireLens, local overlap calibration) is the burning-activity calendar from 2002:
-Aqua MODIS before 2012 and S-NPP VIIRS × `ratio` from 2012 (`monthly[]`: `month`, `value`, `source`
-`modis_aqua` | `viirs_snpp_scaled`, `interval_95`, raw `modis_aqua` / `viirs_snpp`). `ratio`, `ratio_ci95`, `overlap`
-and `validation` (leave-one-year-out on 2012-2021: `median_abs_pct_error_annual` vs `..._raw_viirs`,
-`monthly_correlation_modis_vs_viirs`, `by_year[]`) describe the calibration; always show `label` and `limitations`.
+`ml_analysis.unified_calendar` (FireLens continuity chain, `method: "continuity_chain"`) is the burning-activity
+calendar from 2002 in `unit` (active 1-km cell-overpasses on the Aqua-MODIS scale): Aqua MODIS before 2012, S-NPP
+VIIRS scaled from 2012, NOAA-20 VIIRS scaled via S-NPP where S-NPP is missing. `monthly[]`: `month`, `value`,
+`source` (`modis_aqua` | `viirs_snpp_scaled` | `viirs_noaa20_scaled`), `interval_90`, raw active cells
+`modis_aqua` / `viirs_snpp` / `viirs_noaa20`, and `percentile`, `baseline_median`, `diff_from_median`, `anomaly`
+(`"high"` or null) against `baseline_years`. `chain[]` gives each link's `ratio` and `ratio_ci90` per stratum
+(`D`, `N`), `prior`, `prior_scope` and `local_weight`. `validation.aqua_snpp` / `validation.snpp_n20` are held-out
+tests (`status`, `train_years`, `test_years`, `methods.{continuity_chain,pixel_ratio,raw_target}` with
+`median_abs_pct_error_annual`, `median_abs_log_error_monthly`, `anomaly_rank_correlation`, `interval_90_coverage`,
+`by_year[]`). `status: "preparing"` means the archives are still downloading. Always show `label` and `limitations`.
 `unified_calendar.season` gives typical `onset` / `peak` / `end` months and `current.onset_status`
 (`earlier_than_usual`, `later_than_usual`, `as_usual`, `not_started_later_than_usual`).
-`ml_analysis.current_conditions` compares the last 14 days of NOAA-20 NRT detections with the same window in past
-S-NPP years (`category`: `highest_on_record`, `well_above_normal`, `above_normal`, `near_normal`, `below_normal`,
+`ml_analysis.current_conditions` compares the last 14 days of NOAA-20 NRT activity (`detections` pixels,
+`active_cells`, and `snpp_equivalent` after the bridge ratio) with the same window in past S-NPP years (`category`: `highest_on_record`, `well_above_normal`, `above_normal`, `near_normal`, `below_normal`,
 `quiet_as_usual`, `isolated_detections`). Both blocks have a `status`; render `explanation` when it is not `ok`.
 CSV: `?format=csv&table=calendar`. `radius_km` may be 10, 25, 50 or 100 km (the forecast model's training discs).
 
