@@ -102,7 +102,7 @@ export default function JobStatus({ state, onRetry }: Props) {
       )}
       {job && !job.cache_hit && progress < 50 && (
         <p className="job-status__hint">
-          A new location can take 20–30 minutes, mostly NASA downloads. Previously analysed locations load in seconds.
+          Analysis usually takes less than a minute.
         </p>
       )}
     </div>
