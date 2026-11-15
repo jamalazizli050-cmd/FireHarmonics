@@ -102,4 +102,29 @@ export const ABOUT_TABS: { id: string; label: string; body: ReactNode }[] = [
       </>
     ),
   },
+  {
+    id: 'credits',
+    label: 'Data & Credits',
+    body: (
+      <>
+        <p>
+          We acknowledge the use of data from NASA’s Fire Information for Resource Management System (FIRMS) (
+          <a href="https://www.earthdata.nasa.gov/firms" target="_blank" rel="noreferrer">
+            earthdata.nasa.gov/firms
+          </a>
+          ), part of NASA’s Earth Science Data and Information System (ESDIS). FireHarmonics uses the MODIS
+          (Terra and Aqua) and VIIRS (Suomi NPP and NOAA-20) active-fire products, near real-time and standard
+          processing.
+        </p>
+        <p>
+          Earth imagery on the globe: NASA Visible Earth “Blue Marble”. Country borders: Natural Earth (public
+          domain).
+        </p>
+        <p>
+          FireHarmonics is a NASA Space Apps Challenge 2026 project. It is not affiliated with or endorsed by
+          NASA, and its harmonization and forecast are the team’s own experimental methods.
+        </p>
+      </>
+    ),
+  },
 ];

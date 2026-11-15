@@ -3896,3 +3896,11 @@ body.report-open .a11y {
   grid-template-columns: minmax(0, 1fr);
   min-width: 0;
 }
+
+/* data acknowledgement at the end of the report (also in the PDF) */
+.report .report-credits {
+  margin: calc(28 * var(--u)) calc(37 * var(--u)) 0 calc(22 * var(--u));
+  font-size: calc(11 * var(--u));
+  line-height: 1.5;
+  color: #8a91a3;
+}

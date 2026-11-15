@@ -345,7 +345,7 @@ test.describe('location analysis report (backend example result)', () => {
 test.describe('about, contact, faq', () => {
   test('about tabs switch content', async ({ page }) => {
     await page.goto('/about');
-    for (const tab of ['NASA Challenge', 'How It Works', 'Our Mission', 'Overview']) {
+    for (const tab of ['NASA Challenge', 'How It Works', 'Our Mission', 'Data & Credits', 'Overview']) {
       await page.getByRole('tab', { name: tab }).click();
       await expect(page.getByRole('tab', { name: tab })).toHaveAttribute('aria-selected', 'true');
     }

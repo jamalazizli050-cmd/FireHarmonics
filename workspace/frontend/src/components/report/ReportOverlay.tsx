@@ -280,6 +280,11 @@ export default function ReportOverlay(props: Props) {
               autoPdf={props.autoPdf}
               onAutoPdfDone={props.onAutoPdfDone}
             />
+            <p className="report-credits" data-pdf-section>
+              Data: NASA Fire Information for Resource Management System (FIRMS), part of NASA’s Earth Science
+              Data and Information System (ESDIS) — MODIS and VIIRS active-fire products. FireHarmonics is a
+              NASA Space Apps Challenge project, not affiliated with or endorsed by NASA.
+            </p>
           </div>
         </div>
       </motion.div>
