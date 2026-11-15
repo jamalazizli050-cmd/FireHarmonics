@@ -1,5 +1,32 @@
 import type { ReactNode } from 'react';
 
+/** NASA data and services the site actually uses (each link checked to resolve). */
+const NASA_RESOURCES: [string, string][] = [
+  ['NASA FIRMS — Fire Information for Resource Management System', 'https://firms.modaps.eosdis.nasa.gov/'],
+  ['NASA FIRMS Area API', 'https://firms.modaps.eosdis.nasa.gov/api/area/'],
+  ['NASA FIRMS Data Availability API', 'https://firms.modaps.eosdis.nasa.gov/api/data_availability/'],
+  ['NASA FIRMS yearly country archives', 'https://firms.modaps.eosdis.nasa.gov/country/'],
+  [
+    'VIIRS 375 m Active Fire NRT — NOAA-20 (VJ114IMGT_NRT)',
+    'https://doi.org/10.5067/FIRMS/VIIRS/VJ114IMGT_NRT.002',
+  ],
+  [
+    'VIIRS 375 m Active Fire NRT — Suomi NPP (VNP14IMGT_NRT)',
+    'https://doi.org/10.5067/FIRMS/VIIRS/VNP14IMGT_NRT.002',
+  ],
+  [
+    'MODIS Collection 6.1 Active Fire NRT — Terra/Aqua (MCD14DL)',
+    'https://doi.org/10.5067/FIRMS/MODIS/MCD14DL.NRT.0061',
+  ],
+  ['Aqua MODIS Active Fire (MYD14, Collection 6.1)', 'https://doi.org/10.5067/MODIS/MYD14.061'],
+  ['Suomi NPP VIIRS Active Fire (VNP14IMG, version 2)', 'https://doi.org/10.5067/VIIRS/VNP14IMG.002'],
+  ['NOAA-20 VIIRS Active Fire (VJ114IMG, version 2)', 'https://doi.org/10.5067/VIIRS/VJ114IMG.002'],
+  [
+    'NASA Visible Earth — Blue Marble (globe imagery)',
+    'https://visibleearth.nasa.gov/collection/1484/blue-marble',
+  ],
+];
+
 /** About-page tab content. Statements follow the backend documentation (FRONTEND_INTEGRATION.md, ML_INTEGRATION.md). */
 export const ABOUT_TABS: { id: string; label: string; body: ReactNode }[] = [
   {
@@ -109,17 +136,36 @@ export const ABOUT_TABS: { id: string; label: string; body: ReactNode }[] = [
       <>
         <p>
           We acknowledge the use of data from NASA’s Fire Information for Resource Management System (FIRMS) (
-          <a href="https://www.earthdata.nasa.gov/firms" target="_blank" rel="noreferrer">
-            earthdata.nasa.gov/firms
+          <a href="https://www.earthdata.nasa.gov/data/tools/firms" target="_blank" rel="noreferrer">
+            earthdata.nasa.gov/data/tools/firms
           </a>
-          ), part of NASA’s Earth Science Data and Information System (ESDIS). FireHarmonics uses the MODIS
-          (Terra and Aqua) and VIIRS (Suomi NPP and NOAA-20) active-fire products, near real-time and standard
-          processing.
+          ), part of NASA’s Earth Science Data and Information System (ESDIS).
         </p>
-        <p>
-          Earth imagery on the globe: NASA Visible Earth “Blue Marble”. Country borders: Natural Earth (public
-          domain).
-        </p>
+        <h3 className="credits-heading">NASA data and resources used</h3>
+        <ul className="credits-list">
+          {NASA_RESOURCES.map(([label, url]) => (
+            <li key={url}>
+              <a href={url} target="_blank" rel="noreferrer">
+                {label}
+              </a>
+            </li>
+          ))}
+        </ul>
+        <h3 className="credits-heading">Other data</h3>
+        <ul className="credits-list">
+          <li>
+            <a href="https://www.naturalearthdata.com/" target="_blank" rel="noreferrer">
+              Natural Earth
+            </a>{' '}
+            — country borders (public domain)
+          </li>
+          <li>
+            <a href="https://open-meteo.com/en/docs/geocoding-api" target="_blank" rel="noreferrer">
+              Open-Meteo Geocoding API
+            </a>{' '}
+            — place search (based on GeoNames)
+          </li>
+        </ul>
         <p>
           FireHarmonics is a NASA Space Apps Challenge 2026 project. It is not affiliated with or endorsed by
           NASA, and its harmonization and forecast are the team’s own experimental methods.
