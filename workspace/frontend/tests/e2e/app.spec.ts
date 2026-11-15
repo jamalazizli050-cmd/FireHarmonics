@@ -36,7 +36,9 @@ test.describe('navigation and layout', () => {
 });
 
 test.describe('home → interactive globe', () => {
-  test('search suggestions appear below the field and selection opens the globe with real coordinates', async ({ page }) => {
+  test('search suggestions appear below the field and selection opens the globe with real coordinates', async ({
+    page,
+  }) => {
     await mockGeocoder(page);
     await page.goto('/');
     const box = page.getByRole('combobox', { name: /Search for a location/ });
@@ -62,7 +64,10 @@ test.describe('home → interactive globe', () => {
     await expect(page).toHaveURL(/lat=37\.70000&lon=-119\.50000/);
   });
 
-  test('clicking a country on the globe selects that place and names it after the country', async ({ page, viewport }) => {
+  test('clicking a country on the globe selects that place and names it after the country', async ({
+    page,
+    viewport,
+  }) => {
     test.skip((viewport?.width ?? 0) < 820, 'desktop layout');
     await page.goto('/globe');
     const stage = page.getByTestId('globe-stage');
@@ -70,7 +75,10 @@ test.describe('home → interactive globe', () => {
     // The default view faces 18 N, 20 E (Chad); the sphere centre is at (0.4 w, 0.567 h) on desktop (mockup 02).
     const w = viewport!.width;
     const h = viewport!.height;
-    await page.mouse.click(Math.min(w * 0.4, (w - Math.min(Math.max(w * 0.256, 340), 470)) * 0.54), h * 0.567);
+    await page.mouse.click(
+      Math.min(w * 0.4, (w - Math.min(Math.max(w * 0.256, 340), 470)) * 0.54),
+      h * 0.567,
+    );
     await expect(page).toHaveURL(/\/globe\?lat=1[5-9]\.\d+&lon=(1[5-9]|2[0-5])\.\d+&name=Chad/);
     await expect(page.getByRole('complementary', { name: 'Location analysis' })).toContainText('Chad');
     // a drag is not a click: rotating the globe must not change the selection
@@ -83,7 +91,10 @@ test.describe('home → interactive globe', () => {
     expect(page.url()).toBe(before);
   });
 
-  test('Enter on the focused globe selects the country in the centre of the view', async ({ page, viewport }) => {
+  test('Enter on the focused globe selects the country in the centre of the view', async ({
+    page,
+    viewport,
+  }) => {
     test.skip((viewport?.width ?? 0) < 820, 'desktop layout');
     await page.goto('/globe');
     await page.waitForTimeout(1500);
@@ -92,13 +103,22 @@ test.describe('home → interactive globe', () => {
     await expect(page).toHaveURL(/name=Chad/);
   });
 
-  test('live backend: the analysis request reaches the real API and its outcome is reported honestly', async ({ page }) => {
+  test('live backend: the analysis request reaches the real API and its outcome is reported honestly', async ({
+    page,
+  }) => {
     test.skip(!process.env.E2E_LIVE_BACKEND, 'starts a real NASA analysis; run with E2E_LIVE_BACKEND=1');
-    const post = page.waitForResponse((r) => r.url().endsWith('/api/v1/analyses') && r.request().method() === 'POST');
+    const post = page.waitForResponse(
+      (r) => r.url().endsWith('/api/v1/analyses') && r.request().method() === 'POST',
+    );
     await page.goto('/globe?lat=37.7&lon=-119.5&name=Live%20backend%20check');
     const res = await post;
     const body = res.request().postDataJSON();
-    expect(body).toMatchObject({ latitude: 37.7, longitude: -119.5, radius_km: 25, location_name: 'Live backend check' });
+    expect(body).toMatchObject({
+      latitude: 37.7,
+      longitude: -119.5,
+      radius_km: 25,
+      location_name: 'Live backend check',
+    });
     if (res.status() >= 400) {
       // e.g. 500 "NASA_FIRMS_MAP_KEY is not configured" when no key is set — shown verbatim, no data invented
       await expect(page.getByRole('alert').first()).toBeVisible();
@@ -111,7 +131,9 @@ test.describe('home → interactive globe', () => {
 });
 
 test.describe('location analysis report (backend example result)', () => {
-  test('forecast is presented as experimental XGBoost next to the backend-selected seasonal baseline', async ({ page }) => {
+  test('forecast is presented as experimental XGBoost next to the backend-selected seasonal baseline', async ({
+    page,
+  }) => {
     await mockCompletedAnalysis(page);
     await page.goto(GLOBE_URL);
     const summary = page.getByTestId('panel-summary');
@@ -157,7 +179,9 @@ test.describe('location analysis report (backend example result)', () => {
     await expect(open).toBeFocused();
   });
 
-  test('settings are synchronised between panel and report and trigger a real-shaped API request', async ({ page }) => {
+  test('settings are synchronised between panel and report and trigger a real-shaped API request', async ({
+    page,
+  }) => {
     const state = await mockCompletedAnalysis(page);
     await page.goto(GLOBE_URL);
     await expect(page.getByTestId('panel-summary')).toBeVisible();
@@ -166,7 +190,11 @@ test.describe('location analysis report (backend example result)', () => {
     const before = state.posts.length;
     await dialog.getByLabel('Time period').selectOption('last_90');
     await expect.poll(() => state.posts.length).toBeGreaterThan(before);
-    expect(state.posts.at(-1)).toMatchObject({ source: 'VIIRS_NOAA20_NRT', ml_mode: 'cache_only', radius_km: 25 });
+    expect(state.posts.at(-1)).toMatchObject({
+      source: 'VIIRS_NOAA20_NRT',
+      ml_mode: 'cache_only',
+      radius_km: 25,
+    });
     await page.keyboard.press('Escape');
     await expect(dialog).toBeHidden();
     const panel = page.getByRole('complementary', { name: 'Location analysis' });
@@ -178,7 +206,9 @@ test.describe('location analysis report (backend example result)', () => {
     expect(days).toBe(365);
   });
 
-  test('satellite data offers only main FIRMS VIIRS, MODIS and the normalized index', async ({ page }) => {
+  test('satellite data offers only main FIRMS VIIRS, MODIS and the harmonized MODIS+VIIRS record', async ({
+    page,
+  }) => {
     await mockCompletedAnalysis(page);
     await page.goto(GLOBE_URL);
     await expect(page.getByTestId('panel-summary')).toBeVisible();
@@ -187,26 +217,46 @@ test.describe('location analysis report (backend example result)', () => {
     expect(await options.evaluateAll((els) => els.map((e) => (e as HTMLOptionElement).value))).toEqual([
       'VIIRS_NOAA20_NRT',
       'MODIS_NRT',
-      '__normalized__',
+      '__harmonized__',
     ]);
+    await expect(page.getByLabel('Satellite data').locator('option[value="__harmonized__"]')).toHaveText(
+      /^Harmonized/,
+    );
   });
 
-  test('normalized index is offered where no harmonized series exists, clearly labelled', async ({ page }) => {
+  test('harmonized view shows the MODIS+VIIRS chain in the panel and the report', async ({ page }) => {
     await mockCompletedAnalysis(page);
     await page.goto(GLOBE_URL);
     const panel = page.getByRole('complementary', { name: 'Location analysis' });
     await expect(page.getByTestId('panel-summary')).toBeVisible();
-    await panel.getByLabel('Satellite data').selectOption('__normalized__');
-    await expect(page.getByTestId('normalized-note')).toContainText('not harmonized, not validated');
-    await expect(page.getByTestId('normalized-note')).toContainText('2024-07');
+    await panel.getByLabel('Satellite data').selectOption('__harmonized__');
+    await expect(page.getByTestId('harmonized-note')).toContainText('Aqua-MODIS scale');
     await page.getByTestId('open-report').click();
-    const chart = page.getByRole('dialog').getByTestId('normalized-chart');
+    await expect(page.getByRole('dialog').getByTestId('harmonized-chart')).toContainText('90 % interval');
+  });
+
+  test('normalized index is offered where no harmonized series exists, clearly labelled', async ({
+    page,
+  }) => {
+    await mockCompletedAnalysis(page);
+    await page.goto(GLOBE_URL);
+    const panel = page.getByRole('complementary', { name: 'Location analysis' });
+    await expect(page.getByTestId('panel-summary')).toBeVisible();
+    await page.getByTestId('open-report').click();
+    const dialog = page.getByRole('dialog');
+    await dialog.getByRole('button', { name: 'Show normalized index' }).click();
+    const chart = dialog.getByTestId('normalized-chart');
     await expect(chart).toBeVisible();
     await expect(chart).toContainText('Normalized — not harmonized, not validated');
     await expect(chart).toContainText('not a harmonization');
+    await page.keyboard.press('Escape');
+    await expect(panel.getByTestId('normalized-note')).toContainText('not harmonized, not validated');
+    await expect(panel.getByTestId('normalized-note')).toContainText('2024-07');
   });
 
-  test('harmonized MODIS+VIIRS calendar, its validation, season and current conditions are shown', async ({ page }) => {
+  test('harmonized MODIS+VIIRS calendar, its validation, season and current conditions are shown', async ({
+    page,
+  }) => {
     await mockCompletedAnalysis(page);
     await page.goto(GLOBE_URL);
     const summary = page.getByTestId('panel-summary');
@@ -221,7 +271,7 @@ test.describe('location analysis report (backend example result)', () => {
     await expect(heat.getByRole('gridcell', { name: /S-NPP VIIRS scaled to MODIS/ }).first()).toBeVisible();
     const val = dialog.getByTestId('calibration-validation');
     await expect(val).toContainText('Continuity chain · experimental');
-    await expect(val).toContainText('0.211');                     // Aqua <- S-NPP day ratio from the fixture
+    await expect(val).toContainText('0.211'); // Aqua <- S-NPP day ratio from the fixture
     await expect(val).toContainText('NOAA-20');
     await expect(heat.getByRole('gridcell', { name: /unusually high/ }).first()).toBeVisible();
   });
@@ -230,7 +280,10 @@ test.describe('location analysis report (backend example result)', () => {
     const state = await mockCompletedAnalysis(page);
     await page.goto(GLOBE_URL);
     await expect(page.getByTestId('panel-summary')).toBeVisible();
-    await page.getByRole('complementary', { name: 'Location analysis' }).getByLabel('Area of interest').selectOption('50');
+    await page
+      .getByRole('complementary', { name: 'Location analysis' })
+      .getByLabel('Area of interest')
+      .selectOption('50');
     await expect.poll(() => state.posts.at(-1)?.radius_km).toBe(50);
     await expect(page.getByText(/50 km analysis radius/)).toBeVisible();
   });
@@ -241,9 +294,15 @@ test.describe('location analysis report (backend example result)', () => {
     await page.getByTestId('open-report').click();
     const dialog = page.getByRole('dialog');
     await dialog.getByLabel('CSV table').selectOption('ml_monthly');
-    const [csv] = await Promise.all([page.waitForEvent('download'), dialog.getByRole('button', { name: 'Download CSV' }).click()]);
+    const [csv] = await Promise.all([
+      page.waitForEvent('download'),
+      dialog.getByRole('button', { name: 'Download CSV' }).click(),
+    ]);
     expect(csv.suggestedFilename()).toMatch(/ml_monthly\.csv$/);
-    const [json] = await Promise.all([page.waitForEvent('download'), dialog.getByRole('button', { name: 'Download JSON' }).click()]);
+    const [json] = await Promise.all([
+      page.waitForEvent('download'),
+      dialog.getByRole('button', { name: 'Download JSON' }).click(),
+    ]);
     expect(json.suggestedFilename()).toMatch(/\.json$/);
   });
 
@@ -331,7 +390,13 @@ test.describe('accessibility', () => {
       const results = await new AxeBuilder({ page }).exclude('canvas').analyze();
       const serious = results.violations
         .filter((v) => v.impact === 'serious' || v.impact === 'critical')
-        .map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(' ')).slice(0, 3).join(' | ')}`);
+        .map(
+          (v) =>
+            `${v.id}: ${v.nodes
+              .map((n) => n.target.join(' '))
+              .slice(0, 3)
+              .join(' | ')}`,
+        );
       expect(serious).toEqual([]);
     });
   }
@@ -344,7 +409,13 @@ test.describe('accessibility', () => {
     const results = await new AxeBuilder({ page }).include('[role=dialog]').analyze();
     const serious = results.violations
       .filter((v) => v.impact === 'serious' || v.impact === 'critical')
-      .map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(' ')).slice(0, 3).join(' | ')}`);
+      .map(
+        (v) =>
+          `${v.id}: ${v.nodes
+            .map((n) => n.target.join(' '))
+            .slice(0, 3)
+            .join(' | ')}`,
+      );
     expect(serious).toEqual([]);
   });
 });
@@ -352,21 +423,45 @@ test.describe('accessibility', () => {
 test('changing settings cancels the superseded analysis on the server', async ({ page }) => {
   const cancels: string[] = [];
   const job = (id: string, status: string) => ({
-    status_code: 202, job_id: id, status, progress: 10, stage: 'downloading', eta_seconds: null, nasa_pause_seconds: null,
-    cache_hit: false, attempt: 1, error: null, message: null, result_status: null,
-    links: { status: `/api/v1/analyses/${id}`, events: `/api/v1/analyses/${id}/events`, result: `/api/v1/analyses/${id}/result`,
-             retry: `/api/v1/analyses/${id}/retry`, export: `/api/v1/analyses/${id}/export` },
+    status_code: 202,
+    job_id: id,
+    status,
+    progress: 10,
+    stage: 'downloading',
+    eta_seconds: null,
+    nasa_pause_seconds: null,
+    cache_hit: false,
+    attempt: 1,
+    error: null,
+    message: null,
+    result_status: null,
+    links: {
+      status: `/api/v1/analyses/${id}`,
+      events: `/api/v1/analyses/${id}/events`,
+      result: `/api/v1/analyses/${id}/result`,
+      retry: `/api/v1/analyses/${id}/retry`,
+      export: `/api/v1/analyses/${id}/export`,
+    },
   });
   let n = 0;
-  await page.route('**/api/v1/analyses', (r) => (r.request().method() === 'POST' ? r.fulfill({ status: 202, json: { ...job(`job-${++n}`, 'running'), owner_token: `token-${n}` } }) : r.continue()));
-  await page.route('**/api/v1/analyses/*/events', (r) => r.fulfill({ status: 200, headers: { 'Content-Type': 'text/event-stream' }, body: ': waiting\n\n' }));
+  await page.route('**/api/v1/analyses', (r) =>
+    r.request().method() === 'POST'
+      ? r.fulfill({ status: 202, json: { ...job(`job-${++n}`, 'running'), owner_token: `token-${n}` } })
+      : r.continue(),
+  );
+  await page.route('**/api/v1/analyses/*/events', (r) =>
+    r.fulfill({ status: 200, headers: { 'Content-Type': 'text/event-stream' }, body: ': waiting\n\n' }),
+  );
   await page.route('**/api/v1/analyses/*/cancel', (r) => {
     cancels.push(`${r.request().url().split('/').at(-2)} ${r.request().headers()['x-job-token']}`);
     return r.fulfill({ status: 200, json: job('x', 'failed') });
   });
   await page.goto('/globe?lat=45&lon=10&name=Cancel%20check');
   await expect(page.getByTestId('job-status')).toBeVisible();
-  await page.getByRole('complementary', { name: 'Location analysis' }).getByLabel('Area of interest').selectOption('50');
+  await page
+    .getByRole('complementary', { name: 'Location analysis' })
+    .getByLabel('Area of interest')
+    .selectOption('50');
   // the cancel carries the owner token the backend issued for job-1 (other clients would get 403)
   await expect.poll(() => cancels).toEqual(['job-1 token-1']);
 });

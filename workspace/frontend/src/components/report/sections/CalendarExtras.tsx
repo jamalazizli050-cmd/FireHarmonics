@@ -1,6 +1,7 @@
 import { Activity, CalendarRange } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import {
+  Area,
   Bar,
   CartesianGrid,
   ComposedChart,
@@ -390,6 +391,59 @@ export function CalibrationValidation({ cal }: { cal: UnifiedCalendar }) {
         ))}
       </ul>
     </div>
+  );
+}
+
+/** The harmonized monthly record 2002–now (continuity chain) with its 90 % interval, as returned by the API. */
+export function HarmonizedSeriesChart({ cal }: { cal: UnifiedCalendar }) {
+  const pal = usePalette();
+  const data = (cal.monthly ?? []).map((m) => ({
+    month: m.month,
+    value: m.value,
+    band: m.interval_90 ?? (m.value !== null ? [m.value, m.value] : null),
+  }));
+  const axis = { stroke: pal.axis, tick: { fill: pal.axis, fontSize: 12 } };
+  return (
+    <figure className="chart-card" data-testid="harmonized-chart">
+      <figcaption>
+        Harmonized MODIS + VIIRS, {data[0]?.month} → {data.at(-1)?.month} ({cal.unit}); shaded: 90 % interval
+      </figcaption>
+      <ResponsiveContainer width="100%" height={260}>
+        <ComposedChart data={data} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
+          <CartesianGrid stroke={pal.grid} vertical={false} />
+          <XAxis dataKey="month" {...axis} minTickGap={40} />
+          <YAxis {...axis} width={48} />
+          <Tooltip
+            contentStyle={{
+              background: 'var(--surface-strong)',
+              border: '1px solid var(--line-strong)',
+              borderRadius: 10,
+            }}
+          />
+          <Area
+            dataKey="band"
+            name="90 % interval"
+            stroke="none"
+            fill={pal.primary}
+            fillOpacity={0.18}
+            isAnimationActive={false}
+          />
+          <Line
+            dataKey="value"
+            name="Harmonized"
+            stroke={pal.primary}
+            strokeWidth={1.5}
+            dot={false}
+            isAnimationActive={false}
+            connectNulls={false}
+          />
+        </ComposedChart>
+      </ResponsiveContainer>
+      <p className="fineprint">
+        Aqua MODIS before 2012, then S-NPP VIIRS and NOAA-20 VIIRS converted to the Aqua-MODIS scale. Gaps are
+        months without data, not zeros. {cal.label}
+      </p>
+    </figure>
   );
 }
 

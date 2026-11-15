@@ -1,6 +1,13 @@
 import { useId, useState } from 'react';
 import type { FirmsSource } from '../../api/types';
-import { PERIOD_PRESETS, presetRange, todayUtc, validatePeriod, type PeriodPreset, type PeriodSelection } from '../../lib/period';
+import {
+  PERIOD_PRESETS,
+  presetRange,
+  todayUtc,
+  validatePeriod,
+  type PeriodPreset,
+  type PeriodSelection,
+} from '../../lib/period';
 import { SOURCE_INFO, sourceLongLabel } from '../../lib/sources';
 import { RADIUS_OPTIONS_KM } from '../../state/location';
 
@@ -14,8 +21,11 @@ export interface AnalysisSettings {
 }
 
 export interface HarmonizedAvailability {
+  /** FireLens regional harmonized series (five training regions). */
   available: boolean;
   reason: string;
+  /** MODIS+VIIRS continuity chain of this analysis (ml_analysis.unified_calendar): ready, not yet run, or not possible. */
+  chain: 'ok' | 'pending' | 'preparing' | 'unavailable';
   /** Relative activity index from the API (`views.normalized`), offered where no harmonized series exists. */
   normalizedAvailable: boolean;
 }
@@ -29,7 +39,13 @@ interface Props {
   layout: 'panel' | 'report';
 }
 
-const NORMALIZED = '__normalized__';
+const HARMONIZED = '__harmonized__';
+const CHAIN_SUFFIX: Record<HarmonizedAvailability['chain'], string> = {
+  ok: '',
+  pending: ' — after the analysis',
+  preparing: ' — archives downloading',
+  unavailable: ' — not available here',
+};
 /**
  * The NASA FIRMS products offered: VIIRS on NOAA-20 (S-NPP delivery ended on 2026-11-02) and MODIS Terra/Aqua,
  * both near real-time so the default recent periods have data.
@@ -40,11 +56,7 @@ export const MAIN_SOURCES: readonly FirmsSource[] = ['VIIRS_NOAA20_NRT', 'MODIS_
  * Satellite-source and time-period controls. The same component (bound to the same state) is rendered
  * in the globe side panel and in the expanded report, so both stay synchronised.
  */
-function CustomPeriod({
-  settings,
-  onChange,
-  disabled,
-}: Pick<Props, 'settings' | 'onChange' | 'disabled'>) {
+function CustomPeriod({ settings, onChange, disabled }: Pick<Props, 'settings' | 'onChange' | 'disabled'>) {
   const [customStart, setCustomStart] = useState(settings.period.start);
   const [customEnd, setCustomEnd] = useState(settings.period.end);
   const [customError, setCustomError] = useState<string | null>(null);
@@ -67,7 +79,13 @@ function CustomPeriod({
       </label>
       <label>
         <span>To</span>
-        <input type="date" value={customEnd} max={todayUtc()} disabled={disabled} onChange={(e) => setCustomEnd(e.target.value)} />
+        <input
+          type="date"
+          value={customEnd}
+          max={todayUtc()}
+          disabled={disabled}
+          onChange={(e) => setCustomEnd(e.target.value)}
+        />
       </label>
       <button type="button" className="button button--small" onClick={applyCustom} disabled={disabled}>
         Apply
@@ -89,11 +107,11 @@ export default function DataControls({ settings, onChange, sources, harmonized, 
   const offered = [...new Set<FirmsSource>([...MAIN_SOURCES, settings.source])].filter(
     (s) => MAIN_SOURCES.includes(s) || sources.includes(s),
   );
-  const selectValue = settings.view === 'normalized' ? NORMALIZED : settings.source;
+  const selectValue = settings.view === 'harmonized' ? HARMONIZED : settings.source;
   const info = SOURCE_INFO[settings.source];
 
   const onSource = (value: string) => {
-    if (value === NORMALIZED) onChange({ ...settings, view: 'normalized' });
+    if (value === HARMONIZED) onChange({ ...settings, view: 'harmonized' });
     else onChange({ ...settings, view: 'raw', source: value as FirmsSource });
   };
 
@@ -117,20 +135,29 @@ export default function DataControls({ settings, onChange, sources, harmonized, 
           onChange={(e) => onSource(e.target.value)}
           aria-describedby={`${id}-source-help`}
         >
-          {/* Only the main NASA FIRMS VIIRS and MODIS products and the normalized index are offered. */}
+          {/* The main NASA FIRMS VIIRS and MODIS products, and the MODIS+VIIRS harmonized record of this analysis. */}
           {offered.map((s) => (
             <option key={s} value={s}>
               {SOURCE_INFO[s].instrument} · {SOURCE_INFO[s].platforms} ·{' '}
               {SOURCE_INFO[s].processing === 'near real-time' ? 'Near real-time' : 'Standard archive'}
             </option>
           ))}
-          <option value={NORMALIZED} disabled={!harmonized.normalizedAvailable}>
-            Normalized index — not harmonized{harmonized.normalizedAvailable ? '' : ' (needs 12 observed months)'}
+          <option value={HARMONIZED} disabled={harmonized.chain !== 'ok'}>
+            Harmonized · MODIS + VIIRS (2002–now){CHAIN_SUFFIX[harmonized.chain]}
           </option>
         </select>
         <p id={`${id}-source-help`} className="field__help">
-          {settings.view === 'normalized' ? (
-            <>Relative activity index (each month ÷ the series’ average month). Mathematical normalization, not a harmonization and not validated. The descriptive statistics still use {settings.source}.</>
+          {settings.view === 'harmonized' ? (
+            <>
+              Aqua MODIS and S-NPP / NOAA-20 VIIRS on one Aqua-MODIS scale, 2002 to now (continuity chain,
+              experimental; validated on held-out years in the report). The statistics for the selected period
+              still use {settings.source}.
+            </>
+          ) : settings.view === 'normalized' ? (
+            <>
+              Relative activity index (each month ÷ the series’ average month). Mathematical normalization,
+              not a harmonization and not validated. The descriptive statistics still use {settings.source}.
+            </>
           ) : (
             <>
               {sourceLongLabel(settings.source)}.{info?.note ? ` ${info.note}` : ''}
@@ -153,7 +180,9 @@ export default function DataControls({ settings, onChange, sources, harmonized, 
             </option>
           ))}
         </select>
-        <p className="field__help">Circle around the selected location. The forecast model was trained on 10–100 km circles.</p>
+        <p className="field__help">
+          Circle around the selected location. The forecast model was trained on 10–100 km circles.
+        </p>
       </div>
 
       <div className="field">
@@ -180,8 +209,8 @@ export default function DataControls({ settings, onChange, sources, harmonized, 
           />
         ) : (
           <p className="field__help">
-            {settings.period.start} → {settings.period.end} (UTC). Near real-time products hold recent data and standard
-            products the archive; the backend checks NASA availability before downloading.
+            {settings.period.start} → {settings.period.end} (UTC). Near real-time products hold recent data
+            and standard products the archive; the backend checks NASA availability before downloading.
           </p>
         )}
       </div>

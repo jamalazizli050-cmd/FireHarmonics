@@ -8,7 +8,10 @@ import { FIRMS_SOURCES, type FirmsSource } from '../api/types';
 import { useAnalysisJob } from '../api/useAnalysisJob';
 import JobStatus from '../components/report/JobStatus';
 import PanelSummary from '../components/report/PanelSummary';
-import DataControls, { type AnalysisSettings, type HarmonizedAvailability } from '../components/ui/DataControls';
+import DataControls, {
+  type AnalysisSettings,
+  type HarmonizedAvailability,
+} from '../components/ui/DataControls';
 import LocationSearch from '../components/ui/LocationSearch';
 import { Notice } from '../components/ui/primitives';
 import { formatCoordinates } from '../lib/geocode';
@@ -28,8 +31,31 @@ function NormalizedNote({ result }: { result: NonNullable<ReturnType<typeof useA
   return (
     <p className="normalized-note" data-testid="normalized-note">
       <strong>Normalized index</strong> (not harmonized, not validated): busiest month{' '}
-      {peak ? `${peak.month} at ${peak.index?.toFixed(2)}× the average month` : 'not available'} ({series.instrument},{' '}
-      {series.reference_period.start} → {series.reference_period.end}). The full chart is in the report.
+      {peak ? `${peak.month} at ${peak.index?.toFixed(2)}× the average month` : 'not available'} (
+      {series.instrument}, {series.reference_period.start} → {series.reference_period.end}). The full chart is
+      in the report.
+    </p>
+  );
+}
+
+/** Last 12 harmonized months against the same months of the baseline, read from ml_analysis.unified_calendar. */
+function HarmonizedNote({ result }: { result: NonNullable<ReturnType<typeof useAnalysisJob>['result']> }) {
+  const cal = result.ml_analysis.unified_calendar;
+  const rows = (cal?.monthly ?? []).filter((m) => m.value !== null);
+  if (cal?.status !== 'ok' || !rows.length) return null;
+  const last = rows.slice(-12);
+  const total = last.reduce((t, m) => t + (m.value ?? 0), 0);
+  const typical = last.every((m) => m.baseline_median !== null)
+    ? last.reduce((t, m) => t + (m.baseline_median ?? 0), 0)
+    : null;
+  const high = last.filter((m) => m.anomaly === 'high').map((m) => m.month);
+  return (
+    <p className="normalized-note" data-testid="harmonized-note">
+      <strong>Harmonized MODIS + VIIRS</strong> (Aqua-MODIS scale, experimental): {total.toFixed(0)} active
+      1-km cells in {last[0].month} → {last[last.length - 1].month}
+      {typical !== null ? ` vs a typical ${typical.toFixed(0)}` : ''}
+      {high.length ? `; unusually high: ${high.join(', ')}` : '; no unusually high month'}. The 2002–now
+      calendar is in the report.
     </p>
   );
 }
@@ -42,7 +68,10 @@ export default function GlobePage() {
 
   const sourcesQ = useQuery({ queryKey: ['sources'], queryFn: ({ signal }) => api.sources(signal) });
   const modelQ = useQuery({ queryKey: ['model'], queryFn: ({ signal }) => api.model(signal) });
-  const harmonizationQ = useQuery({ queryKey: ['harmonization'], queryFn: ({ signal }) => api.harmonization(signal) });
+  const harmonizationQ = useQuery({
+    queryKey: ['harmonization'],
+    queryFn: ({ signal }) => api.harmonization(signal),
+  });
 
   const [settings, setSettings] = useState<AnalysisSettings>(() => ({
     source: 'VIIRS_NOAA20_NRT',
@@ -59,10 +88,13 @@ export default function GlobePage() {
   const [adoptedDefault, setAdoptedDefault] = useState(false);
   if (!adoptedDefault && sourcesQ.data?.default) {
     setAdoptedDefault(true);
-    if (sourcesQ.data.default !== settings.source) setSettings((s) => ({ ...s, source: sourcesQ.data!.default }));
+    if (sourcesQ.data.default !== settings.source)
+      setSettings((s) => ({ ...s, source: sourcesQ.data!.default }));
   }
 
-  const sources: readonly FirmsSource[] = sourcesQ.data?.sources?.length ? sourcesQ.data.sources : FIRMS_SOURCES;
+  const sources: readonly FirmsSource[] = sourcesQ.data?.sources?.length
+    ? sourcesQ.data.sources
+    : FIRMS_SOURCES;
 
   // Start a real analysis whenever the location, source or period changes.
   const { start } = job;
@@ -84,7 +116,15 @@ export default function GlobePage() {
       history_years: 10,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [locationKey, settings.source, settings.period.start, settings.period.end, settings.radiusKm, sourcesQ.isFetched, start]);
+  }, [
+    locationKey,
+    settings.source,
+    settings.period.start,
+    settings.period.end,
+    settings.radiusKm,
+    sourcesQ.isFetched,
+    start,
+  ]);
 
   // Mark the location's ML history as downloaded only when a job actually finished it (a cancelled or failed
   // first run must not switch later runs to cache-only).
@@ -95,8 +135,12 @@ export default function GlobePage() {
 
   // Keep the last completed result for this location visible (clearly marked) while a new filter runs.
   // (React "adjust state while rendering" pattern instead of effects.)
-  const [lastResult, setLastResult] = useState<{ key: string | null; result: NonNullable<typeof job.result> } | null>(null);
-  if (job.result && lastResult?.result !== job.result) setLastResult({ key: locationKey, result: job.result });
+  const [lastResult, setLastResult] = useState<{
+    key: string | null;
+    result: NonNullable<typeof job.result>;
+  } | null>(null);
+  if (job.result && lastResult?.result !== job.result)
+    setLastResult({ key: locationKey, result: job.result });
   const [reportFor, setReportFor] = useState(locationKey);
   if (reportFor !== locationKey) {
     setReportFor(locationKey);
@@ -107,14 +151,23 @@ export default function GlobePage() {
 
   const harmonized: HarmonizedAvailability = useMemo(() => {
     const normalizedAvailable = shown?.satellite_analysis?.views.normalized?.status === 'available';
+    const calStatus = shown?.ml_analysis?.unified_calendar?.status;
+    const chain: HarmonizedAvailability['chain'] = !shown
+      ? 'pending'
+      : calStatus === 'ok'
+        ? 'ok'
+        : calStatus === 'preparing'
+          ? 'preparing'
+          : 'unavailable';
     const view = shown?.satellite_analysis?.views.harmonized;
     if (view) {
       return view.status === 'regional_only' && view.series_url
-        ? { available: true, reason: view.explanation ?? '', normalizedAvailable }
+        ? { available: true, reason: view.explanation ?? '', normalizedAvailable, chain }
         : {
             available: false,
             reason: view.explanation ?? 'No harmonized product exists for this location.',
             normalizedAvailable,
+            chain,
           };
     }
     if (location && harmonizationQ.data?.regions?.length) {
@@ -127,25 +180,33 @@ export default function GlobePage() {
           location.longitude <= r.bbox.east,
       );
       return inside
-        ? { available: true, reason: 'Inside a FireLens training region.', normalizedAvailable }
+        ? { available: true, reason: 'Inside a FireLens training region.', normalizedAvailable, chain }
         : {
             available: false,
-            reason: 'Harmonized series exist only for five training regions; this point is outside all of them.',
+            reason:
+              'Harmonized series exist only for five training regions; this point is outside all of them.',
             normalizedAvailable,
+            chain,
           };
     }
-    return { available: false, reason: 'Harmonization availability is not known yet.', normalizedAvailable };
+    return {
+      available: false,
+      reason: 'Harmonization availability is not known yet.',
+      normalizedAvailable,
+      chain,
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shown, locationKey, harmonizationQ.data]);
 
-  // The harmonized view only applies where the API says a regional series exists.
+  // The harmonized view needs this analysis' MODIS+VIIRS chain; the normalized one the API's index.
   const viewSettings: AnalysisSettings =
-    (settings.view === 'harmonized' && !harmonized.available) ||
+    (settings.view === 'harmonized' && harmonized.chain !== 'ok') ||
     (settings.view === 'normalized' && !harmonized.normalizedAvailable)
       ? { ...settings, view: 'raw' }
       : settings;
 
-  const onSelect = (place: Parameters<typeof locationSearch>[0]) => navigate(`/globe${locationSearch(place)}`);
+  const onSelect = (place: Parameters<typeof locationSearch>[0]) =>
+    navigate(`/globe${locationSearch(place)}`);
   const busy = job.phase === 'submitting' || job.phase === 'running' || job.phase === 'loading_result';
 
   return (
@@ -170,16 +231,20 @@ export default function GlobePage() {
             <Satellite aria-hidden="true" size={36} />
             <h1>Choose a location</h1>
             <p>
-              Search for a place or type coordinates. The globe will turn to it and FireHarmonics will analyse NASA
-              FIRMS satellite hotspot detections around it ({ANALYSIS_RADIUS_KM} km radius by default; 10–100 km can be chosen).
+              Search for a place or type coordinates. The globe will turn to it and FireHarmonics will analyse
+              NASA FIRMS satellite hotspot detections around it ({ANALYSIS_RADIUS_KM} km radius by default;
+              10–100 km can be chosen).
             </p>
           </div>
         ) : (
           <>
             <header className="panel-location">
-              <h1 data-testid="location-title">{location.name ?? formatCoordinates(location.latitude, location.longitude)}</h1>
+              <h1 data-testid="location-title">
+                {location.name ?? formatCoordinates(location.latitude, location.longitude)}
+              </h1>
               <p>
-                {formatCoordinates(location.latitude, location.longitude)} · {settings.radiusKm} km analysis radius
+                {formatCoordinates(location.latitude, location.longitude)} · {settings.radiusKm} km analysis
+                radius
               </p>
             </header>
 
@@ -206,12 +271,13 @@ export default function GlobePage() {
 
             {shown && stale && (
               <p className="stale-note" role="status">
-                Showing the previous result ({shown.source}, {shown.coverage.start_date} → {shown.coverage.end_date})
-                until the new analysis finishes.
+                Showing the previous result ({shown.source}, {shown.coverage.start_date} →{' '}
+                {shown.coverage.end_date}) until the new analysis finishes.
               </p>
             )}
             {shown && <PanelSummary result={shown} />}
             {shown && viewSettings.view === 'normalized' && <NormalizedNote result={shown} />}
+            {shown && viewSettings.view === 'harmonized' && <HarmonizedNote result={shown} />}
 
             <button
               ref={reportTrigger}
@@ -223,7 +289,11 @@ export default function GlobePage() {
               data-testid="open-report"
             >
               <Maximize2 aria-hidden="true" size={16} />
-              {shown ? 'Open Location Analysis Report' : busy ? 'Report available when the analysis completes' : 'Report not available'}
+              {shown
+                ? 'Open Location Analysis Report'
+                : busy
+                  ? 'Report available when the analysis completes'
+                  : 'Report not available'}
             </button>
           </>
         )}
