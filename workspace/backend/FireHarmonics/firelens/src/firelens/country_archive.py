@@ -99,6 +99,12 @@ def archive_path(settings: Settings, name: str, year: int, product: str = PRODUC
     return settings.cache_dir / "firms_country" / product / str(year) / f"{name}.parquet"
 
 
+def is_resolved(settings: Settings, name: str, year: int, product: str = PRODUCT_DIR) -> bool:
+    """True when the file is cached, or NASA has confirmed (404) that it does not exist."""
+    p = archive_path(settings, name, year, product)
+    return p.exists() or p.with_suffix(".absent").exists()
+
+
 def _lock_for(key: str) -> threading.Lock:
     with _FILE_LOCKS_GUARD:
         return _FILE_LOCKS.setdefault(key, threading.Lock())
@@ -112,6 +118,8 @@ def ensure_country_year(settings: Settings, name: str, year: int, session: reque
     with _lock_for(str(out)):
         if out.exists():
             return out
+        if out.with_suffix(".absent").exists():
+            raise ArchiveUnavailable(f"no FIRMS archive file for {name} {year}")
         if not allow_download:
             raise ArchiveUnavailable(f"{product} {name} {year} is not cached and downloads are disabled")
         url = archive_url(settings, name, year, product)
@@ -121,6 +129,8 @@ def ensure_country_year(settings: Settings, name: str, year: int, session: reque
         except (requests.ConnectionError, requests.Timeout) as e:
             raise ArchiveUnavailable(f"download of {name} {year} failed: {type(e).__name__}") from e
         if resp.status_code == 404:
+            out.parent.mkdir(parents=True, exist_ok=True)
+            out.with_suffix(".absent").write_text("404 from FIRMS", encoding="utf-8")
             raise ArchiveUnavailable(f"no FIRMS archive file for {name} {year}")
         if resp.status_code != 200:
             raise ArchiveUnavailable(f"FIRMS archive {name} {year} returned HTTP {resp.status_code}")

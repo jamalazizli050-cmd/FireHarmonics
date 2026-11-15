@@ -295,6 +295,37 @@ def current_conditions(settings: Settings, client, lat: float, lon: float, radiu
                            f"{q50:g} in the same window of {len(counts)} past years."}
 
 
+# ------------------------------------------------------------------ background prefetch
+_PREFETCHING: set[tuple[str, str, int]] = set()
+_PREFETCH_GUARD = __import__("threading").Lock()
+
+
+def prefetch_in_background(settings: Settings, jobs: list[tuple[str, str, int]]) -> None:
+    """Download missing country-year files without blocking the analysis (daemon thread, de-duplicated)."""
+    import threading
+    from concurrent.futures import ThreadPoolExecutor
+    with _PREFETCH_GUARD:
+        todo = [j for j in jobs if j not in _PREFETCHING]
+        _PREFETCHING.update(todo)
+    if not todo:
+        return
+
+    def one(job):
+        product, name, year = job
+        try:
+            ca.ensure_country_year(settings, name, year, product=product)
+        except Exception as e:  # noqa: BLE001 - background best effort
+            log.info("Background archive %s %s %s: %s", product, name, year, e)
+        finally:
+            with _PREFETCH_GUARD:
+                _PREFETCHING.discard(job)
+
+    def run():
+        with ThreadPoolExecutor(max_workers=max(1, min(4, int(getattr(settings, "download_workers", 4))))) as pool:
+            list(pool.map(one, todo))
+    threading.Thread(target=run, name="firms-archive-prefetch", daemon=True).start()
+
+
 # ------------------------------------------------------------------ entry point
 def build(settings: Settings, lat: float, lon: float, radius_km: float, today: date, ml_monthly: pd.DataFrame | None,
           allow_download: bool = True, client=None, session=None, tracker=None) -> tuple[dict, dict]:
@@ -305,6 +336,13 @@ def build(settings: Settings, lat: float, lon: float, radius_km: float, today: d
         msg = {"status": "unavailable", "explanation": f"FIRMS country archives cannot cover this area: {e}"}
         return {**msg, "label": LABEL, "limitations": LIMITATIONS}, {**msg, "window": None}
     last_year = today.year - 1
+    needed = ([("modis", n, y) for n in names for y in range(MODIS_START.year, last_year + 1)] +
+              [("viirs-snpp", n, y) for n in names for y in range(VIIRS_START.year, last_year + 1)])
+    missing = [j for j in needed if not ca.is_resolved(settings, j[1], j[2], j[0])]
+    if missing and allow_download and session is None:
+        # Do not make the analysis wait for NASA downloads: fetch in the background, build next time.
+        prefetch_in_background(settings, missing)
+        allow_download = False
     modis, m_years = disc_detections(settings, names, "modis", list(range(MODIS_START.year, last_year + 1)),
                                      lat, lon, radius_km, allow_download, session, tracker)
     viirs, v_years = disc_detections(settings, names, "viirs-snpp", list(range(VIIRS_START.year, last_year + 1)),
@@ -317,6 +355,14 @@ def build(settings: Settings, lat: float, lon: float, radius_km: float, today: d
         viirs = viirs[viirs["fire_type"].eq(0)]
     now = current_conditions(settings, client, lat, lon, radius_km, today, viirs, static_cells,
                              history_years=[y for y in v_years if y < today.year])
+    still_missing = [j for j in needed if not ca.is_resolved(settings, j[1], j[2], j[0])]
+    if still_missing:
+        countries = sorted({j[1].replace("_", " ") for j in still_missing})
+        return {"status": "preparing", "label": LABEL, "limitations": LIMITATIONS, "countries": names,
+                "missing_files": len(still_missing),
+                "explanation": f"NASA yearly archives for {', '.join(countries)} are being downloaded in the "
+                               f"background ({len(still_missing)} files). The MODIS+VIIRS calendar will be available "
+                               "when you analyse this area again in a few minutes."}, now
     if not m_years or not v_years:
         return {"status": "unavailable", "label": LABEL, "limitations": LIMITATIONS, "countries": names,
                 "explanation": "MODIS or VIIRS yearly archives are not available for this area"

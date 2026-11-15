@@ -154,3 +154,22 @@ def test_build_end_to_end_from_archives(settings):
 def test_open_ocean_is_reported_not_raised(settings):
     cal, now = uc.build(settings, -30.0, -30.0, 25, date(2026, 11, 15), None, session=ArchiveSession())
     assert cal["status"] == "unavailable" and now["status"] == "unavailable"
+
+
+def test_missing_archives_do_not_block_the_analysis(settings, monkeypatch):
+    started = []
+    monkeypatch.setattr(uc, "prefetch_in_background", lambda st, jobs: started.extend(jobs))
+    cal, now = uc.build(settings, LAT, LON, 25, date(2026, 11, 15), None, allow_download=True, client=None)
+    assert cal["status"] == "preparing" and "background" in cal["explanation"]
+    assert ("modis", "United_Kingdom", 2002) in started and ("viirs-snpp", "United_Kingdom", 2025) in started
+    assert now["status"] == "unavailable"          # no client in this test
+
+
+def test_404_years_are_remembered(settings):
+    sess = ArchiveSession()                       # serves only 2010-2021 (MODIS) / 2012-2021 (VIIRS)
+    uc.build(settings, LAT, LON, 25, date(2026, 11, 15), None, allow_download=True, session=sess)
+    from firelens import country_archive as ca
+    assert ca.is_resolved(settings, "United_Kingdom", 2003, "modis")          # 404 recorded
+    s2 = ArchiveSession()
+    uc.build(settings, LAT, LON, 25, date(2026, 11, 15), None, allow_download=True, session=s2)
+    assert s2.urls == []                                                      # nothing re-requested

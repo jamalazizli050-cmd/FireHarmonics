@@ -317,7 +317,9 @@ class AnalysisService:
             progress = min(98, ML_START + int((98 - ML_START) * float(event.get("progress_percent") or 0) / 100))
             progress = max(progress, state["progress"])
             eta = event.get("eta_seconds")
-            key = (progress, event.get("stage"), bool(waiting), eta is None)
+            # message changes matter in long stages without a progress percentage (e.g. patterns)
+            key = (progress, event.get("stage"), bool(waiting), eta is None,
+                   event.get("message") if event.get("stage") in {"patterns", "process", "plan"} else None)
             if key == state["key"] and event.get("type") not in {"stage", "warning"}:
                 return
             state.update(progress=progress, key=key)
