@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { Download, FileJson, FileSpreadsheet, FileText, Loader2 } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import { useState, type RefObject } from 'react';
 import {
   Area,
@@ -16,9 +16,10 @@ import {
 } from 'recharts';
 import { api, ApiError, downloadExport } from '../../../api/client';
 import { CSV_TABLES, type AnalysisResult, type CsvTable, type NormalizedView } from '../../../api/types';
-import { fmtDate, fmtNumber, fmtPercent, fmtYearMonth, humanize, NA } from '../../../lib/format';
+import { fmtNumber, fmtPercent, fmtYearMonth, humanize, NA } from '../../../lib/format';
 import { sourceLabel } from '../../../lib/sources';
 import type { AnalysisSettings, HarmonizedAvailability } from '../../ui/DataControls';
+import InfoTip from '../../ui/InfoTip';
 import { Badge, Metric, Notice, StatusText } from '../../ui/primitives';
 import { BaselineCard, ExperimentalXgbCard, methodLabel } from '../ForecastCards';
 import { Section, usePalette } from './DescriptiveSections';
@@ -29,12 +30,15 @@ export function ForecastSection({ result }: { result: AnalysisResult }) {
   const p = result.prediction;
   const ev = p.validation_evidence;
   const bss = ev?.xgboost_vs_best_baseline_brier_skill;
-  const rel = p.uncertainty?.empirical_reliability;
   return (
     <Section
       id="r-forecast"
       title="AI Forecast"
-      series="Series: S-NPP VIIRS (ML record) · target = satellite hotspot detection, not wildfire ignition"
+      series={`Series: S-NPP VIIRS (ML record) · target = satellite hotspot detection, not wildfire ignition.${
+        p.model
+          ? ` Model: ${p.model.name ?? NA} (${p.model.design ?? NA}); trained regions: ${(p.model.trained_regions ?? []).map(humanize).join(', ') || NA}${p.model.training_period?.length === 2 ? `; training period ${p.model.training_period[0]} → ${p.model.training_period[1]}` : ''}.`
+          : ''
+      }${ev?.setting ? ` Validation: ${ev.setting}.` : ''}`}
     >
       <div className="forecast-hero">
         <ExperimentalXgbCard prediction={p} />
@@ -50,15 +54,13 @@ export function ForecastSection({ result }: { result: AnalysisResult }) {
         </div>
       </div>
 
-      <Notice tone="info" title="What the forecast means">
-        <p>
-          {p.target_definition ??
-            'Probability of at least one usable satellite hotspot detection within the radius during the target month.'}
-          {/ignition/i.test(p.target_definition ?? '')
-            ? ''
-            : ' It is a satellite-detection probability, not the probability of an individual wildfire ignition.'}
-        </p>
-      </Notice>
+      <p className="forecast-meaning">
+        {p.target_definition ??
+          'Probability of at least one usable satellite hotspot detection within the radius during the target month.'}
+        {/ignition/i.test(p.target_definition ?? '')
+          ? ''
+          : ' It is a satellite-detection probability, not the probability of an individual wildfire ignition.'}
+      </p>
 
       {p.probability === null && (
         <Notice tone="warn" title="No forecast probability issued">
@@ -76,7 +78,6 @@ export function ForecastSection({ result }: { result: AnalysisResult }) {
           value={fmtYearMonth(p.target_month)}
           sub={p.lead_months != null ? `Lead ${p.lead_months} month(s)` : undefined}
         />
-        <Metric label="Last observed month" value={fmtYearMonth(p.last_observed_month)} />
         <Metric
           label="Compared with normal"
           value={humanize(p.relative_activity?.category)}
@@ -96,15 +97,6 @@ export function ForecastSection({ result }: { result: AnalysisResult }) {
           }
         />
         <Metric
-          label="Empirical reliability (held-out)"
-          value={fmtPercent(rel?.observed_frequency_heldout ?? null)}
-          sub={
-            rel
-              ? `Observed frequency for forecasts in bin ${rel.forecast_bin?.map((b) => fmtPercent(b, 0)).join('–') ?? NA} (n = ${fmtNumber(rel.n_heldout_forecasts ?? null)})`
-              : undefined
-          }
-        />
-        <Metric
           label="XGBoost vs best baseline (Brier skill)"
           value={bss?.bss != null ? fmtNumber(bss.bss, 3) : NA}
           sub={
@@ -114,47 +106,6 @@ export function ForecastSection({ result }: { result: AnalysisResult }) {
           }
         />
       </dl>
-      {ev?.setting && (
-        <p className="fineprint">
-          Validation setting: {ev.setting}
-          {ev.lead_evaluated != null ? ` · lead ${ev.lead_evaluated}` : ''}.
-        </p>
-      )}
-      {p.uncertainty?.note && <p className="fineprint">{p.uncertainty.note}</p>}
-
-      {p.relative_activity?.recent_observed_months?.length ? (
-        <div className="table-wrap" tabIndex={0} role="region" aria-label="Scrollable table">
-          <table className="data-table">
-            <caption>Recent observed months</caption>
-            <thead>
-              <tr>
-                <th scope="col">Month</th>
-                <th scope="col">Detections</th>
-                <th scope="col">Same month, median of other years</th>
-              </tr>
-            </thead>
-            <tbody>
-              {p.relative_activity.recent_observed_months.map((m) => (
-                <tr key={m.month}>
-                  <td>{fmtYearMonth(m.month)}</td>
-                  <td>{fmtNumber(m.detections)}</td>
-                  <td>{fmtNumber(m.same_month_median_other_years, 1)}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      ) : null}
-
-      {p.model && (
-        <p className="fineprint">
-          Model: {p.model.name ?? NA} ({p.model.design ?? NA}) · trained regions:{' '}
-          {(p.model.trained_regions ?? []).map(humanize).join(', ') || NA}
-          {p.model.training_period?.length === 2
-            ? ` · training period ${p.model.training_period[0]} → ${p.model.training_period[1]}`
-            : ''}
-        </p>
-      )}
     </Section>
   );
 }
@@ -333,7 +284,6 @@ export function SatelliteSection({
   harmonized: HarmonizedAvailability;
 }) {
   const sa = result.satellite_analysis;
-  const cov = result.ml_analysis.data_coverage;
   if (!sa) {
     return (
       <Section id="r-satellite" title="Satellite Analysis">
@@ -344,86 +294,36 @@ export function SatelliteSection({
   const hv = sa.views.harmonized;
   return (
     <Section id="r-satellite" title="Satellite Analysis">
-      <div className="sat-grid">
-        <div className="sat-card">
-          <p className="sat-card__label">Data provider</p>
-          <p className="sat-card__value">{sa.provider.name}</p>
-          <p className="sat-card__sub">{sa.provider.role}</p>
-        </div>
-        <div className="sat-card">
-          <p className="sat-card__label">Descriptive series</p>
-          <p className="sat-card__value">{sourceLabel(sa.descriptive_series.product ?? result.source)}</p>
-          <p className="sat-card__sub">
-            {sa.descriptive_series.instrument} · {sa.descriptive_series.platforms.join(', ')} ·{' '}
-            {humanize(sa.descriptive_series.processing)} ·{' '}
-            {fmtNumber(sa.descriptive_series.nominal_resolution_m ?? null)} m ·{' '}
-            {humanize(sa.descriptive_series.product_kind)}
-          </p>
-        </div>
-        <div className="sat-card">
-          <p className="sat-card__label">Forecast / ML series</p>
-          <p className="sat-card__value">
-            {sa.forecast_series.instrument} · {sa.forecast_series.platforms.join(', ')}
-          </p>
-          <p className="sat-card__sub">
-            {(sa.forecast_series.products ?? []).join(', ')} ·{' '}
-            {sa.forecast_series.used ? 'used in this result' : 'not used'}
-          </p>
-        </div>
-      </div>
-
-      <h4 className="subhead">Views: raw MODIS · raw VIIRS · harmonized</h4>
-      <div className="view-grid">
-        {(['raw_modis', 'raw_viirs'] as const).map((key) => {
-          const v = sa.views[key];
-          const instrument = key === 'raw_modis' ? 'MODIS' : 'VIIRS';
-          return (
-            <div key={key} className={`view-card ${v.status === 'this_result' ? 'is-current' : ''}`}>
-              <p className="view-card__title">Raw {instrument}</p>
-              <StatusText status={v.status} />
-              <p className="view-card__count">
-                {v.status === 'this_result'
-                  ? `${fmtNumber(v.detection_count)} detections (${sourceLabel(v.source)})`
-                  : `Needs a separate analysis (${v.source})`}
-              </p>
-            </div>
-          );
-        })}
-        <div className={`view-card ${settings.view === 'harmonized' ? 'is-current' : ''}`}>
-          <p className="view-card__title">Harmonized</p>
-          <StatusText status={hv.status} />
-          <p className="view-card__count">
-            Location scale: {humanize(hv.location_scale)}
-            {hv.validation
-              ? ` · count ${humanize(hv.validation.count)} · FRP ${humanize(hv.validation.frp)}`
-              : ''}
-          </p>
-          <p className="fineprint">{hv.explanation}</p>
-        </div>
-        {sa.views.normalized && (
-          <div
-            className={`view-card ${settings.view === 'normalized' ? 'is-current' : ''}`}
-            data-testid="normalized-card"
-          >
-            <p className="view-card__title">Normalized</p>
-            <Badge tone="warn">Not harmonized · not validated</Badge>
-            <p className="view-card__count">
-              {sa.views.normalized.status === 'available'
-                ? 'Relative activity index (1.0 = average month)'
-                : (sa.views.normalized.explanation ?? 'Not available')}
-            </p>
-            {harmonized.normalizedAvailable && settings.view !== 'normalized' && (
+      <p className="sat-line">
+        {sa.provider.name} — {sa.provider.role}. This period:{' '}
+        {sourceLabel(sa.descriptive_series.product ?? result.source)} (
+        {fmtNumber(sa.descriptive_series.nominal_resolution_m ?? null)} m). History and forecast:{' '}
+        {sa.forecast_series.instrument} {sa.forecast_series.platforms.join(', ')}.
+      </p>
+      {sa.views.normalized?.status === 'available' && (
+        <div className="sat-switch" data-testid="normalized-card">
+          {settings.view === 'normalized' ? (
+            <button
+              type="button"
+              className="report-button"
+              onClick={() => onSettingsChange({ ...settings, view: 'raw' })}
+            >
+              Hide normalized index
+            </button>
+          ) : (
+            harmonized.normalizedAvailable && (
               <button
                 type="button"
-                className="button button--small"
+                className="report-button"
                 onClick={() => onSettingsChange({ ...settings, view: 'normalized' })}
               >
                 Show normalized index
               </button>
-            )}
-          </div>
-        )}
-      </div>
+            )
+          )}
+          <InfoTip text="Relative activity index (1.0 = average month). A mathematical normalization of one sensor: not a harmonization and not validated." />
+        </div>
+      )}
 
       {settings.view === 'harmonized' && result.ml_analysis.unified_calendar?.status === 'ok' && (
         <HarmonizedSeriesChart cal={result.ml_analysis.unified_calendar} />
@@ -436,69 +336,6 @@ export function SatelliteSection({
       )}
       {settings.view === 'normalized' && sa.views.normalized?.status === 'available' && (
         <NormalizedChart view={sa.views.normalized} />
-      )}
-
-      <ul className="warn-list">
-        {sa.warnings.map((w) => (
-          <li key={w}>{w}</li>
-        ))}
-        {result.ml_analysis.harmonization?.note && <li>{result.ml_analysis.harmonization.note}</li>}
-      </ul>
-
-      {cov && (
-        <>
-          <h4 className="subhead">ML data coverage</h4>
-          <dl className="metric-grid metric-grid--compact">
-            <Metric
-              label="Window"
-              value={cov.window ? `${fmtDate(cov.window.start)} → ${fmtDate(cov.window.end)}` : NA}
-              sub={cov.window ? `${cov.window.months} months` : undefined}
-            />
-            <Metric
-              label="Observed months"
-              value={fmtNumber(cov.months_observed ?? null)}
-              sub={`${fmtNumber(cov.months_unobserved ?? null)} unobserved`}
-            />
-            <Metric label="Last observed month" value={fmtYearMonth(cov.last_observed_month)} />
-            <Metric
-              label="Coverage complete"
-              value={cov.complete === undefined ? NA : cov.complete ? 'Yes' : 'No'}
-            />
-          </dl>
-          {cov.products?.length ? (
-            <div className="table-wrap" tabIndex={0} role="region" aria-label="Scrollable table">
-              <table className="data-table">
-                <caption>Products used</caption>
-                <thead>
-                  <tr>
-                    <th scope="col">Product</th>
-                    <th scope="col">First day</th>
-                    <th scope="col">Last day</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {cov.products.map((p) => (
-                    <tr key={p.product}>
-                      <td>{p.product}</td>
-                      <td>{fmtDate(p.first_day)}</td>
-                      <td>{fmtDate(p.last_day)}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          ) : null}
-          {cov.unobserved_months?.length ? (
-            <p className="fineprint">
-              Unobserved months:{' '}
-              {cov.unobserved_months
-                .map((m) => `${m.month} (${fmtPercent(m.coverage_fraction, 0)} coverage)`)
-                .join(', ')}
-            </p>
-          ) : null}
-          {cov.zero_vs_missing && <p className="fineprint">{cov.zero_vs_missing}</p>}
-          {cov.attribution && <p className="fineprint">Attribution: {cov.attribution}</p>}
-        </>
       )}
     </Section>
   );
@@ -554,13 +391,13 @@ export function ExportSection({
   return (
     <Section id="r-export" title="Export">
       <div className="export-grid">
-        <div className="export-card">
-          <FileText aria-hidden="true" size={22} />
-          <p className="export-card__title">PDF report</p>
-          <p className="fineprint">Rendered in your browser from this report (no backend PDF).</p>
+        <div className="export-item">
+          <p className="export-item__label">
+            PDF report <InfoTip text="Rendered in your browser from this report." />
+          </p>
           <button
             type="button"
-            className="button"
+            className="report-button"
             disabled={busy !== null}
             onClick={() =>
               run('pdf', async () => {
@@ -570,38 +407,26 @@ export function ExportSection({
               })
             }
           >
-            {busy === 'pdf' ? (
-              <Loader2 className="spin" size={14} aria-hidden="true" />
-            ) : (
-              <Download size={14} aria-hidden="true" />
-            )}{' '}
-            Download PDF
+            {busy === 'pdf' && <Loader2 className="spin" size={14} aria-hidden="true" />} Download PDF
           </button>
         </div>
-        <div className="export-card">
-          <FileJson aria-hidden="true" size={22} />
-          <p className="export-card__title">JSON (full result)</p>
-          <p className="fineprint">Backend export: {'{job_id, request, result}'}.</p>
+        <div className="export-item">
+          <p className="export-item__label">
+            JSON (full result) <InfoTip text="The backend export: job id, request and the complete result." />
+          </p>
           <button
             type="button"
-            className="button"
+            className="report-button"
             disabled={!jobId || busy !== null}
             onClick={() => run('json', () => downloadExport(jobId!, 'json'))}
           >
-            {busy === 'json' ? (
-              <Loader2 className="spin" size={14} aria-hidden="true" />
-            ) : (
-              <Download size={14} aria-hidden="true" />
-            )}{' '}
-            Download JSON
+            {busy === 'json' && <Loader2 className="spin" size={14} aria-hidden="true" />} Download JSON
           </button>
         </div>
-        <div className="export-card">
-          <FileSpreadsheet aria-hidden="true" size={22} />
-          <p className="export-card__title">CSV table</p>
-          <label className="visually-hidden" htmlFor="csv-table">
-            CSV table
-          </label>
+        <div className="export-item">
+          <p className="export-item__label">
+            <label htmlFor="csv-table">CSV table</label> <InfoTip text="One table of this result as CSV." />
+          </p>
           <select id="csv-table" value={table} onChange={(e) => setTable(e.target.value as CsvTable)}>
             {CSV_TABLES.map((t) => (
               <option key={t} value={t} disabled={ML_TABLES.has(t) && !mlRan}>
@@ -612,16 +437,11 @@ export function ExportSection({
           </select>
           <button
             type="button"
-            className="button"
+            className="report-button"
             disabled={!jobId || busy !== null}
             onClick={() => run('csv', () => downloadExport(jobId!, 'csv', table))}
           >
-            {busy === 'csv' ? (
-              <Loader2 className="spin" size={14} aria-hidden="true" />
-            ) : (
-              <Download size={14} aria-hidden="true" />
-            )}{' '}
-            Download CSV
+            {busy === 'csv' && <Loader2 className="spin" size={14} aria-hidden="true" />} Download CSV
           </button>
         </div>
       </div>

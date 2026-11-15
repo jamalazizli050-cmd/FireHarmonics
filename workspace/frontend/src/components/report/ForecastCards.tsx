@@ -10,7 +10,13 @@ import { Badge } from '../ui/primitives';
  *  - The seasonal baseline is shown as the comparison, and the backend's selected method is named explicitly.
  *  - Missing probabilities render as "not issued", never 0 %.
  */
-export function ExperimentalXgbCard({ prediction, compact }: { prediction: Prediction | null | undefined; compact?: boolean }) {
+export function ExperimentalXgbCard({
+  prediction,
+  compact,
+}: {
+  prediction: Prediction | null | undefined;
+  compact?: boolean;
+}) {
   const xgb = prediction?.model_comparison?.xgboost_pooled ?? null;
   const has = xgb && xgb.probability !== null && xgb.probability !== undefined;
   const validated = xgb?.validated_for_this_location_and_lead === true;
@@ -31,11 +37,15 @@ export function ExperimentalXgbCard({ prediction, compact }: { prediction: Predi
       </div>
       {has ? (
         <>
-          <p className="forecast-card__value" aria-label={`XGBoost probability ${fmtPercent(xgb!.probability)}`}>
+          <p
+            className="forecast-card__value"
+            aria-label={`XGBoost probability ${fmtPercent(xgb!.probability)}`}
+          >
             {fmtPercent(xgb!.probability)}
           </p>
           <p className="forecast-card__caption">
-            Probability of ≥ 1 satellite hotspot detection{prediction?.target_month ? ` in ${fmtYearMonth(prediction.target_month)}` : ''}
+            Probability of ≥ 1 satellite hotspot detection
+            {prediction?.target_month ? ` in ${fmtYearMonth(prediction.target_month)}` : ''}
           </p>
           <p className="forecast-card__note">
             {xgb!.used
@@ -69,17 +79,30 @@ export function BaselineCard({
   const selectedIsBaseline = prediction?.method === 'seasonal_baseline';
   const value = base?.probability ?? (selectedIsBaseline ? prediction?.probability : null);
   return (
-    <section className={`forecast-card forecast-card--baseline ${compact ? 'forecast-card--compact' : ''}`} data-testid="baseline-card">
+    <section
+      className={`forecast-card forecast-card--baseline ${compact ? 'forecast-card--compact' : ''}`}
+      data-testid="baseline-card"
+    >
       <header className="forecast-card__head">
         <ShieldCheck aria-hidden="true" size={compact ? 16 : 20} />
         <h3>Seasonal Baseline</h3>
       </header>
       <div className="forecast-card__badges">
-        {selectedIsBaseline || base?.used ? <Badge tone="ok">Selected by backend</Badge> : <Badge>Comparison</Badge>}
-        {(base?.variant || prediction?.baseline_variant) && <Badge tone="info">{humanize(base?.variant ?? prediction?.baseline_variant)}</Badge>}
+        {selectedIsBaseline || base?.used ? (
+          <Badge tone="ok">Selected by backend</Badge>
+        ) : (
+          <Badge>Comparison</Badge>
+        )}
+        {(base?.variant || prediction?.baseline_variant) && (
+          <Badge tone="info">{humanize(base?.variant ?? prediction?.baseline_variant)}</Badge>
+        )}
       </div>
-      <p className="forecast-card__value">{value === null || value === undefined ? 'Not issued' : fmtPercent(value)}</p>
-      <p className="forecast-card__caption">Same-calendar-month climatology of the {radiusKm ?? 25} km disc</p>
+      <p className="forecast-card__value">
+        {value === null || value === undefined ? 'Not issued' : fmtPercent(value)}
+      </p>
+      <p className="forecast-card__caption">
+        Same-calendar-month climatology of the {radiusKm ?? 25} km disc
+      </p>
     </section>
   );
 }

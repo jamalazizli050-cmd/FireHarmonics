@@ -17,7 +17,8 @@ export default function PanelSummary({ result }: { result: AnalysisResult }) {
       </div>
       {result.status === 'partial' && (
         <Notice tone="warn" title="Partial result">
-          Some components are unavailable; descriptive statistics are still genuine. See the report for details.
+          Some components are unavailable; descriptive statistics are still genuine. See the report for
+          details.
         </Notice>
       )}
       <CurrentConditionsCard now={result.ml_analysis.current_conditions} compact />
@@ -32,7 +33,11 @@ export default function PanelSummary({ result }: { result: AnalysisResult }) {
         <Metric
           label={`Detections (${sourceLabel(o?.descriptive.source ?? result.source)})`}
           value={fmtNumber(o?.descriptive.detection_count ?? result.detection_count)}
-          sub={o?.descriptive.period ? `${o.descriptive.period.start_date ?? NA} → ${o.descriptive.period.end_date ?? NA}` : undefined}
+          sub={
+            o?.descriptive.period
+              ? `${o.descriptive.period.start_date ?? NA} → ${o.descriptive.period.end_date ?? NA}`
+              : undefined
+          }
         />
         <Metric
           label="Detections, ML record (S-NPP VIIRS)"

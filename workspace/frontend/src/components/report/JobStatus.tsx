@@ -33,7 +33,10 @@ export default function JobStatus({ state, onRetry }: Props) {
                   : 'The analysis could not be started'
         }
         action={
-          apiError.recoverable || apiError.status === 0 || apiError.status === 429 || apiError.status >= 500 ? (
+          apiError.recoverable ||
+          apiError.status === 0 ||
+          apiError.status === 429 ||
+          apiError.status >= 500 ? (
             <button type="button" className="button button--small" onClick={onRetry}>
               <RefreshCw aria-hidden="true" size={14} /> Try again
             </button>
@@ -41,11 +44,16 @@ export default function JobStatus({ state, onRetry }: Props) {
         }
       >
         <p>{apiError.message}</p>
-        {apiError.status > 0 && <p className="muted">HTTP {apiError.status}{apiError.retryAfter ? ` · retry after ${apiError.retryAfter} s` : ''}</p>}
+        {apiError.status > 0 && (
+          <p className="muted">
+            HTTP {apiError.status}
+            {apiError.retryAfter ? ` · retry after ${apiError.retryAfter} s` : ''}
+          </p>
+        )}
         {unconfigured && (
           <p className="muted">
-            No analysis was run, so no statistics or forecast are shown. The operator must set the NASA FIRMS map
-            key on the server.
+            No analysis was run, so no statistics or forecast are shown. The operator must set the NASA FIRMS
+            map key on the server.
           </p>
         )}
       </Notice>
@@ -78,10 +86,32 @@ export default function JobStatus({ state, onRetry }: Props) {
 
 /** The analysis pipeline, as the user would describe it. Backend stage names map onto these steps. */
 const STEPS: { id: string; label: string; stages: string[] }[] = [
-  { id: 'recent', label: 'Recent detections from NASA FIRMS',
-    stages: ['queued', 'checking_availability', 'downloading', 'waiting_for_nasa', 'parsing', 'analyzing', 'loading_archive'] },
-  { id: 'history', label: '10-year satellite history',
-    stages: ['ml_starting', 'ml_validate', 'ml_plan', 'ml_wait_download_slot', 'ml_download', 'ml_process', 'ml_load'] },
+  {
+    id: 'recent',
+    label: 'Recent detections from NASA FIRMS',
+    stages: [
+      'queued',
+      'checking_availability',
+      'downloading',
+      'waiting_for_nasa',
+      'parsing',
+      'analyzing',
+      'loading_archive',
+    ],
+  },
+  {
+    id: 'history',
+    label: '10-year satellite history',
+    stages: [
+      'ml_starting',
+      'ml_validate',
+      'ml_plan',
+      'ml_wait_download_slot',
+      'ml_download',
+      'ml_process',
+      'ml_load',
+    ],
+  },
   { id: 'patterns', label: 'Patterns and the MODIS + VIIRS calendar', stages: ['ml_patterns'] },
   { id: 'forecast', label: 'Forecast', stages: ['ml_predict', 'ml_finalize'] },
   { id: 'report', label: 'Report', stages: ['assembling', 'completed'] },
@@ -91,12 +121,22 @@ const clock = (s: number) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60))
 
 function RunTrack({ state }: { state: AnalysisJobState }) {
   const { phase, job, apiError } = state;
-  const stage = phase === 'submitting' ? 'queued' : phase === 'loading_result' ? 'assembling' : (job?.stage ?? 'queued');
-  const current = Math.max(0, STEPS.findIndex((s) => s.stages.includes(stage)));
+  const stage =
+    phase === 'submitting' ? 'queued' : phase === 'loading_result' ? 'assembling' : (job?.stage ?? 'queued');
+  const current = Math.max(
+    0,
+    STEPS.findIndex((s) => s.stages.includes(stage)),
+  );
   // Step timings live in state and are updated from a timer (an external clock), never computed during render.
   const [t, setT] = useState(() => {
     const at = Date.now();
-    return { now: at, started: at, cur: current, start: { [current]: at } as Record<number, number>, end: {} as Record<number, number> };
+    return {
+      now: at,
+      started: at,
+      cur: current,
+      start: { [current]: at } as Record<number, number>,
+      end: {} as Record<number, number>,
+    };
   });
   const curRef = useRef(current);
   useEffect(() => {
@@ -125,8 +165,12 @@ function RunTrack({ state }: { state: AnalysisJobState }) {
   return (
     <div className="run" aria-live="polite" data-testid="job-status">
       <div className="run__head">
-        <p className="run__title">{queued ? 'Waiting to start' : paused ? 'Paused by NASA rate limit' : 'Analysing'}</p>
-        <p className="run__clock" aria-label="Elapsed time">{clock((t.now - t.started) / 1000)}</p>
+        <p className="run__title">
+          {queued ? 'Waiting to start' : paused ? 'Paused by NASA rate limit' : 'Analysing'}
+        </p>
+        <p className="run__clock" aria-label="Elapsed time">
+          {clock((t.now - t.started) / 1000)}
+        </p>
       </div>
       <ol className="run__steps">
         {STEPS.map((s, i) => {
@@ -134,7 +178,11 @@ function RunTrack({ state }: { state: AnalysisJobState }) {
           const a = t.start[i];
           const e = t.end[i] ?? (st === 'active' ? t.now : undefined);
           return (
-            <li key={s.id} className={`run__step run__step--${st}`} aria-current={st === 'active' ? 'step' : undefined}>
+            <li
+              key={s.id}
+              className={`run__step run__step--${st}`}
+              aria-current={st === 'active' ? 'step' : undefined}
+            >
               <span className="run__node" aria-hidden="true" />
               <span className="run__label">{s.label}</span>
               <span className="run__time">{a && e ? clock((e - a) / 1000) : ''}</span>
@@ -144,9 +192,13 @@ function RunTrack({ state }: { state: AnalysisJobState }) {
         })}
       </ol>
       {job?.nasa_pause_seconds != null && (
-        <p className="run__note">NASA asked us to wait {fmtDuration(job.nasa_pause_seconds)} before the next request.</p>
+        <p className="run__note">
+          NASA asked us to wait {fmtDuration(job.nasa_pause_seconds)} before the next request.
+        </p>
       )}
-      {apiError && phase === 'running' && <p className="run__note run__note--warn">Connection lost: {apiError.message} Retrying.</p>}
+      {apiError && phase === 'running' && (
+        <p className="run__note run__note--warn">Connection lost: {apiError.message} Retrying.</p>
+      )}
       {job && !job.cache_hit && current < 2 && <p className="run__hint">Usually takes less than a minute.</p>}
     </div>
   );

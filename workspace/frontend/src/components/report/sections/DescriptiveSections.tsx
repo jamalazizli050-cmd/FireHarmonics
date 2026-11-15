@@ -29,7 +29,8 @@ import {
 } from '../../../lib/format';
 import { sourceLabel } from '../../../lib/sources';
 import { chartPalette, useA11y } from '../../../state/a11y';
-import { Badge, Metric, Notice, StatusText } from '../../ui/primitives';
+import InfoTip from '../../ui/InfoTip';
+import { Metric, Notice, StatusText } from '../../ui/primitives';
 import { BaselineCard, ExperimentalXgbCard, methodLabel } from '../ForecastCards';
 import { CombinedHeatmap, CurrentConditionsCard, SeasonCard } from './CalendarExtras';
 
@@ -48,7 +49,7 @@ export function Section({
     <section id={id} className="report-section" tabIndex={-1} aria-labelledby={`${id}-h`} data-pdf-section>
       <header className="report-section__head">
         <h3 id={`${id}-h`}>{title}</h3>
-        {series && <p className="report-section__series">{series}</p>}
+        {typeof series === 'string' && <InfoTip text={series} label={`About the data in ${title}`} />}
       </header>
       {children}
     </section>
@@ -87,7 +88,8 @@ function MlUnavailable({ result }: { result: AnalysisResult }) {
   );
 }
 
-const mlHasContent = (r: AnalysisResult) => ['ok', 'partial', 'insufficient_data'].includes(r.ml_analysis.status);
+const mlHasContent = (r: AnalysisResult) =>
+  ['ok', 'partial', 'insufficient_data'].includes(r.ml_analysis.status);
 
 /* ------------------------------------------------------------------ 2. Overview */
 export function OverviewSection({ result }: { result: AnalysisResult }) {
@@ -113,24 +115,14 @@ export function OverviewSection({ result }: { result: AnalysisResult }) {
             tone="fire"
           />
           <Metric
-            label="Detections in observed months (ML record)"
-            value={fmtNumber(o?.ml.total_detections_observed_months)}
-            sub={o?.ml.period ? `S-NPP VIIRS · ${o.ml.period.start} → ${o.ml.period.end} (${o.ml.period.months} months)` : humanize(o?.ml.status)}
-          />
-          <Metric
             label="Mean detections per year"
             value={fmtNumber(o?.ml.mean_annual_detections, 1)}
             sub="Complete years only"
           />
-          <Metric label="Peak season" value={o?.ml.peak_month ? monthName(o.ml.peak_month) : NA} sub="Peak calendar month" />
           <Metric
-            label="Available years"
-            value={fmtNumber(result.ml_analysis.historical_activity?.complete_years?.length ?? null)}
-            sub={
-              result.ml_analysis.historical_activity?.complete_years?.length
-                ? `${result.ml_analysis.historical_activity.complete_years[0]}–${result.ml_analysis.historical_activity.complete_years.at(-1)} (complete)`
-                : 'No complete years'
-            }
+            label="Peak season"
+            value={o?.ml.peak_month ? monthName(o.ml.peak_month) : NA}
+            sub="Peak calendar month"
           />
           <Metric
             label="Long-term trend"
@@ -141,26 +133,12 @@ export function OverviewSection({ result }: { result: AnalysisResult }) {
                 : 'Not computed'
             }
           />
-          <Metric label="Anomalous months" value={fmtNumber(o?.ml.anomaly_count)} />
-          <Metric label="Gi* hotspot cells (99 %)" value={fmtNumber(o?.ml.gi_star_hotspot_cells)} />
         </dl>
       </div>
       <div className="overview-now">
         <CurrentConditionsCard now={result.ml_analysis.current_conditions} />
         <SeasonCard season={result.ml_analysis.unified_calendar?.season} />
       </div>
-      <div className="components-row" aria-label="Component availability">
-        {result.components &&
-          Object.entries(result.components).map(([k, v]) => (
-            <span key={k} className="components-row__item">
-              {humanize(k)} <StatusText status={v} />
-            </span>
-          ))}
-      </div>
-      <p className="fineprint">
-        Counts are satellite hotspot detections (pixels), not individual fires. Missing values are shown as “{NA}”, never
-        as zero.
-      </p>
     </Section>
   );
 }
@@ -206,7 +184,14 @@ function MonthlyHeatmap({ monthly }: { monthly: MlMonthly[] }) {
             </span>
             {cells.map((c, i) => {
               if (!c)
-                return <span key={i} role="gridcell" className="heatmap__cell heatmap__cell--outside" aria-label={`${MONTH_ABBR[i]} ${year}: outside the record`} />;
+                return (
+                  <span
+                    key={i}
+                    role="gridcell"
+                    className="heatmap__cell heatmap__cell--outside"
+                    aria-label={`${MONTH_ABBR[i]} ${year}: outside the record`}
+                  />
+                );
               const unobserved = !c.observed || c.detections === null;
               const label = unobserved
                 ? `${fmtYearMonth(c.month)}: not observed (coverage ${fmtPercent(c.coverage_fraction, 0)})`
@@ -230,12 +215,18 @@ function MonthlyHeatmap({ monthly }: { monthly: MlMonthly[] }) {
       <div className="heatmap-side">
         <div className="heat-legend" aria-hidden="true">
           <span>0</span>
-          <span className="heat-legend__ramp" style={{ background: `linear-gradient(90deg, ${pal.heat.join(',')})` }} />
+          <span
+            className="heat-legend__ramp"
+            style={{ background: `linear-gradient(90deg, ${pal.heat.join(',')})` }}
+          />
           <span>{fmtNumber(max)}</span>
         </div>
         <p className="heat-legend__unobs">
-          <span className="heatmap__cell heatmap__cell--unobserved heatmap__cell--legend" aria-hidden="true" /> Not observed
-          (no data — not zero)
+          <span
+            className="heatmap__cell heatmap__cell--unobserved heatmap__cell--legend"
+            aria-hidden="true"
+          />{' '}
+          Not observed (no data — not zero)
         </p>
         <div className="heatmap-detail" aria-live="polite">
           {selected ? (
@@ -267,12 +258,19 @@ function DailyCalendar({ result }: { result: AnalysisResult }) {
   const max = Math.max(0, ...days.map((d) => d.detections ?? 0));
   const first = new Date(`${days[0].date}T00:00:00Z`);
   const offset = (first.getUTCDay() + 6) % 7; // Monday-first
-  const cells: ({ date: string; detections: number | null } | null)[] = [...Array(offset).fill(null), ...days];
+  const cells: ({ date: string; detections: number | null } | null)[] = [
+    ...Array(offset).fill(null),
+    ...days,
+  ];
   const weeks: (typeof cells)[] = [];
   for (let i = 0; i < cells.length; i += 7) weeks.push(cells.slice(i, i + 7));
   return (
     <div className="daily-cal-wrap">
-      <div className="daily-cal" role="img" aria-label={`Daily detections, ${days[0].date} to ${days.at(-1)!.date}; maximum ${max} per day.`}>
+      <div
+        className="daily-cal"
+        role="img"
+        aria-label={`Daily detections, ${days[0].date} to ${days.at(-1)!.date}; maximum ${max} per day.`}
+      >
         {weeks.map((w, wi) => (
           <div key={wi} className="daily-cal__week">
             {w.map((d, di) =>
@@ -280,7 +278,9 @@ function DailyCalendar({ result }: { result: AnalysisResult }) {
                 <span
                   key={di}
                   className={`daily-cal__day ${d.detections === null ? 'heatmap__cell--unobserved' : ''}`}
-                  style={d.detections === null ? undefined : { background: heatColor(d.detections, max, pal.heat) }}
+                  style={
+                    d.detections === null ? undefined : { background: heatColor(d.detections, max, pal.heat) }
+                  }
                   title={`${d.date}: ${d.detections === null ? 'no data' : `${d.detections} detections`}`}
                 />
               ) : (
@@ -290,7 +290,6 @@ function DailyCalendar({ result }: { result: AnalysisResult }) {
           </div>
         ))}
       </div>
-      <p className="fineprint">Days appear only when covered by the request. Columns are weeks (Monday first).</p>
     </div>
   );
 }
@@ -298,7 +297,9 @@ function DailyCalendar({ result }: { result: AnalysisResult }) {
 export function CalendarSection({ result }: { result: AnalysisResult }) {
   const cal = result.ml_analysis.unified_calendar;
   const calOk = cal?.status === 'ok' && (cal.monthly?.length ?? 0) > 0;
-  const [view, setView] = useState<'combined' | 'ml' | 'daily'>(calOk ? 'combined' : mlHasContent(result) ? 'ml' : 'daily');
+  const [view, setView] = useState<'combined' | 'ml' | 'daily'>(
+    calOk ? 'combined' : mlHasContent(result) ? 'ml' : 'daily',
+  );
   const monthly = result.ml_analysis.historical_activity?.monthly ?? [];
   return (
     <Section
@@ -313,7 +314,12 @@ export function CalendarSection({ result }: { result: AnalysisResult }) {
       }
     >
       <div className="segmented" role="tablist" aria-label="Calendar view">
-        <button type="button" role="tab" aria-selected={view === 'combined'} onClick={() => setView('combined')}>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={view === 'combined'}
+          onClick={() => setView('combined')}
+        >
           MODIS + VIIRS harmonized (2002–now)
         </button>
         <button type="button" role="tab" aria-selected={view === 'ml'} onClick={() => setView('ml')}>
@@ -327,11 +333,7 @@ export function CalendarSection({ result }: { result: AnalysisResult }) {
         calOk ? (
           <>
             <CombinedHeatmap cal={cal!} />
-            <p className="fineprint">
-              {cal!.label}. Before 2012: Aqua MODIS. From 2012: S-NPP VIIRS scaled per day/night overpass (fitted on
-              2012–2021); after S-NPP, NOAA-20 via S-NPP. Outlined months are unusually high for that calendar month. See
-              Satellite Analysis for the coefficients and the held-out validation.
-            </p>
+            <p className="fineprint">Outlined months are unusually high for that calendar month.</p>
           </>
         ) : (
           <Notice tone="warn" title={`Harmonized calendar ${humanize(cal?.status ?? 'unavailable')}`}>
@@ -355,17 +357,18 @@ export function CalendarSection({ result }: { result: AnalysisResult }) {
 export function TrendsSection({ result }: { result: AnalysisResult }) {
   const pal = usePalette();
   const ml = result.ml_analysis;
-  const annual = Object.entries(ml.historical_activity?.annual_totals_complete_years ?? {}).map(([year, detections]) => ({
-    year,
-    detections,
-  }));
+  const annual = Object.entries(ml.historical_activity?.annual_totals_complete_years ?? {}).map(
+    ([year, detections]) => ({
+      year,
+      detections,
+    }),
+  );
   const monthly = (ml.historical_activity?.monthly ?? []).map((m) => ({
     month: m.month,
     detections: m.observed ? m.detections : null,
   }));
   const trend = ml.long_term_trends;
   const desc = result.historical_activity;
-  const descTrend = result.long_term_trends;
   const sig = trend?.['significant_at_0.05'];
   const axis = { stroke: pal.axis, tick: { fill: pal.axis, fontSize: 12 } };
 
@@ -398,18 +401,42 @@ export function TrendsSection({ result }: { result: AnalysisResult }) {
                   <XAxis dataKey="month" {...axis} minTickGap={28} />
                   <YAxis {...axis} width={48} />
                   <Tooltip {...tooltipStyle} />
-                  <Line type="monotone" dataKey="detections" name="Detections" stroke={pal.primary} dot={false} strokeWidth={2} connectNulls={false} isAnimationActive={false} />
-                  {monthly.length > 24 && <Brush dataKey="month" height={22} stroke={pal.secondary} fill="transparent" travellerWidth={8} />}
+                  <Line
+                    type="monotone"
+                    dataKey="detections"
+                    name="Detections"
+                    stroke={pal.primary}
+                    dot={false}
+                    strokeWidth={2}
+                    connectNulls={false}
+                    isAnimationActive={false}
+                  />
+                  {monthly.length > 24 && (
+                    <Brush
+                      dataKey="month"
+                      height={22}
+                      stroke={pal.secondary}
+                      fill="transparent"
+                      travellerWidth={8}
+                    />
+                  )}
                 </LineChart>
               </ResponsiveContainer>
             </figure>
           </div>
           <dl className="metric-grid metric-grid--compact">
-            <Metric label="Trend status" value={<StatusText status={trend?.status} />} sub={trend?.note ?? trend?.method} />
-            <Metric label="Direction" value={trend?.direction ? humanize(trend.direction) : NA} />
+            <Metric
+              label="Direction"
+              value={trend?.direction ? humanize(trend.direction) : NA}
+              sub={trend?.method}
+            />
             <Metric
               label="Theil–Sen slope"
-              value={trend?.theil_sen_pct_per_year != null ? `${fmtSignedPercent(trend.theil_sen_pct_per_year)} / yr` : NA}
+              value={
+                trend?.theil_sen_pct_per_year != null
+                  ? `${fmtSignedPercent(trend.theil_sen_pct_per_year)} / yr`
+                  : NA
+              }
               sub={
                 trend?.ci95_pct_per_year && trend.ci95_pct_per_year.length === 2
                   ? `95 % CI ${fmtSignedPercent(trend.ci95_pct_per_year[0])} to ${fmtSignedPercent(trend.ci95_pct_per_year[1])}`
@@ -420,7 +447,11 @@ export function TrendsSection({ result }: { result: AnalysisResult }) {
               label="Mann–Kendall"
               value={trend?.p_value != null ? `p = ${trend.p_value.toFixed(3)}` : NA}
               sub={
-                sig === true ? 'Statistically significant at 0.05' : sig === false ? 'Not statistically significant' : undefined
+                sig === true
+                  ? 'Statistically significant at 0.05'
+                  : sig === false
+                    ? 'Not statistically significant'
+                    : undefined
               }
             />
           </dl>
@@ -429,12 +460,15 @@ export function TrendsSection({ result }: { result: AnalysisResult }) {
         <MlUnavailable result={result} />
       )}
 
-      <h4 className="subhead">Selected period · {sourceLabel(result.source)}</h4>
       {desc?.monthly_counts?.length ? (
         <figure className="chart-card">
-          <figcaption>Monthly detections in the selected period (partial months marked in the tooltip)</figcaption>
+          <figcaption>Selected period · {sourceLabel(result.source)}</figcaption>
           <ResponsiveContainer width="100%" height={200}>
-            <BarChart data={desc.monthly_counts} maxBarSize={48} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
+            <BarChart
+              data={desc.monthly_counts}
+              maxBarSize={48}
+              margin={{ top: 8, right: 8, left: 0, bottom: 0 }}
+            >
               <CartesianGrid stroke={pal.grid} vertical={false} />
               <XAxis dataKey="month" {...axis} minTickGap={20} />
               <YAxis {...axis} width={48} />
@@ -449,16 +483,7 @@ export function TrendsSection({ result }: { result: AnalysisResult }) {
             </BarChart>
           </ResponsiveContainer>
         </figure>
-      ) : (
-        <p className="muted">No monthly counts for the selected period.</p>
-      )}
-      <p className="fineprint">
-        Descriptive trend ({humanize(descTrend?.status)}):{' '}
-        {descTrend?.status === 'available'
-          ? `${humanize(descTrend.direction)}, ${fmtNumber(descTrend.slope_detections_per_year, 1)} detections/yr (${descTrend.method}). `
-          : ''}
-        {descTrend?.explanation}
-      </p>
+      ) : null}
     </Section>
   );
 }
@@ -471,10 +496,9 @@ export function PatternsSection({ result }: { result: AnalysisResult }) {
   const hotspots = ml.hotspots ?? [];
   const seasonData = (seasonal?.by_calendar_month ?? []).map((m) => ({
     ...m,
-    fraction_pct: m.fraction_of_years_with_detections != null ? m.fraction_of_years_with_detections * 100 : null,
+    fraction_pct:
+      m.fraction_of_years_with_detections != null ? m.fraction_of_years_with_detections * 100 : null,
   }));
-  const outliers = ml.anomaly_detection?.cell_month_outliers ?? [];
-  const outlierMethod = ml.anomaly_detection?.cell_month_outliers_method;
   const axis = { stroke: pal.axis, tick: { fill: pal.axis, fontSize: 12 } };
 
   if (!mlHasContent(result)) {
@@ -495,35 +519,43 @@ export function PatternsSection({ result }: { result: AnalysisResult }) {
           </figcaption>
           {seasonData.length ? (
             <ResponsiveContainer width="100%" height={250}>
-              <ComposedChart data={seasonData} maxBarSize={40} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
+              <ComposedChart
+                data={seasonData}
+                maxBarSize={40}
+                margin={{ top: 8, right: 8, left: 0, bottom: 0 }}
+              >
                 <CartesianGrid stroke={pal.grid} vertical={false} />
                 <XAxis dataKey="month" {...axis} />
                 <YAxis yAxisId="d" {...axis} width={44} />
                 <YAxis yAxisId="f" orientation="right" domain={[0, 100]} unit="%" {...axis} width={44} />
                 <Tooltip {...tooltipStyle} />
                 <Legend wrapperStyle={{ color: pal.axis, fontSize: 12 }} />
-                <Bar yAxisId="d" dataKey="median_detections" name="Median detections" fill={pal.primary} radius={[4, 4, 0, 0]} />
-                <Line yAxisId="f" type="monotone" dataKey="fraction_pct" name="% of years with detections" stroke={pal.secondary} strokeWidth={2} dot={{ r: 2 }} isAnimationActive={false} />
+                <Bar
+                  yAxisId="d"
+                  dataKey="median_detections"
+                  name="Median detections"
+                  fill={pal.primary}
+                  radius={[4, 4, 0, 0]}
+                />
+                <Line
+                  yAxisId="f"
+                  type="monotone"
+                  dataKey="fraction_pct"
+                  name="% of years with detections"
+                  stroke={pal.secondary}
+                  strokeWidth={2}
+                  dot={{ r: 2 }}
+                  isAnimationActive={false}
+                />
               </ComposedChart>
             </ResponsiveContainer>
           ) : (
             <p className="muted">{seasonal?.note ?? 'No seasonal pattern available.'}</p>
           )}
-          <div className="chip-row">
-            <span className="chip-row__label">Core season (80 % of detections):</span>
-            {(seasonal?.core_season_months_80pct ?? []).map((m) => (
-              <Badge key={m} tone="fire">
-                {m}
-              </Badge>
-            ))}
-            {!seasonal?.core_season_months_80pct?.length && <span>{NA}</span>}
-          </div>
-          <div className="chip-row">
-            <span className="chip-row__label">Lowest activity:</span>
-            {(seasonal?.lowest_activity_months ?? []).map((m) => (
-              <Badge key={m}>{m}</Badge>
-            ))}
-          </div>
+          <p className="fineprint">
+            Core season (80 % of detections): {seasonal?.core_season_months_80pct?.join(', ') || NA} · lowest
+            activity: {seasonal?.lowest_activity_months?.join(', ') || NA}
+          </p>
         </figure>
 
         <figure className="chart-card">
@@ -534,19 +566,41 @@ export function PatternsSection({ result }: { result: AnalysisResult }) {
             <ResponsiveContainer width="100%" height={250}>
               <ScatterChart margin={{ top: 8, right: 16, left: 0, bottom: 0 }}>
                 <CartesianGrid stroke={pal.grid} />
-                <XAxis type="number" dataKey="cell_lon" name="Longitude" domain={['auto', 'auto']} {...axis} tickFormatter={(v) => `${(v as number).toFixed(2)}°`} />
-                <YAxis type="number" dataKey="cell_lat" name="Latitude" domain={['auto', 'auto']} {...axis} width={56} tickFormatter={(v) => `${(v as number).toFixed(2)}°`} />
+                <XAxis
+                  type="number"
+                  dataKey="cell_lon"
+                  name="Longitude"
+                  domain={['auto', 'auto']}
+                  {...axis}
+                  tickFormatter={(v) => `${(v as number).toFixed(2)}°`}
+                />
+                <YAxis
+                  type="number"
+                  dataKey="cell_lat"
+                  name="Latitude"
+                  domain={['auto', 'auto']}
+                  {...axis}
+                  width={56}
+                  tickFormatter={(v) => `${(v as number).toFixed(2)}°`}
+                />
                 <ZAxis type="number" dataKey="total_detections" range={[30, 400]} name="Detections" />
                 <Tooltip {...tooltipStyle} cursor={{ strokeDasharray: '3 3' }} />
                 <Legend wrapperStyle={{ color: pal.axis, fontSize: 12 }} />
-                <Scatter name="Gi* hotspot (99 %)" data={hotspots.filter((h) => h.gi_star_hotspot_99)} fill={pal.accent} />
-                <Scatter name="Other cells" data={hotspots.filter((h) => !h.gi_star_hotspot_99)} fill={pal.secondary} />
+                <Scatter
+                  name="Gi* hotspot (99 %)"
+                  data={hotspots.filter((h) => h.gi_star_hotspot_99)}
+                  fill={pal.accent}
+                />
+                <Scatter
+                  name="Other cells"
+                  data={hotspots.filter((h) => !h.gi_star_hotspot_99)}
+                  fill={pal.secondary}
+                />
               </ScatterChart>
             </ResponsiveContainer>
           ) : (
             <p className="muted">No hotspot cells with detections.</p>
           )}
-          <p className="fineprint">{String(ml.hotspot_analysis?.method ?? '')}</p>
         </figure>
       </div>
 
@@ -564,7 +618,7 @@ export function PatternsSection({ result }: { result: AnalysisResult }) {
               </tr>
             </thead>
             <tbody>
-              {ml.anomalies.map((a) => (
+              {ml.anomalies.slice(0, 8).map((a) => (
                 <tr key={a.month}>
                   <td>{fmtYearMonth(a.month)}</td>
                   <td>{fmtNumber(a.detections)}</td>
@@ -578,83 +632,12 @@ export function PatternsSection({ result }: { result: AnalysisResult }) {
         </div>
       ) : (
         <p className="muted">
-          No anomalous months{ml.anomaly_detection ? ` (${fmtNumber(ml.anomaly_detection.n_months_tested ?? null)} months tested, threshold |z| ≥ ${ml.anomaly_detection.z_threshold ?? NA})` : ''}.
-        </p>
-      )}
-
-      <h4 className="subhead">Unusual cell-months (Isolation Forest)</h4>
-      {outliers.length ? (
-        <div className="table-wrap" tabIndex={0} role="region" aria-label="Scrollable table">
-          <table className="data-table">
-            <thead>
-              <tr>
-                {Object.keys(outliers[0]).map((k) => (
-                  <th key={k} scope="col">
-                    {humanize(k)}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {outliers.slice(0, 20).map((row, i) => (
-                <tr key={i}>
-                  {Object.values(row).map((v, j) => (
-                    <td key={j}>{typeof v === 'number' ? fmtNumber(v, Number.isInteger(v) ? 0 : 3) : String(v ?? NA)}</td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      ) : (
-        <p className="muted">
-          None reported
-          {outlierMethod
-            ? ` — ${Object.entries(outlierMethod)
-                .map(([k, v]) => `${humanize(k)}: ${String(v)}`)
-                .join(', ')}`
+          No anomalous months
+          {ml.anomaly_detection
+            ? ` (${fmtNumber(ml.anomaly_detection.n_months_tested ?? null)} months tested, threshold |z| ≥ ${ml.anomaly_detection.z_threshold ?? NA})`
             : ''}
           .
         </p>
-      )}
-
-      {hotspots.length > 0 && (
-        <>
-          <h4 className="subhead">Hotspot cells (top 10 by detections)</h4>
-          <div className="table-wrap" tabIndex={0} role="region" aria-label="Scrollable table">
-            <table className="data-table">
-              <thead>
-                <tr>
-                  <th scope="col">Cell centre</th>
-                  <th scope="col">Detections</th>
-                  <th scope="col">Years active</th>
-                  <th scope="col">Recurring</th>
-                  <th scope="col">Gi* z</th>
-                  <th scope="col">Hotspot (99 %)</th>
-                </tr>
-              </thead>
-              <tbody>
-                {[...hotspots]
-                  .sort((a, b) => b.total_detections - a.total_detections)
-                  .slice(0, 10)
-                  .map((h) => (
-                    <tr key={`${h.cell_lat},${h.cell_lon}`}>
-                      <td>
-                        {h.cell_lat.toFixed(3)}°, {h.cell_lon.toFixed(3)}°
-                      </td>
-                      <td>{fmtNumber(h.total_detections)}</td>
-                      <td>
-                        {fmtNumber(h.years_active ?? null)} / {fmtNumber(h.years_observed ?? null)}
-                      </td>
-                      <td>{h.recurring ? 'Yes' : 'No'}</td>
-                      <td>{fmtNumber(h.gi_star_z, 2)}</td>
-                      <td>{h.gi_star_hotspot_99 ? 'Yes' : 'No'}</td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
-          </div>
-        </>
       )}
     </Section>
   );

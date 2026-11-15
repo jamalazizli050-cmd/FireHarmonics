@@ -21,6 +21,7 @@ import type {
   UnifiedCalendar,
 } from '../../../api/types';
 import { fmtDate, fmtNumber, fmtPercent, fmtYearMonth, humanize, MONTH_ABBR, NA } from '../../../lib/format';
+import InfoTip from '../../ui/InfoTip';
 import { Badge, Notice } from '../../ui/primitives';
 import { usePalette } from './DescriptiveSections';
 
@@ -273,7 +274,12 @@ export function CalibrationValidation({ cal }: { cal: UnifiedCalendar }) {
   const rawErr = a.methods?.raw_target?.median_abs_pct_error_annual ?? null;
   return (
     <div className="calibration" data-testid="calibration-validation">
-      <h4 className="subhead">MODIS–VIIRS continuity chain for this circle</h4>
+      <h4 className="subhead">
+        MODIS–VIIRS continuity chain for this circle{' '}
+        {cal.unit_definition && (
+          <InfoTip text={`${cal.label ?? ''}. ${cal.unit_definition}`} label="About the continuity chain" />
+        )}
+      </h4>
       <div className="forecast-card__badges">
         <Badge tone="warn">Continuity chain · experimental</Badge>
         {a.status === 'ok' && chainErr !== null && rawErr !== null && chainErr < rawErr && (
@@ -285,7 +291,6 @@ export function CalibrationValidation({ cal }: { cal: UnifiedCalendar }) {
         )}
         {a.status !== 'ok' && <Badge tone="warn">Sparse activity: leans on the regional ratio</Badge>}
       </div>
-      <p className="fineprint">{cal.unit_definition}</p>
       <div className="table-wrap" tabIndex={0} role="region" aria-label="Chain coefficients">
         <table className="data-table">
           <caption>Coefficients (reference ← newer sensor), fitted per day and night overpass</caption>
@@ -330,8 +335,9 @@ export function CalibrationValidation({ cal }: { cal: UnifiedCalendar }) {
           </tbody>
         </table>
       </div>
-      <h4 className="subhead">Validation held out in time</h4>
-      <p className="fineprint">{v.method}.</p>
+      <h4 className="subhead">
+        Validation held out in time <InfoTip text={`${v.method}.`} label="How the validation works" />
+      </h4>
       <TestTable t={a} title="MODIS switched off: Aqua predicted from S-NPP alone" />
       {a.status === 'ok' && a.interval_90_coverage !== undefined && (
         <p className="fineprint">
@@ -382,14 +388,6 @@ export function CalibrationValidation({ cal }: { cal: UnifiedCalendar }) {
           . {v.seam_2012.explanation}
         </p>
       )}
-      <p className="fineprint">{cal.label}</p>
-      <ul className="warn-list">
-        {(cal.limitations ?? []).map((l) => (
-          <li key={l} className="warn-list__limitation">
-            {l}
-          </li>
-        ))}
-      </ul>
     </div>
   );
 }
@@ -473,6 +471,9 @@ export function SeasonCard({ season, compact }: { season: SeasonTiming | undefin
       <header className="forecast-card__head">
         <CalendarRange aria-hidden="true" size={compact ? 16 : 20} />
         <h3>Fire season</h3>
+        {!compact && season.definition && (
+          <InfoTip text={season.definition} label="How the season is defined" />
+        )}
       </header>
       <p className="season-card__typical">
         Typically <strong>{season.typical.onset}</strong> → <strong>{season.typical.end}</strong>, peak{' '}
@@ -492,7 +493,6 @@ export function SeasonCard({ season, compact }: { season: SeasonTiming | undefin
           scale){cur.onset ? `; onset reached in ${cur.onset}` : ''}.
         </p>
       )}
-      {!compact && <p className="fineprint">{season.definition}</p>}
     </section>
   );
 }
@@ -540,13 +540,6 @@ export function CurrentConditionsCard({
             {now.reference}.
             {now.window ? ` Window ${fmtDate(now.window.start)} – ${fmtDate(now.window.end)}.` : ''}
           </p>
-          {!compact && (
-            <ul className="warn-list">
-              {(now.limitations ?? []).map((l) => (
-                <li key={l}>{l}</li>
-              ))}
-            </ul>
-          )}
         </>
       ) : (
         <p className="muted">{now.explanation ?? `Current conditions: ${humanize(now.status)}`}</p>

@@ -10,6 +10,7 @@ import {
 } from '../../lib/period';
 import { SOURCE_INFO, sourceLongLabel } from '../../lib/sources';
 import { RADIUS_OPTIONS_KM } from '../../state/location';
+import InfoTip from './InfoTip';
 
 export type DataView = 'raw' | 'harmonized' | 'normalized';
 
@@ -115,6 +116,27 @@ export default function DataControls({ settings, onChange, sources, harmonized, 
     else onChange({ ...settings, view: 'raw', source: value as FirmsSource });
   };
 
+  const sourceHelp =
+    settings.view === 'harmonized'
+      ? `Aqua MODIS and S-NPP / NOAA-20 VIIRS on one Aqua-MODIS scale, 2002 to now (continuity chain, experimental; validated on held-out years in the report). The statistics for the selected period still use ${settings.source}.`
+      : settings.view === 'normalized'
+        ? `Relative activity index (each month ÷ the series’ average month). Mathematical normalization, not a harmonization and not validated. The descriptive statistics still use ${settings.source}.`
+        : `${sourceLongLabel(settings.source)}.${info?.note ? ` ${info.note}` : ''}`;
+  const radiusHelp =
+    'Circle around the selected location. The forecast model was trained on 10–100 km circles.';
+  const periodHelp = `${settings.period.start} → ${settings.period.end} (UTC). Near real-time products hold recent data and standard products the archive; the backend checks NASA availability before downloading.`;
+  // In the report the explanations sit behind an (i); the side panel keeps them as text.
+  const compact = layout === 'report';
+  const labelRow = (htmlFor: string, text: string, help: string) =>
+    compact ? (
+      <div className="field__label-row">
+        <label htmlFor={htmlFor}>{text}</label>
+        <InfoTip text={help} />
+      </div>
+    ) : (
+      <label htmlFor={htmlFor}>{text}</label>
+    );
+
   const onPreset = (preset: PeriodPreset) => {
     if (preset === 'custom') {
       onChange({ ...settings, period: { ...settings.period, preset: 'custom' } });
@@ -127,13 +149,13 @@ export default function DataControls({ settings, onChange, sources, harmonized, 
   return (
     <div className={`data-controls data-controls--${layout}`}>
       <div className="field">
-        <label htmlFor={`${id}-source`}>Satellite data</label>
+        {labelRow(`${id}-source`, 'Satellite data', sourceHelp)}
         <select
           id={`${id}-source`}
           value={selectValue}
           disabled={disabled}
           onChange={(e) => onSource(e.target.value)}
-          aria-describedby={`${id}-source-help`}
+          aria-describedby={compact ? undefined : `${id}-source-help`}
         >
           {/* The main NASA FIRMS VIIRS and MODIS products, and the MODIS+VIIRS harmonized record of this analysis. */}
           {offered.map((s) => (
@@ -146,28 +168,15 @@ export default function DataControls({ settings, onChange, sources, harmonized, 
             Harmonized · MODIS + VIIRS (2002–now){CHAIN_SUFFIX[harmonized.chain]}
           </option>
         </select>
-        <p id={`${id}-source-help`} className="field__help">
-          {settings.view === 'harmonized' ? (
-            <>
-              Aqua MODIS and S-NPP / NOAA-20 VIIRS on one Aqua-MODIS scale, 2002 to now (continuity chain,
-              experimental; validated on held-out years in the report). The statistics for the selected period
-              still use {settings.source}.
-            </>
-          ) : settings.view === 'normalized' ? (
-            <>
-              Relative activity index (each month ÷ the series’ average month). Mathematical normalization,
-              not a harmonization and not validated. The descriptive statistics still use {settings.source}.
-            </>
-          ) : (
-            <>
-              {sourceLongLabel(settings.source)}.{info?.note ? ` ${info.note}` : ''}
-            </>
-          )}
-        </p>
+        {!compact && (
+          <p id={`${id}-source-help`} className="field__help">
+            {sourceHelp}
+          </p>
+        )}
       </div>
 
       <div className="field">
-        <label htmlFor={`${id}-radius`}>Area of interest</label>
+        {labelRow(`${id}-radius`, 'Area of interest', radiusHelp)}
         <select
           id={`${id}-radius`}
           value={settings.radiusKm}
@@ -180,13 +189,11 @@ export default function DataControls({ settings, onChange, sources, harmonized, 
             </option>
           ))}
         </select>
-        <p className="field__help">
-          Circle around the selected location. The forecast model was trained on 10–100 km circles.
-        </p>
+        {!compact && <p className="field__help">{radiusHelp}</p>}
       </div>
 
       <div className="field">
-        <label htmlFor={`${id}-period`}>Time period</label>
+        {labelRow(`${id}-period`, 'Time period', periodHelp)}
         <select
           id={`${id}-period`}
           value={settings.period.preset}
@@ -207,11 +214,8 @@ export default function DataControls({ settings, onChange, sources, harmonized, 
             onChange={onChange}
             disabled={disabled}
           />
-        ) : (
-          <p className="field__help">
-            {settings.period.start} → {settings.period.end} (UTC). Near real-time products hold recent data
-            and standard products the archive; the backend checks NASA availability before downloading.
-          </p>
+        ) : compact ? null : (
+          <p className="field__help">{periodHelp}</p>
         )}
       </div>
     </div>
