@@ -174,9 +174,17 @@ class FirmsClient:
             limit = int(st.get("transaction_limit", self.s.transaction_limit))
             used = int(st.get("current_transactions", 0))
             log.debug("MAP_KEY transactions used %d/%d", used, limit)
-            if used >= self.s.transaction_safety_fraction * limit:
-                log.info("Transaction budget %d/%d reached safety threshold; pausing 10 minutes", used, limit)
-                self._sleep(600)
+            # NASA's counter is a rolling 10-minute window and drains quickly: re-check every 30 s and continue as soon
+            # as it is below the threshold, instead of one silent 10-minute pause (at most 10 minutes in total).
+            waited = 0
+            while used >= self.s.transaction_safety_fraction * limit and waited < 600:
+                log.info("Transaction budget %d/%d at the safety threshold; re-checking in 30 s", used, limit)
+                self._sleep(30)
+                waited += 30
+                try:
+                    used = int(self.key_status().get("current_transactions", 0))
+                except FirmsAPIError:
+                    break
 
     # ---------------------------------------------------------------- endpoints
     def data_availability(self, sensor: str = "ALL") -> pd.DataFrame:

@@ -196,6 +196,22 @@ def _csv_text(rows: pd.DataFrame) -> str:
     return buf.getvalue()
 
 
+# Spot-check tolerance. Static/industrial rows (type != 0) on coastlines can fall outside every country polygon and
+# are missing from the country files; the analyses never use them. Vegetation fires may differ by at most this
+# fraction of the chunk's vegetation rows (coastal pixels), which is 0 rows for small chunks.
+SPOT_CHECK_VEG_TOLERANCE = 0.002
+
+
+def _spot_diff(api: pd.DataFrame, arch: pd.DataFrame) -> tuple[int, int, int]:
+    """(vegetation rows that differ, other rows that differ, vegetation rows in the API chunk)."""
+    a, b = _row_set(api), _row_set(arch)
+    diff = a ^ b
+    t = COMPARE.index("type")
+    veg = sum(1 for r in diff if r[t].strip() in ("0", ""))
+    n_veg = sum(1 for r in a if r[t].strip() in ("0", ""))
+    return veg, len(diff) - veg, n_veg
+
+
 def _row_set(df: pd.DataFrame) -> set[tuple]:
     if df.empty:
         return set()
@@ -276,21 +292,27 @@ def fill_from_archive(settings: Settings, region: Region, chunks: list[tuple[dat
     if client is not None and settings.archive_spot_check_chunks > 0:
         counts = sorted(((len(chunk_rows(ch)), ch.start, ch) for ch in usable), reverse=True)
         sample = [ch for _, _, ch in counts[: settings.archive_spot_check_chunks]]
+        tolerated = 0
         try:
             for ch in sample:
                 api = pd.read_csv(io.StringIO(client.area_csv(SOURCE, region.bbox, ch.start, ch.days)),
                                   dtype=str, keep_default_na=False)
-                if _row_set(api) != _row_set(chunk_rows(ch)):
-                    res.spot_check = f"failed ({ch.id}: API {len(api)} rows, archive {len(chunk_rows(ch))} rows)"
+                veg, other, n_veg = _spot_diff(api, chunk_rows(ch))
+                if veg > int(SPOT_CHECK_VEG_TOLERANCE * n_veg):
+                    res.spot_check = (f"failed ({ch.id}: API {len(api)} rows, archive {len(chunk_rows(ch))} rows, "
+                                      f"{veg} vegetation-fire rows differ)")
                     res.reason = "archive differs from the Area API for this tile; using the API instead"
                     log.warning("Country archive rejected for %s: %s", region.name, res.spot_check)
                     return res
+                tolerated += veg + other
         except FirmsAuthError:
             raise
         except FirmsAPIError as e:
             res.spot_check = f"not_completed ({e})"
         else:
-            res.spot_check = f"passed ({len(sample)} chunks identical to the Area API)"
+            res.spot_check = (f"passed ({len(sample)} chunks identical to the Area API)" if not tolerated else
+                              f"passed ({len(sample)} chunks match the Area API; {tolerated} static/coastal rows "
+                              "differ within tolerance)")
 
     manifest = manifest_for(settings, SOURCE, region)
     now = datetime.now(timezone.utc).isoformat(timespec="seconds")

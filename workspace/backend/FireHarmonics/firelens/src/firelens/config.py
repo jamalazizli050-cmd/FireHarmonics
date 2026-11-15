@@ -33,7 +33,7 @@ class Settings:
     transaction_safety_fraction: float = 0.8
     min_request_interval_s: float = 0.5
     status_check_every: int = 20
-    request_timeout_s: float = 300.0
+    request_timeout_s: float = 60.0          # NASA answers in seconds; a hung request must not block a job for long
     max_retries: int = 5
     backoff_base_s: float = 2.0
     backoff_max_s: float = 120.0

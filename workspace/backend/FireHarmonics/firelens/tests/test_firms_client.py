@@ -99,11 +99,14 @@ def test_key_status_is_not_mistaken_for_rate_limit(settings, sleeps):
     assert sleeps == []
 
 
-def test_budget_pause_when_near_limit(settings, sleeps):
+def test_budget_pause_when_near_limit_ends_when_the_window_drains(settings, sleeps):
     st = settings.with_overrides(status_check_every=1)
-    s = FakeSession([make_response(200, status_json(4500), "application/json"), make_response(200, MODIS_CSV)])
+    s = FakeSession([make_response(200, status_json(4500), "application/json"),     # above 80 %: wait
+                     make_response(200, status_json(4200), "application/json"),     # still above after 30 s
+                     make_response(200, status_json(1500), "application/json"),     # drained: continue
+                     make_response(200, MODIS_CSV)])
     client(st, s, sleeps).area_csv("MODIS_SP", CA, date(2020, 9, 1), 1)
-    assert 600 in sleeps
+    assert sleeps.count(30) == 2 and 600 not in sleeps          # 1 minute, not a blind 10-minute pause
     assert "mapkey_status" in s.urls[0]
 
 

@@ -126,6 +126,25 @@ def test_spot_check_mismatch_rejects_archive_and_writes_nothing(settings):
     assert manifest_for(st, ca.SOURCE, TILE).entries == {}
 
 
+def test_spot_check_tolerates_static_coastal_rows_missing_from_the_country_file(settings):
+    st = settings.with_overrides(archive_spot_check_chunks=2)
+    sess = ArchiveSession({"viirs-snpp_2023_United_Kingdom.csv": archive_csv()})
+    static = IN_2.format(d="2023-07-04", t="0200").rsplit(",", 1)[0] + ",2\n"   # type 2: static/industrial source
+    res = ca.fill_from_archive(st, TILE, chunks_for(date(2023, 6, 25), date(2023, 7, 10)), WINDOW,
+                               client=FakeApiClient(api_csv() + static), session=sess, today=TODAY)
+    assert res.used and res.spot_check.startswith("passed") and "1 static/coastal rows" in res.spot_check
+
+
+def test_spot_diff_allows_a_tiny_share_of_vegetation_rows_only_in_big_chunks():
+    rows = [{c: "x" for c in ca.COMPARE} | {"acq_time": str(i), "type": "0"} for i in range(1000)]
+    api = pd.DataFrame(rows)
+    arch = api.iloc[2:]                                    # 2 of 1000 vegetation rows missing
+    veg, other, n_veg = ca._spot_diff(api, arch)
+    assert (veg, other, n_veg) == (2, 0, 1000) and veg <= int(ca.SPOT_CHECK_VEG_TOLERANCE * n_veg)
+    veg, _, n_veg = ca._spot_diff(api.iloc[:10], api.iloc[1:10])   # 1 of 10: not tolerated
+    assert veg > int(ca.SPOT_CHECK_VEG_TOLERANCE * n_veg)
+
+
 def test_current_year_and_missing_files_fall_back_to_the_api(settings):
     sess = ArchiveSession({})
     res = ca.fill_from_archive(settings, TILE, chunks_for(date(2026, 3, 1), date(2026, 3, 20)), WINDOW,
