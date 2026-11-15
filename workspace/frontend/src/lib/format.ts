@@ -96,7 +96,7 @@ const STAGES: Record<string, string> = {
   loading_archive: 'Loading imported archive',
   ml_starting: 'Starting ML engine',
   ml_plan: 'Planning S-NPP VIIRS history download',
-  ml_wait_download_slot: 'Waiting for a download slot',
+  ml_wait_download_slot: 'Waiting for another analysis of this area',
   ml_download: 'Downloading S-NPP VIIRS history',
   ml_process: 'Processing satellite history',
   ml_load: 'Loading history',

@@ -58,7 +58,17 @@ TILE_DEG = 1.0
 AVAILABILITY_MAX_AGE_H = 24
 DET_COLUMNS = ["latitude", "longitude", "acq_date", "frp_mw", "fire_type", "daynight", "qc_usable"]
 
-DOWNLOAD_LOCK = threading.Lock()        # one downloader at a time (shared rate budget)
+DOWNLOAD_LOCK = threading.Lock()        # availability-table refresh (short, global)
+_TILE_LOCKS: dict[str, threading.Lock] = {}
+_TILE_LOCKS_GUARD = threading.Lock()
+
+
+def tiles_lock(tiles: list[BBox]) -> threading.Lock:
+    """One lock per cache-tile set: different areas download concurrently (the shared, thread-safe FIRMS client
+    still spaces requests and enforces the transaction budget); jobs for the same area never fetch a chunk twice."""
+    key = "|".join(sorted(tile_region(t).name for t in tiles))
+    with _TILE_LOCKS_GUARD:
+        return _TILE_LOCKS.setdefault(key, threading.Lock())
 PROCESS_LOCK = threading.RLock()        # processed-file writes vs reads across jobs
 _CLIENT_LOCK = threading.Lock()
 _CLIENT: FirmsClient | None = None
@@ -300,8 +310,8 @@ def ensure_data(settings: Settings, tiles: list[BBox], start: date, end: date, t
                          "those days are reported as unobserved", kind="partial_data")
         return plan, info
 
-    tracker.start_stage("wait_download_slot", message="Waiting for the shared FIRMS download slot")
-    with DOWNLOAD_LOCK:
+    tracker.start_stage("wait_download_slot", message="Waiting for another analysis of the same area")
+    with tiles_lock(tiles):
         tracker.end_stage()
         before = plan.n_requests
         plan = make_plan(settings, tiles, start, end, products)  # another job may have fetched chunks
