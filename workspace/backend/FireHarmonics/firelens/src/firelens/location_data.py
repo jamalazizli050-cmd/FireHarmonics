@@ -272,9 +272,32 @@ def ensure_data(settings: Settings, tiles: list[BBox], start: date, end: date, t
     if plan.n_requests == 0:
         return plan, info
     if not allow_download:
-        info["download_skipped"] = True
-        tracker.warn(f"{plan.n_requests} request chunks are not cached and downloads are disabled; "
-                     "those days are reported as unobserved", kind="partial_data")
+        # Cache-only: still serve completed SP years from country archives already on local disk (no network).
+        if getattr(settings, "use_country_archive", False):
+            arch_log = []
+            for (source, rname), chunks in list(plan.missing.items()):
+                if source != SP:
+                    continue
+                try:
+                    res = country_archive.fill_from_archive(settings, plan.regions[rname], chunks,
+                                                            availability_for(avail, SP), client=None,
+                                                            tracker=tracker, allow_download=False)
+                except Exception as e:
+                    if getattr(e, "abort_job", False):
+                        raise
+                    res = country_archive.ArchiveResult(reason=f"archive error: {type(e).__name__}")
+                arch_log.append({"tile": rname, **res.as_dict()})
+                if res.used:
+                    info["chunks_from_country_archive"] += res.chunks_written
+                    for y in res.years:
+                        with PROCESS_LOCK:
+                            cleaning.process(settings, SP, plan.regions[rname], date(y, 1, 1), date(y, 12, 31))
+            info["country_archive"] = arch_log
+            plan = make_plan(settings, tiles, start, end, products)
+        if plan.n_requests:
+            info["download_skipped"] = True
+            tracker.warn(f"{plan.n_requests} request chunks are not cached and downloads are disabled; "
+                         "those days are reported as unobserved", kind="partial_data")
         return plan, info
 
     tracker.start_stage("wait_download_slot", message="Waiting for the shared FIRMS download slot")

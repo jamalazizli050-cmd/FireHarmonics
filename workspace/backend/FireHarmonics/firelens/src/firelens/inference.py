@@ -309,7 +309,11 @@ def _unified_calendar(settings, lat, lon, rad, today, m, allow_download, tracker
         except Exception as e:  # no key / bad key: the calendar still works from the archives
             log.warning("No FIRMS client for current conditions: %s", e)
     try:
-        return UC.build(settings, lat, lon, rad, today, m, allow_download=allow_download, client=client, tracker=tracker)
+        cal, now = UC.build(settings, lat, lon, rad, today, m, allow_download=allow_download, client=client,
+                            tracker=tracker)
+        if not allow_download and now.get("status") == "unavailable":
+            now["explanation"] = "Cache-only analysis: near-real-time data were not requested."
+        return cal, now
     except Exception as e:
         if getattr(e, "abort_job", False):
             raise

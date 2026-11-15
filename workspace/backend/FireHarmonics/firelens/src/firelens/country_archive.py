@@ -211,7 +211,7 @@ class ArchiveResult:
 
 def fill_from_archive(settings: Settings, region: Region, chunks: list[tuple[date, date]],
                       window: tuple[date, date] | None, client=None, session=None, tracker=None,
-                      today: date | None = None) -> ArchiveResult:
+                      today: date | None = None, allow_download: bool = True) -> ArchiveResult:
     """Serve missing SP chunks of ``region`` (a FireLens tile) from the yearly country archives.
 
     ``client`` (a FirmsClient) enables the Area API spot check. Without it the archive is still used, and the result
@@ -247,7 +247,8 @@ def fill_from_archive(settings: Settings, region: Region, chunks: list[tuple[dat
     rows_by_year: dict[int, pd.DataFrame] = {}
     for y in years:
         try:
-            rows_by_year[y] = tile_rows(settings, names, y, region.bbox, session=session, on_progress=progress)
+            rows_by_year[y] = tile_rows(settings, names, y, region.bbox, session=session, on_progress=progress,
+                                        allow_download=allow_download)
         except ArchiveUnavailable as e:
             log.info("Country archive not usable for %s %s: %s", region.name, y, e)
     usable = [ch for ch in eligible if all(y in rows_by_year for y in range(ch.start.year, ch.end.year + 1))]

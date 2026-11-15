@@ -69,8 +69,8 @@ export default function GlobePage() {
   useEffect(() => {
     if (!location || !sourcesQ.isFetched) return;
     // First run at a location downloads the ML history; later filter changes reuse the ML cache.
+    // 'cache_only' only once a finished analysis has stored this location's history (see effect below).
     const mlMode = mlDoneFor.current === locationKey ? 'cache_only' : 'download';
-    mlDoneFor.current = locationKey;
     void start({
       latitude: location.latitude,
       longitude: location.longitude,
@@ -85,6 +85,13 @@ export default function GlobePage() {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locationKey, settings.source, settings.period.start, settings.period.end, settings.radiusKm, sourcesQ.isFetched, start]);
+
+  // Mark the location's ML history as downloaded only when a job actually finished it (a cancelled or failed
+  // first run must not switch later runs to cache-only).
+  useEffect(() => {
+    const st = job.result?.ml_analysis.status;
+    if (st === 'ok' || st === 'partial') mlDoneFor.current = locationKey;
+  }, [job.result, locationKey]);
 
   // Keep the last completed result for this location visible (clearly marked) while a new filter runs.
   // (React "adjust state while rendering" pattern instead of effects.)
