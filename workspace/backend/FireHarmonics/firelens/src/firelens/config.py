@@ -45,6 +45,9 @@ class Settings:
     # directly (tests, offline tools); load_settings() turns it on unless FIRELENS_COUNTRY_ARCHIVE=0.
     use_country_archive: bool = False
     archive_spot_check_chunks: int = 4
+    # End the S-NPP history at the last completed archive year (no Area API downloads for the current year).
+    # On for load_settings() unless FIRELENS_ARCHIVE_ONLY=0; off for Settings built directly (tests).
+    archive_only_history: bool = False
 
     @property
     def raw_dir(self) -> Path:
@@ -93,5 +96,7 @@ def load_settings(env_file: str | os.PathLike | None = None, require_key: bool =
             raise ConfigError("FIRELENS_DOWNLOAD_WORKERS must be between 1 and 8")
         kwargs["download_workers"] = workers
     kwargs["use_country_archive"] = os.getenv("FIRELENS_COUNTRY_ARCHIVE", "1").strip().lower() not in {"0", "false", "no", "off"}
+    kwargs["archive_only_history"] = (kwargs["use_country_archive"] and
+                                      os.getenv("FIRELENS_ARCHIVE_ONLY", "1").strip().lower() not in {"0", "false", "no", "off"})
     kwargs.update(overrides)
     return Settings(**kwargs)

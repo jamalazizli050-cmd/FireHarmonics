@@ -175,5 +175,8 @@ def test_archive_switch(monkeypatch, tmp_path):
     env = tmp_path / "none.env"
     monkeypatch.delenv("FIRELENS_COUNTRY_ARCHIVE", raising=False)
     assert load_settings(env, require_key=False).use_country_archive is True
+    assert load_settings(env, require_key=False).archive_only_history is True
+    monkeypatch.setenv("FIRELENS_ARCHIVE_ONLY", "0")
+    assert load_settings(env, require_key=False).archive_only_history is False
     monkeypatch.setenv("FIRELENS_COUNTRY_ARCHIVE", "0")
     assert load_settings(env, require_key=False).use_country_archive is False

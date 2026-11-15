@@ -330,12 +330,16 @@ def run_analysis(req: dict, tracker: ProgressTracker, settings: Settings | None 
     tracker.end_stage()
     lat, lon, rad = req["latitude"], req["longitude"], req["radius_km"]
     today = date.fromisoformat(req["request_date_utc"])
-    cur = pd.Period(today, "M")
+    # Archive-only mode: the history ends with the last completed year of the FIRMS yearly archives, so no Area API
+    # downloads are needed (the current year is not in the archives).
+    archive_only = bool(getattr(settings, "archive_only_history", False))
+    end_day = date(today.year - 1, 12, 31) if archive_only else today
+    cur = pd.Period(end_day, "M")
     start_m = cur - 12 * req["history_years"]
     start = max(start_m.start_time.date(), LD.SERIES_START)
     months = pd.period_range(pd.Period(start, "M"), cur, freq="M")
     tiles = LD.analysis_tiles(lat, lon, rad)
-    plan, info = LD.ensure_data(settings, tiles, start, today, tracker, allow_download=allow_download)
+    plan, info = LD.ensure_data(settings, tiles, start, end_day, tracker, allow_download=allow_download)
 
     tracker.start_stage("load", message="Loading cached observations")
     with LD.PROCESS_LOCK:
@@ -362,7 +366,8 @@ def run_analysis(req: dict, tracker: ProgressTracker, settings: Settings | None 
     complete = info["chunks_failed"] == 0 and not info["download_skipped"]
     cov = {
         "sensor_series": "S-NPP VIIRS 375 m (VIIRS_SNPP_SP, then VIIRS_SNPP_NRT after the SP record ends)",
-        "window": {"start": str(start), "end": str(today), "months": len(months)},
+        "window": {"start": str(start), "end": str(end_day), "months": len(months)},
+        "archive_only_history": archive_only,
         "products": [{"product": s, "first_day": str(a), "last_day": str(b)} for s, a, b in plan.products],
         "product_availability": info["product_availability"],
         "min_month_coverage_for_observed": LD.MIN_MONTH_COVERAGE,
@@ -397,6 +402,9 @@ def run_analysis(req: dict, tracker: ProgressTracker, settings: Settings | None 
         "The pooled XGBoost model is validated only in five regions (California, Zambia/Angola, Rondonia, Yakutia, "
         "Punjab); it is not claimed to be globally validated.",
     ] + pred_lim
+    if archive_only:
+        limitations.append(f"History ends {end_day:%Y-%m} (FIRMS yearly archives only); months of {today.year} are not "
+                            "included in the ML record. The 14-day 'Now' check still uses near-real-time data.")
     if not cov["complete"]:
         limitations.append("Some requested days could not be retrieved; those months are unobserved (see data_coverage).")
     if trend.get("status") == "ok" and not trend.get("significant_at_0.05"):
